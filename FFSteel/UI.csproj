@@ -1,0 +1,449 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9EF84BCB-033B-4CB6-B6C9-343F718C639A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>mfmWeighment</RootNamespace>
+    <AssemblyName>mfmWeighment</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>6</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>6</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Design, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="DevComponents.DotNetBar2">
+      <HintPath>obj\x86\Debug\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.WinControls, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>obj\x64\Debug\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>obj\x64\Debug\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>obj\x64\Debug\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>obj\x64\Debug\TelerikCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikData, Version=2016.1.112.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>obj\x64\Debug\TelerikData.dll</HintPath>
+    </Reference>
+    <Reference Include="UFFU, Version=1.0.5.4, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>obj\x64\Debug\UFFU.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlMabrookaDataSet.Designer.cs">
+      <DependentUpon>AlMabrookaDataSet.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="APPSetting.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>APPSetting.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\frmOpenDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\frmOpenDlg.designer.cs">
+      <DependentUpon>frmOpenDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\frmSimpleDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\frmSimpleDlg.designer.cs">
+      <DependentUpon>frmSimpleDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLogin.Designer.cs">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screens\frmAuthentication.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmAuthentication.designer.cs">
+      <DependentUpon>frmAuthentication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmBaseForm.designer.cs">
+      <DependentUpon>frmBaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmCRpt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmCRpt.Designer.cs">
+      <DependentUpon>frmCRpt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmDispatchPost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmDispatchPost.Designer.cs">
+      <DependentUpon>frmDispatchPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmRawMaterialReturnPost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmRawMaterialReturnPost.Designer.cs">
+      <DependentUpon>frmRawMaterialReturnPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmRawMaterialPost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmRawMaterialPost.Designer.cs">
+      <DependentUpon>frmRawMaterialPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmDispatchReturnPost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmDispatchReturnPost.Designer.cs">
+      <DependentUpon>frmDispatchReturnPost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmDispatch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmDispatch.Designer.cs">
+      <DependentUpon>frmDispatch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmMstPacker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmMstPacker.Designer.cs">
+      <DependentUpon>frmMstPacker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmMstTolerance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmMstTolerance.Designer.cs">
+      <DependentUpon>frmMstTolerance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\FrmMstTransportType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\FrmMstTransportType.Designer.cs">
+      <DependentUpon>FrmMstTransportType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmMstYard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmMstYard.Designer.cs">
+      <DependentUpon>frmMstYard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmRawMaterialReturn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmRawMaterialReturn.Designer.cs">
+      <DependentUpon>frmRawMaterialReturn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmRawMaterial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmRawMaterial.Designer.cs">
+      <DependentUpon>frmRawMaterial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmReportManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmReportManagement.Designer.cs">
+      <DependentUpon>frmReportManagement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmReportViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmReportViewer.Designer.cs">
+      <DependentUpon>frmReportViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmMstShift.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmMstShift.Designer.cs">
+      <DependentUpon>frmMstShift.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmUser.designer.cs">
+      <DependentUpon>frmUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmWBS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmWBS.Designer.cs">
+      <DependentUpon>frmWBS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmDispatchReturn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmDispatchReturn.Designer.cs">
+      <DependentUpon>frmDispatchReturn.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Dialog\frmOpenDlg.resx">
+      <DependentUpon>frmOpenDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\frmSimpleDlg.resx">
+      <DependentUpon>frmSimpleDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Screens\frmAuthentication.resx">
+      <DependentUpon>frmAuthentication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmBaseForm.resx">
+      <DependentUpon>frmBaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmCRpt.resx">
+      <DependentUpon>frmCRpt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmDispatchPost.resx">
+      <DependentUpon>frmDispatchPost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmRawMaterialReturnPost.resx">
+      <DependentUpon>frmRawMaterialReturnPost.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmRawMaterialPost.resx">
+      <DependentUpon>frmRawMaterialPost.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmDispatchReturnPost.resx">
+      <DependentUpon>frmDispatchReturnPost.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmDispatch.resx">
+      <DependentUpon>frmDispatch.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmMstPacker.resx">
+      <DependentUpon>frmMstPacker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmMstTolerance.resx">
+      <DependentUpon>frmMstTolerance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\FrmMstTransportType.resx">
+      <DependentUpon>FrmMstTransportType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmMstYard.resx">
+      <DependentUpon>frmMstYard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmRawMaterialReturn.resx">
+      <DependentUpon>frmRawMaterialReturn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmRawMaterial.resx">
+      <DependentUpon>frmRawMaterial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmReportManagement.resx">
+      <DependentUpon>frmReportManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmReportViewer.resx">
+      <DependentUpon>frmReportViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmMstShift.resx">
+      <DependentUpon>frmMstShift.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmUser.resx">
+      <DependentUpon>frmUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmWBS.resx">
+      <DependentUpon>frmWBS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmDispatchReturn.resx">
+      <DependentUpon>frmDispatchReturn.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="AlMabrookaDataSet.xsc">
+      <DependentUpon>AlMabrookaDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="AlMabrookaDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>AlMabrookaDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="AlMabrookaDataSet.xss">
+      <DependentUpon>AlMabrookaDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="app.config" />
+    <None Include="APPSetting.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>APPSetting.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AbacusConsulting32.ico" />
+    <None Include="abacuslogopic.png" />
+    <Content Include="abacuslogoicon.ico" />
+    <Content Include="almarbooka_NKB_icon.ico" />
+    <Content Include="Resources\AbacusConsulting.jpg" />
+    <None Include="Resources\AbacusConsulting1.jpg" />
+    <Content Include="Resources\Actions-media-seek-backward-icon24.png" />
+    <Content Include="Resources\Actions-media-seek-forward-icon24.png" />
+    <Content Include="Resources\Actions-media-skip-backward-icon24.png" />
+    <Content Include="Resources\Actions-media-skip-forward-icon24.png" />
+    <Content Include="Resources\almarbooka.png" />
+    <Content Include="Resources\Apps-Dialog-Add-icon24.png" />
+    <Content Include="Resources\Apps-Search-icon24.png" />
+    <Content Include="Resources\Folder 24.png" />
+    <Content Include="Resources\Folder16.png" />
+    <None Include="Resources\Folder161.png" />
+    <Content Include="Resources\NoImage.bmp" />
+    <Content Include="Resources\oldprinter24.png" />
+    <Content Include="Resources\Printer 24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mfmFFSDI\DI.csproj">
+      <Project>{a0593b9a-7994-4a0a-ad9e-172ce677adfa}</Project>
+      <Name>DI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SAPbobsCOM">
+      <Guid>{FC8030BE-F5D2-4B8E-8F92-44228FE30100}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

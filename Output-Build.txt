@@ -1,0 +1,45 @@
+﻿------ Build started: Project: mfmFFSteelUI, Configuration: Debug x86 ------
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\frmMain.cs(266,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\frmMain.cs(341,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\frmMain.cs(364,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(37,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(73,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(109,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(140,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(160,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(182,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(202,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(239,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(260,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(290,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(319,29): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(329,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(339,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(349,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(359,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWBS.cs(369,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmAuthentication.cs(91,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmAuthentication.cs(116,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmAuthentication.cs(150,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmAuthentication.cs(345,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(44,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(69,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(93,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(104,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(117,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(149,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(191,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(213,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(224,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(235,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(245,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(255,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(265,30): warning CS0168: The variable 'Ex' is declared but never used
+D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\Screens\frmWeighment.cs(275,30): warning CS0168: The variable 'Ex' is declared but never used
+warning CS1762: A reference was created to embedded interop assembly 'c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Accessibility.dll' because of an indirect reference to that assembly created by assembly 'c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll'. Consider changing the 'Embed Interop Types' property on either assembly.
+
+Compile complete -- 0 errors, 38 warnings
+  mfmFFSteelUI -> D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\FFSteel\bin\Debug\WindowsFormsApplication1.exe
+------ Build started: Project: mfmFFSDI, Configuration: Debug x86 ------
+  mfmFFSDI -> D:\Development\Office Work\FF Steel\Source Code\FFSteel Solution\mfmFFSDI\bin\x86\Debug\mfmFFSDI.dll
+========== Build: 2 succeeded or up-to-date, 0 failed, 0 skipped ==========
