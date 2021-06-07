@@ -16,6 +16,7 @@ using UFFU;
 using SAPbobsCOM;
 using mfmWeighment;
 
+
 namespace mfmFFS
 {
     public partial class frmMain : RadForm
@@ -61,7 +62,7 @@ namespace mfmFFS
                     }
                     else
                     {
-                        Program.SapCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2019;
+                        Program.SapCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2014;
                         Program.SapCompany.Server = APPSetting.Default.cfgSQLServer;
                         Program.SapCompany.CompanyDB = APPSetting.Default.cfgSBODB;
                         Program.SapCompany.UserName = APPSetting.Default.cfgSapID;
@@ -116,7 +117,6 @@ namespace mfmFFS
                 lblAppStatus.Text = value;
             }
         }
-
         #endregion
 
         #region Functions
@@ -383,7 +383,6 @@ namespace mfmFFS
                 Program.ExceptionMsg(Ex.Message);
             }
         }
-
         #endregion
 
         #region Form Events
@@ -393,7 +392,6 @@ namespace mfmFFS
 
             InitializeComponent();
             btnLogout.Visible = false;
-
         }
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -444,7 +442,7 @@ namespace mfmFFS
                     }
                     return;
                 }
-                if (e.Node.Text == "Dispatch" || e.Node.Text == "RawMaterial" || e.Node.Text == "DispatchReturn" || e.Node.Text == "RawMaterialReturn")
+                if (e.Node.Text == "Dispatch" || e.Node.Text == "RawMaterial" || e.Node.Text == "DispatchReturn" || e.Node.Text == "RawMaterialReturn" || e.Node.Text == "MultipleDispatch")
                 {
                     if (Program.flgIndicator)
                     {
@@ -551,7 +549,6 @@ namespace mfmFFS
                 Program.WarningMsg(ex.Message);
             }
         }
-
         #endregion
 
     }

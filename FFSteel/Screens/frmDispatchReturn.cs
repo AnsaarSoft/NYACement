@@ -886,6 +886,10 @@ namespace mfmFFS.Screens
                 txtNetWeightTons.Text = "";
                 flgSetValues = false;
                 txtDOQuantity.Enabled = true;
+                txtToleranceLimit.Text = "";
+                txtToleranceLimit.Visible = false;
+                chkAllowTolerance.Checked = false;
+
             }
             catch (Exception Ex)
             {
@@ -956,6 +960,19 @@ namespace mfmFFS.Screens
                     oOld.CustomerName = txtCusName.Text;
                     oOld.ItemCode = txtItemCode.Text;
                     oOld.ItemName = txtItemName.Text;
+                    if (chkAllowTolerance.Checked)
+                    {
+                        oOld.FlgTolerance = chkAllowTolerance.Checked;
+                        if (!string.IsNullOrEmpty(txtToleranceLimit.Text))
+                        {
+                            oOld.ToleranceLimit = Convert.ToDecimal(txtToleranceLimit.Text);
+                        }
+                        else
+                        {
+                            Program.ExceptionMsg("Tolerance Limit can not be Empty");
+                            return false;
+                        }
+                    }
                     if (!ChkTolerence())
                     {
                         return false;
@@ -1080,7 +1097,6 @@ namespace mfmFFS.Screens
                         Program.SuccesesMsg("Second Weight can not be empty");
                         return false;
                     }
-
                     //oDB.TrnsDispatchReturn.InsertOnSubmit(oDoc);
                 }
                 else
@@ -1185,8 +1201,6 @@ namespace mfmFFS.Screens
                     {
                         oDoc.BalanceQuantity = 0;
                     }
-
-
                     oDB.TrnsDispatchReturn.InsertOnSubmit(oDoc);
                 }
                 oDB.SubmitChanges();
@@ -1663,6 +1677,28 @@ namespace mfmFFS.Screens
             lblWeight.Invoke(new EventHandler(delegate { lblWeight.Text = data; }));
         }
 
+        private void chkAllowTolerance_ToggleStateChanged(object sender, StateChangedEventArgs args)
+        {
+            try
+            {
+                if (chkAllowTolerance.Checked)
+                {
+                    lblToleranceLimit.Visible = true;
+                    txtToleranceLimit.Visible = true;
+                }
+                else
+                {
+                    lblToleranceLimit.Visible = false;
+                    txtToleranceLimit.Visible = false;
+                    txtToleranceLimit.Text = string.Empty;
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
         private void LoadGrid()
         {
             try
@@ -1737,9 +1773,17 @@ namespace mfmFFS.Screens
 
         public bool ChkTolerence()
         {
-            decimal exceed = 0;
+            decimal exceed = 0, Tolerence;
             string itemGrp = txtItemGrpName.Text;
-            decimal Tolerence = Convert.ToDecimal(oDB.MstTolerance.Where(x => x.TName == itemGrp).FirstOrDefault().TRate);
+            if (chkAllowTolerance.Checked)
+            {
+                Tolerence = Convert.ToDecimal(txtToleranceLimit.Text);
+            }
+            else
+            {
+                Tolerence = Convert.ToDecimal(oDB.MstTolerance.Where(x => x.TName == itemGrp).FirstOrDefault().TRate);
+
+            }
             if (Tolerence > 0)
             {
                 val1 = (Convert.ToDecimal(txtDOQuantity.Text) * (Tolerence / 100)) + (Convert.ToDecimal(txtDOQuantity.Text));

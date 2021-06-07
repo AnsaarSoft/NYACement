@@ -2,7 +2,7 @@
 
 namespace mfmFFS.Screens
 {
-    partial class frmDispatch
+    partial class frmDispatchM
     {
         /// <summary>
         /// Required designer variable.
@@ -31,17 +31,26 @@ namespace mfmFFS.Screens
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDispatch));
-            Telerik.WinControls.UI.RadListDataItem radListDataItem1 = new Telerik.WinControls.UI.RadListDataItem();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn1 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn2 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn3 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn4 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn5 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn6 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewDateTimeColumn gridViewDateTimeColumn1 = new Telerik.WinControls.UI.GridViewDateTimeColumn();
-            Telerik.WinControls.Data.SortDescriptor sortDescriptor1 = new Telerik.WinControls.Data.SortDescriptor();
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDispatchM));
+            Telerik.WinControls.UI.RadListDataItem radListDataItem2 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn13 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn14 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn15 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn16 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewDateTimeColumn gridViewDateTimeColumn2 = new Telerik.WinControls.UI.GridViewDateTimeColumn();
+            Telerik.WinControls.Data.SortDescriptor sortDescriptor2 = new Telerik.WinControls.Data.SortDescriptor();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition3 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn17 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn18 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn19 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn20 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn21 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn22 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn23 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn24 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewDecimalColumn gridViewDecimalColumn3 = new Telerik.WinControls.UI.GridViewDecimalColumn();
+            Telerik.WinControls.UI.GridViewDecimalColumn gridViewDecimalColumn4 = new Telerik.WinControls.UI.GridViewDecimalColumn();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition4 = new Telerik.WinControls.UI.TableViewDefinition();
             this.tmrCamFront = new System.Windows.Forms.Timer(this.components);
             this.tmrAlreadyReading = new System.Windows.Forms.Timer(this.components);
             this.tmrCamBack = new System.Windows.Forms.Timer(this.components);
@@ -57,10 +66,8 @@ namespace mfmFFS.Screens
             this.btnAddNew = new Telerik.WinControls.UI.RadButton();
             this.btnSearch = new Telerik.WinControls.UI.RadButton();
             this.btnGetWeight = new Telerik.WinControls.UI.RadButton();
-            this.BtnItemSelect = new Telerik.WinControls.UI.RadButton();
             this.txtDifferenceWeight = new Telerik.WinControls.UI.RadTextBox();
             this.radLabel36 = new Telerik.WinControls.UI.RadLabel();
-            this.txtCustomerName = new Telerik.WinControls.UI.RadTextBox();
             this.btnBulkTable = new Telerik.WinControls.UI.RadButton();
             this.txtBrandPath = new Telerik.WinControls.UI.RadTextBox();
             this.txtDaySeries = new Telerik.WinControls.UI.RadTextBox();
@@ -70,7 +77,6 @@ namespace mfmFFS.Screens
             this.radLabel32 = new Telerik.WinControls.UI.RadLabel();
             this.txtCNICPath = new Telerik.WinControls.UI.RadTextBox();
             this.txtItemGroupName = new Telerik.WinControls.UI.RadTextBox();
-            this.radLabel33 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel30 = new Telerik.WinControls.UI.RadLabel();
             this.txtNetWeightTon = new Telerik.WinControls.UI.RadTextBox();
             this.txt2WeightTon = new Telerik.WinControls.UI.RadTextBox();
@@ -98,7 +104,6 @@ namespace mfmFFS.Screens
             this.txt1WeightKG = new Telerik.WinControls.UI.RadTextBox();
             this.radLabel19 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel17 = new Telerik.WinControls.UI.RadLabel();
-            this.txtSBRNum = new Telerik.WinControls.UI.RadTextBox();
             this.radLabel20 = new Telerik.WinControls.UI.RadLabel();
             this.txt1WeightDate = new Telerik.WinControls.UI.RadTextBox();
             this.radLabel18 = new Telerik.WinControls.UI.RadLabel();
@@ -106,40 +111,46 @@ namespace mfmFFS.Screens
             this.radLabel14 = new Telerik.WinControls.UI.RadLabel();
             this.txtVehicleNum = new Telerik.WinControls.UI.RadTextBox();
             this.radLabel15 = new Telerik.WinControls.UI.RadLabel();
-            this.txtBalanceQuantity = new Telerik.WinControls.UI.RadTextBox();
-            this.txtSBRDate = new Telerik.WinControls.UI.RadTextBox();
             this.radLabel16 = new Telerik.WinControls.UI.RadLabel();
-            this.BtnDocSelect = new Telerik.WinControls.UI.RadButton();
-            this.txtOrderQuantity = new Telerik.WinControls.UI.RadTextBox();
-            this.radLabel4 = new Telerik.WinControls.UI.RadLabel();
             this.grdDetails = new Telerik.WinControls.UI.RadGridView();
             this.btnCancel = new Telerik.WinControls.UI.RadButton();
             this.btnSubmit = new Telerik.WinControls.UI.RadButton();
-            this.radLabel9 = new Telerik.WinControls.UI.RadLabel();
-            this.radLabel10 = new Telerik.WinControls.UI.RadLabel();
-            this.radLabel11 = new Telerik.WinControls.UI.RadLabel();
             this.txtCurrTime = new Telerik.WinControls.UI.RadTextBox();
             this.radLabel12 = new Telerik.WinControls.UI.RadLabel();
-            this.txtItemNam = new Telerik.WinControls.UI.RadTextBox();
             this.txtShift = new Telerik.WinControls.UI.RadTextBox();
-            this.radLabel5 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel6 = new Telerik.WinControls.UI.RadLabel();
-            this.radLabel3 = new Telerik.WinControls.UI.RadLabel();
-            this.txtItemCod = new Telerik.WinControls.UI.RadTextBox();
             this.txtCurrDate = new Telerik.WinControls.UI.RadTextBox();
-            this.radLabel7 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel2 = new Telerik.WinControls.UI.RadLabel();
-            this.txtCustomerCode = new Telerik.WinControls.UI.RadTextBox();
             this.txtDocNo = new Telerik.WinControls.UI.RadTextBox();
-            this.radLabel8 = new Telerik.WinControls.UI.RadLabel();
             this.radLabel1 = new Telerik.WinControls.UI.RadLabel();
             this.lbl2 = new System.Windows.Forms.Label();
             this.btnRefresh = new Telerik.WinControls.UI.RadButton();
-            this.btnCust = new Telerik.WinControls.UI.RadButton();
             this.radLabel31 = new Telerik.WinControls.UI.RadLabel();
             this.chkAllowTolerance = new Telerik.WinControls.UI.RadCheckBox();
             this.lblToleranceLimit = new Telerik.WinControls.UI.RadLabel();
             this.txtToleranceLimit = new Telerik.WinControls.UI.RadTextBox();
+            this.txtBalanceQuantity = new Telerik.WinControls.UI.RadTextBox();
+            this.txtOrderQuantity = new Telerik.WinControls.UI.RadTextBox();
+            this.txtCustomerName = new Telerik.WinControls.UI.RadTextBox();
+            this.txtItemNam = new Telerik.WinControls.UI.RadTextBox();
+            this.txtSBRDate = new Telerik.WinControls.UI.RadTextBox();
+            this.BtnDocSelect = new Telerik.WinControls.UI.RadButton();
+            this.txtSBRNum = new Telerik.WinControls.UI.RadTextBox();
+            this.txtItemCod = new Telerik.WinControls.UI.RadTextBox();
+            this.BtnItemSelect = new Telerik.WinControls.UI.RadButton();
+            this.btnCust = new Telerik.WinControls.UI.RadButton();
+            this.txtCustomerCode = new Telerik.WinControls.UI.RadTextBox();
+            this.grdWmntDetails = new Telerik.WinControls.UI.RadGridView();
+            this.radLabel8 = new Telerik.WinControls.UI.RadLabel();
+            this.radLabel11 = new Telerik.WinControls.UI.RadLabel();
+            this.radLabel7 = new Telerik.WinControls.UI.RadLabel();
+            this.radLabel5 = new Telerik.WinControls.UI.RadLabel();
+            this.radLabel3 = new Telerik.WinControls.UI.RadLabel();
+            this.radLabel9 = new Telerik.WinControls.UI.RadLabel();
+            this.radLabel4 = new Telerik.WinControls.UI.RadLabel();
+            this.radLabel10 = new Telerik.WinControls.UI.RadLabel();
+            this.radLabel33 = new Telerik.WinControls.UI.RadLabel();
+            this.btnAdd = new Telerik.WinControls.UI.RadButton();
             ((System.ComponentModel.ISupportInitialize)(this.txtFullText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCWeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlControls)).BeginInit();
@@ -153,10 +164,8 @@ namespace mfmFFS.Screens
             ((System.ComponentModel.ISupportInitialize)(this.btnAddNew)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSearch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnGetWeight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BtnItemSelect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDifferenceWeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel36)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCustomerName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnBulkTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtBrandPath)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDaySeries)).BeginInit();
@@ -166,7 +175,6 @@ namespace mfmFFS.Screens
             ((System.ComponentModel.ISupportInitialize)(this.radLabel32)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCNICPath)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtItemGroupName)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel33)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNetWeightTon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt2WeightTon)).BeginInit();
@@ -194,7 +202,6 @@ namespace mfmFFS.Screens
             ((System.ComponentModel.ISupportInitialize)(this.txt1WeightKG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel19)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel17)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSBRNum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel20)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt1WeightDate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel18)).BeginInit();
@@ -202,40 +209,47 @@ namespace mfmFFS.Screens
             ((System.ComponentModel.ISupportInitialize)(this.radLabel14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtVehicleNum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel15)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtBalanceQuantity)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSBRDate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel16)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BtnDocSelect)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtOrderQuantity)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdDetails)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdDetails.MasterTemplate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCurrTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtItemNam)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtShift)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtItemCod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCurrDate)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCustomerCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDocNo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRefresh)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnCust)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel31)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkAllowTolerance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblToleranceLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtToleranceLimit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBalanceQuantity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOrderQuantity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCustomerName)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtItemNam)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSBRDate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BtnDocSelect)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSBRNum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtItemCod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BtnItemSelect)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCust)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCustomerCode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grdWmntDetails)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grdWmntDetails.MasterTemplate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel33)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -369,40 +383,24 @@ namespace mfmFFS.Screens
             this.btnGetWeight.Text = "&Getweight";
             this.btnGetWeight.Click += new System.EventHandler(this.btnGetWeight_Click);
             // 
-            // BtnItemSelect
-            // 
-            this.BtnItemSelect.Image = global::mfmWeighment.Properties.Resources.Folder16;
-            this.BtnItemSelect.Location = new System.Drawing.Point(274, 132);
-            this.BtnItemSelect.Name = "BtnItemSelect";
-            this.BtnItemSelect.Size = new System.Drawing.Size(20, 20);
-            this.BtnItemSelect.TabIndex = 131;
-            this.BtnItemSelect.Click += new System.EventHandler(this.BtnItemSelect_Click);
-            // 
             // txtDifferenceWeight
             // 
-            this.txtDifferenceWeight.Location = new System.Drawing.Point(462, 441);
+            this.txtDifferenceWeight.Location = new System.Drawing.Point(462, 349);
             this.txtDifferenceWeight.Name = "txtDifferenceWeight";
             this.txtDifferenceWeight.Size = new System.Drawing.Size(159, 20);
             this.txtDifferenceWeight.TabIndex = 129;
             // 
             // radLabel36
             // 
-            this.radLabel36.Location = new System.Drawing.Point(299, 441);
+            this.radLabel36.Location = new System.Drawing.Point(299, 349);
             this.radLabel36.Name = "radLabel36";
             this.radLabel36.Size = new System.Drawing.Size(169, 18);
             this.radLabel36.TabIndex = 130;
             this.radLabel36.Text = "Difference SO & Net Weight(Tons)";
             // 
-            // txtCustomerName
-            // 
-            this.txtCustomerName.Location = new System.Drawing.Point(462, 109);
-            this.txtCustomerName.Name = "txtCustomerName";
-            this.txtCustomerName.Size = new System.Drawing.Size(159, 20);
-            this.txtCustomerName.TabIndex = 61;
-            // 
             // btnBulkTable
             // 
-            this.btnBulkTable.Location = new System.Drawing.Point(119, 350);
+            this.btnBulkTable.Location = new System.Drawing.Point(119, 255);
             this.btnBulkTable.Name = "btnBulkTable";
             this.btnBulkTable.Size = new System.Drawing.Size(153, 24);
             this.btnBulkTable.TabIndex = 72;
@@ -411,7 +409,7 @@ namespace mfmFFS.Screens
             // 
             // txtBrandPath
             // 
-            this.txtBrandPath.Location = new System.Drawing.Point(462, 352);
+            this.txtBrandPath.Location = new System.Drawing.Point(462, 255);
             this.txtBrandPath.Name = "txtBrandPath";
             this.txtBrandPath.Size = new System.Drawing.Size(159, 20);
             this.txtBrandPath.TabIndex = 124;
@@ -419,14 +417,14 @@ namespace mfmFFS.Screens
             // 
             // txtDaySeries
             // 
-            this.txtDaySeries.Location = new System.Drawing.Point(462, 199);
+            this.txtDaySeries.Location = new System.Drawing.Point(462, 101);
             this.txtDaySeries.Name = "txtDaySeries";
             this.txtDaySeries.Size = new System.Drawing.Size(159, 20);
             this.txtDaySeries.TabIndex = 59;
             // 
             // radLabel34
             // 
-            this.radLabel34.Location = new System.Drawing.Point(299, 353);
+            this.radLabel34.Location = new System.Drawing.Point(299, 255);
             this.radLabel34.Name = "radLabel34";
             this.radLabel34.Size = new System.Drawing.Size(64, 18);
             this.radLabel34.TabIndex = 125;
@@ -435,7 +433,7 @@ namespace mfmFFS.Screens
             // 
             // radButton2
             // 
-            this.radButton2.Location = new System.Drawing.Point(623, 328);
+            this.radButton2.Location = new System.Drawing.Point(624, 231);
             this.radButton2.Name = "radButton2";
             this.radButton2.Size = new System.Drawing.Size(43, 24);
             this.radButton2.TabIndex = 71;
@@ -444,7 +442,7 @@ namespace mfmFFS.Screens
             // 
             // radLabel35
             // 
-            this.radLabel35.Location = new System.Drawing.Point(11, 353);
+            this.radLabel35.Location = new System.Drawing.Point(11, 255);
             this.radLabel35.Name = "radLabel35";
             this.radLabel35.Size = new System.Drawing.Size(66, 18);
             this.radLabel35.TabIndex = 123;
@@ -452,7 +450,7 @@ namespace mfmFFS.Screens
             // 
             // radLabel32
             // 
-            this.radLabel32.Location = new System.Drawing.Point(299, 200);
+            this.radLabel32.Location = new System.Drawing.Point(299, 101);
             this.radLabel32.Name = "radLabel32";
             this.radLabel32.Size = new System.Drawing.Size(74, 18);
             this.radLabel32.TabIndex = 61;
@@ -460,30 +458,21 @@ namespace mfmFFS.Screens
             // 
             // txtCNICPath
             // 
-            this.txtCNICPath.Location = new System.Drawing.Point(462, 330);
+            this.txtCNICPath.Location = new System.Drawing.Point(462, 233);
             this.txtCNICPath.Name = "txtCNICPath";
             this.txtCNICPath.Size = new System.Drawing.Size(159, 20);
             this.txtCNICPath.TabIndex = 113;
             // 
             // txtItemGroupName
             // 
-            this.txtItemGroupName.Location = new System.Drawing.Point(119, 199);
+            this.txtItemGroupName.Location = new System.Drawing.Point(462, 482);
             this.txtItemGroupName.Name = "txtItemGroupName";
-            this.txtItemGroupName.Size = new System.Drawing.Size(153, 20);
+            this.txtItemGroupName.Size = new System.Drawing.Size(159, 20);
             this.txtItemGroupName.TabIndex = 58;
-            this.txtItemGroupName.TextChanged += new System.EventHandler(this.txtItemGroupName_TextChanged);
-            // 
-            // radLabel33
-            // 
-            this.radLabel33.Location = new System.Drawing.Point(11, 200);
-            this.radLabel33.Name = "radLabel33";
-            this.radLabel33.Size = new System.Drawing.Size(96, 18);
-            this.radLabel33.TabIndex = 60;
-            this.radLabel33.Text = "Item Group Name";
             // 
             // radLabel30
             // 
-            this.radLabel30.Location = new System.Drawing.Point(299, 331);
+            this.radLabel30.Location = new System.Drawing.Point(299, 233);
             this.radLabel30.Name = "radLabel30";
             this.radLabel30.Size = new System.Drawing.Size(143, 18);
             this.radLabel30.TabIndex = 114;
@@ -491,21 +480,21 @@ namespace mfmFFS.Screens
             // 
             // txtNetWeightTon
             // 
-            this.txtNetWeightTon.Location = new System.Drawing.Point(462, 419);
+            this.txtNetWeightTon.Location = new System.Drawing.Point(462, 327);
             this.txtNetWeightTon.Name = "txtNetWeightTon";
             this.txtNetWeightTon.Size = new System.Drawing.Size(159, 20);
             this.txtNetWeightTon.TabIndex = 126;
             // 
             // txt2WeightTon
             // 
-            this.txt2WeightTon.Location = new System.Drawing.Point(462, 396);
+            this.txt2WeightTon.Location = new System.Drawing.Point(462, 305);
             this.txt2WeightTon.Name = "txt2WeightTon";
             this.txt2WeightTon.Size = new System.Drawing.Size(159, 20);
             this.txt2WeightTon.TabIndex = 122;
             // 
             // radLabel28
             // 
-            this.radLabel28.Location = new System.Drawing.Point(299, 420);
+            this.radLabel28.Location = new System.Drawing.Point(299, 327);
             this.radLabel28.Name = "radLabel28";
             this.radLabel28.Size = new System.Drawing.Size(94, 18);
             this.radLabel28.TabIndex = 127;
@@ -513,7 +502,7 @@ namespace mfmFFS.Screens
             // 
             // radLabel13
             // 
-            this.radLabel13.Location = new System.Drawing.Point(299, 397);
+            this.radLabel13.Location = new System.Drawing.Point(299, 305);
             this.radLabel13.Name = "radLabel13";
             this.radLabel13.Size = new System.Drawing.Size(113, 18);
             this.radLabel13.TabIndex = 123;
@@ -521,14 +510,14 @@ namespace mfmFFS.Screens
             // 
             // txtNetWeightKG
             // 
-            this.txtNetWeightKG.Location = new System.Drawing.Point(119, 419);
+            this.txtNetWeightKG.Location = new System.Drawing.Point(119, 327);
             this.txtNetWeightKG.Name = "txtNetWeightKG";
             this.txtNetWeightKG.Size = new System.Drawing.Size(153, 20);
             this.txtNetWeightKG.TabIndex = 124;
             // 
             // radLabel29
             // 
-            this.radLabel29.Location = new System.Drawing.Point(11, 420);
+            this.radLabel29.Location = new System.Drawing.Point(11, 327);
             this.radLabel29.Name = "radLabel29";
             this.radLabel29.Size = new System.Drawing.Size(85, 18);
             this.radLabel29.TabIndex = 125;
@@ -536,14 +525,14 @@ namespace mfmFFS.Screens
             // 
             // txt2WeightTime
             // 
-            this.txt2WeightTime.Location = new System.Drawing.Point(462, 374);
+            this.txt2WeightTime.Location = new System.Drawing.Point(462, 283);
             this.txt2WeightTime.Name = "txt2WeightTime";
             this.txt2WeightTime.Size = new System.Drawing.Size(159, 20);
             this.txt2WeightTime.TabIndex = 120;
             // 
             // radLabel25
             // 
-            this.radLabel25.Location = new System.Drawing.Point(299, 375);
+            this.radLabel25.Location = new System.Drawing.Point(299, 283);
             this.radLabel25.Name = "radLabel25";
             this.radLabel25.Size = new System.Drawing.Size(110, 18);
             this.radLabel25.TabIndex = 121;
@@ -551,16 +540,15 @@ namespace mfmFFS.Screens
             // 
             // txt2WeightKG
             // 
-            this.txt2WeightKG.Location = new System.Drawing.Point(119, 396);
+            this.txt2WeightKG.Location = new System.Drawing.Point(119, 305);
             this.txt2WeightKG.Name = "txt2WeightKG";
             this.txt2WeightKG.Size = new System.Drawing.Size(153, 20);
             this.txt2WeightKG.TabIndex = 118;
             this.txt2WeightKG.TextChanged += new System.EventHandler(this.txt2WeightKG_TextChanged);
-            this.txt2WeightKG.Click += new System.EventHandler(this.txt2WeightKG_Click);
             // 
             // radLabel26
             // 
-            this.radLabel26.Location = new System.Drawing.Point(11, 397);
+            this.radLabel26.Location = new System.Drawing.Point(11, 305);
             this.radLabel26.Name = "radLabel26";
             this.radLabel26.Size = new System.Drawing.Size(104, 18);
             this.radLabel26.TabIndex = 119;
@@ -568,14 +556,14 @@ namespace mfmFFS.Screens
             // 
             // txt2WeightDate
             // 
-            this.txt2WeightDate.Location = new System.Drawing.Point(119, 374);
+            this.txt2WeightDate.Location = new System.Drawing.Point(119, 283);
             this.txt2WeightDate.Name = "txt2WeightDate";
             this.txt2WeightDate.Size = new System.Drawing.Size(153, 20);
             this.txt2WeightDate.TabIndex = 116;
             // 
             // radLabel27
             // 
-            this.radLabel27.Location = new System.Drawing.Point(11, 375);
+            this.radLabel27.Location = new System.Drawing.Point(11, 283);
             this.radLabel27.Name = "radLabel27";
             this.radLabel27.Size = new System.Drawing.Size(109, 18);
             this.radLabel27.TabIndex = 117;
@@ -583,8 +571,9 @@ namespace mfmFFS.Screens
             // 
             // cmbTransportCode
             // 
-            this.cmbTransportCode.Items.Add(radListDataItem1);
-            this.cmbTransportCode.Location = new System.Drawing.Point(119, 308);
+            this.cmbTransportCode.DropDownSizingMode = ((Telerik.WinControls.UI.SizingMode)((Telerik.WinControls.UI.SizingMode.RightBottom | Telerik.WinControls.UI.SizingMode.UpDown)));
+            this.cmbTransportCode.Items.Add(radListDataItem2);
+            this.cmbTransportCode.Location = new System.Drawing.Point(119, 211);
             this.cmbTransportCode.Name = "cmbTransportCode";
             this.cmbTransportCode.Size = new System.Drawing.Size(153, 20);
             this.cmbTransportCode.TabIndex = 115;
@@ -592,28 +581,28 @@ namespace mfmFFS.Screens
             // 
             // cmbTransportType
             // 
-            this.cmbTransportType.Location = new System.Drawing.Point(119, 330);
+            this.cmbTransportType.Location = new System.Drawing.Point(119, 233);
             this.cmbTransportType.Name = "cmbTransportType";
             this.cmbTransportType.Size = new System.Drawing.Size(153, 20);
             this.cmbTransportType.TabIndex = 114;
             // 
             // cmbPacker
             // 
-            this.cmbPacker.Location = new System.Drawing.Point(462, 221);
+            this.cmbPacker.Location = new System.Drawing.Point(462, 123);
             this.cmbPacker.Name = "cmbPacker";
             this.cmbPacker.Size = new System.Drawing.Size(159, 20);
             this.cmbPacker.TabIndex = 113;
             // 
             // TxtTransportName
             // 
-            this.TxtTransportName.Location = new System.Drawing.Point(462, 308);
+            this.TxtTransportName.Location = new System.Drawing.Point(462, 211);
             this.TxtTransportName.Name = "TxtTransportName";
             this.TxtTransportName.Size = new System.Drawing.Size(159, 20);
             this.TxtTransportName.TabIndex = 111;
             // 
             // radLabel23
             // 
-            this.radLabel23.Location = new System.Drawing.Point(299, 309);
+            this.radLabel23.Location = new System.Drawing.Point(299, 211);
             this.radLabel23.Name = "radLabel23";
             this.radLabel23.Size = new System.Drawing.Size(87, 18);
             this.radLabel23.TabIndex = 112;
@@ -621,14 +610,14 @@ namespace mfmFFS.Screens
             // 
             // txt1WeightTon
             // 
-            this.txt1WeightTon.Location = new System.Drawing.Point(462, 287);
+            this.txt1WeightTon.Location = new System.Drawing.Point(462, 189);
             this.txt1WeightTon.Name = "txt1WeightTon";
             this.txt1WeightTon.Size = new System.Drawing.Size(159, 20);
             this.txt1WeightTon.TabIndex = 109;
             // 
             // radLabel24
             // 
-            this.radLabel24.Location = new System.Drawing.Point(299, 288);
+            this.radLabel24.Location = new System.Drawing.Point(299, 189);
             this.radLabel24.Name = "radLabel24";
             this.radLabel24.Size = new System.Drawing.Size(97, 18);
             this.radLabel24.TabIndex = 110;
@@ -636,14 +625,14 @@ namespace mfmFFS.Screens
             // 
             // txt1WeightTime
             // 
-            this.txt1WeightTime.Location = new System.Drawing.Point(462, 265);
+            this.txt1WeightTime.Location = new System.Drawing.Point(462, 167);
             this.txt1WeightTime.Name = "txt1WeightTime";
             this.txt1WeightTime.Size = new System.Drawing.Size(159, 20);
             this.txt1WeightTime.TabIndex = 107;
             // 
             // radLabel21
             // 
-            this.radLabel21.Location = new System.Drawing.Point(299, 266);
+            this.radLabel21.Location = new System.Drawing.Point(299, 167);
             this.radLabel21.Name = "radLabel21";
             this.radLabel21.Size = new System.Drawing.Size(94, 18);
             this.radLabel21.TabIndex = 108;
@@ -651,14 +640,14 @@ namespace mfmFFS.Screens
             // 
             // txtDriverName
             // 
-            this.txtDriverName.Location = new System.Drawing.Point(462, 243);
+            this.txtDriverName.Location = new System.Drawing.Point(119, 145);
             this.txtDriverName.Name = "txtDriverName";
-            this.txtDriverName.Size = new System.Drawing.Size(159, 20);
+            this.txtDriverName.Size = new System.Drawing.Size(153, 20);
             this.txtDriverName.TabIndex = 105;
             // 
             // radLabel22
             // 
-            this.radLabel22.Location = new System.Drawing.Point(299, 244);
+            this.radLabel22.Location = new System.Drawing.Point(11, 145);
             this.radLabel22.Name = "radLabel22";
             this.radLabel22.Size = new System.Drawing.Size(69, 18);
             this.radLabel22.TabIndex = 106;
@@ -666,7 +655,7 @@ namespace mfmFFS.Screens
             // 
             // txt1WeightKG
             // 
-            this.txt1WeightKG.Location = new System.Drawing.Point(119, 287);
+            this.txt1WeightKG.Location = new System.Drawing.Point(119, 189);
             this.txt1WeightKG.Name = "txt1WeightKG";
             this.txt1WeightKG.Size = new System.Drawing.Size(153, 20);
             this.txt1WeightKG.TabIndex = 99;
@@ -674,7 +663,7 @@ namespace mfmFFS.Screens
             // 
             // radLabel19
             // 
-            this.radLabel19.Location = new System.Drawing.Point(11, 331);
+            this.radLabel19.Location = new System.Drawing.Point(11, 233);
             this.radLabel19.Name = "radLabel19";
             this.radLabel19.Size = new System.Drawing.Size(81, 18);
             this.radLabel19.TabIndex = 104;
@@ -682,22 +671,15 @@ namespace mfmFFS.Screens
             // 
             // radLabel17
             // 
-            this.radLabel17.Location = new System.Drawing.Point(11, 288);
+            this.radLabel17.Location = new System.Drawing.Point(11, 189);
             this.radLabel17.Name = "radLabel17";
             this.radLabel17.Size = new System.Drawing.Size(87, 18);
             this.radLabel17.TabIndex = 100;
             this.radLabel17.Text = "First Weight(KG)";
             // 
-            // txtSBRNum
-            // 
-            this.txtSBRNum.Location = new System.Drawing.Point(119, 154);
-            this.txtSBRNum.Name = "txtSBRNum";
-            this.txtSBRNum.Size = new System.Drawing.Size(153, 20);
-            this.txtSBRNum.TabIndex = 101;
-            // 
             // radLabel20
             // 
-            this.radLabel20.Location = new System.Drawing.Point(11, 309);
+            this.radLabel20.Location = new System.Drawing.Point(11, 211);
             this.radLabel20.Name = "radLabel20";
             this.radLabel20.Size = new System.Drawing.Size(83, 18);
             this.radLabel20.TabIndex = 102;
@@ -705,14 +687,14 @@ namespace mfmFFS.Screens
             // 
             // txt1WeightDate
             // 
-            this.txt1WeightDate.Location = new System.Drawing.Point(119, 265);
+            this.txt1WeightDate.Location = new System.Drawing.Point(119, 167);
             this.txt1WeightDate.Name = "txt1WeightDate";
             this.txt1WeightDate.Size = new System.Drawing.Size(153, 20);
             this.txt1WeightDate.TabIndex = 97;
             // 
             // radLabel18
             // 
-            this.radLabel18.Location = new System.Drawing.Point(11, 266);
+            this.radLabel18.Location = new System.Drawing.Point(11, 167);
             this.radLabel18.Name = "radLabel18";
             this.radLabel18.Size = new System.Drawing.Size(93, 18);
             this.radLabel18.TabIndex = 98;
@@ -720,14 +702,14 @@ namespace mfmFFS.Screens
             // 
             // txtDriverCNIC
             // 
-            this.txtDriverCNIC.Location = new System.Drawing.Point(119, 243);
+            this.txtDriverCNIC.Location = new System.Drawing.Point(119, 123);
             this.txtDriverCNIC.Name = "txtDriverCNIC";
             this.txtDriverCNIC.Size = new System.Drawing.Size(153, 20);
             this.txtDriverCNIC.TabIndex = 95;
             // 
             // radLabel14
             // 
-            this.radLabel14.Location = new System.Drawing.Point(11, 244);
+            this.radLabel14.Location = new System.Drawing.Point(11, 123);
             this.radLabel14.Name = "radLabel14";
             this.radLabel14.Size = new System.Drawing.Size(61, 18);
             this.radLabel14.TabIndex = 96;
@@ -735,64 +717,26 @@ namespace mfmFFS.Screens
             // 
             // txtVehicleNum
             // 
-            this.txtVehicleNum.Location = new System.Drawing.Point(119, 221);
+            this.txtVehicleNum.Location = new System.Drawing.Point(119, 101);
             this.txtVehicleNum.Name = "txtVehicleNum";
             this.txtVehicleNum.Size = new System.Drawing.Size(153, 20);
             this.txtVehicleNum.TabIndex = 93;
             // 
             // radLabel15
             // 
-            this.radLabel15.Location = new System.Drawing.Point(11, 222);
+            this.radLabel15.Location = new System.Drawing.Point(11, 101);
             this.radLabel15.Name = "radLabel15";
             this.radLabel15.Size = new System.Drawing.Size(60, 18);
             this.radLabel15.TabIndex = 94;
             this.radLabel15.Text = "Vehicle No";
             // 
-            // txtBalanceQuantity
-            // 
-            this.txtBalanceQuantity.Location = new System.Drawing.Point(462, 177);
-            this.txtBalanceQuantity.Name = "txtBalanceQuantity";
-            this.txtBalanceQuantity.Size = new System.Drawing.Size(159, 20);
-            this.txtBalanceQuantity.TabIndex = 87;
-            // 
-            // txtSBRDate
-            // 
-            this.txtSBRDate.Location = new System.Drawing.Point(462, 154);
-            this.txtSBRDate.Name = "txtSBRDate";
-            this.txtSBRDate.Size = new System.Drawing.Size(159, 20);
-            this.txtSBRDate.TabIndex = 86;
-            // 
             // radLabel16
             // 
-            this.radLabel16.Location = new System.Drawing.Point(299, 222);
+            this.radLabel16.Location = new System.Drawing.Point(299, 123);
             this.radLabel16.Name = "radLabel16";
             this.radLabel16.Size = new System.Drawing.Size(46, 18);
             this.radLabel16.TabIndex = 85;
             this.radLabel16.Text = "Packer#";
-            // 
-            // BtnDocSelect
-            // 
-            this.BtnDocSelect.Image = global::mfmWeighment.Properties.Resources.Folder16;
-            this.BtnDocSelect.Location = new System.Drawing.Point(274, 154);
-            this.BtnDocSelect.Name = "BtnDocSelect";
-            this.BtnDocSelect.Size = new System.Drawing.Size(20, 20);
-            this.BtnDocSelect.TabIndex = 84;
-            this.BtnDocSelect.Click += new System.EventHandler(this.btnItem_Click);
-            // 
-            // txtOrderQuantity
-            // 
-            this.txtOrderQuantity.Location = new System.Drawing.Point(119, 177);
-            this.txtOrderQuantity.Name = "txtOrderQuantity";
-            this.txtOrderQuantity.Size = new System.Drawing.Size(153, 20);
-            this.txtOrderQuantity.TabIndex = 76;
-            // 
-            // radLabel4
-            // 
-            this.radLabel4.Location = new System.Drawing.Point(11, 178);
-            this.radLabel4.Name = "radLabel4";
-            this.radLabel4.Size = new System.Drawing.Size(93, 18);
-            this.radLabel4.TabIndex = 77;
-            this.radLabel4.Text = "Loading Quantity";
             // 
             // grdDetails
             // 
@@ -808,68 +752,56 @@ namespace mfmFFS.Screens
             this.grdDetails.MasterTemplate.AllowAddNewRow = false;
             this.grdDetails.MasterTemplate.AllowDeleteRow = false;
             this.grdDetails.MasterTemplate.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill;
-            gridViewTextBoxColumn1.EnableExpressionEditor = false;
-            gridViewTextBoxColumn1.FieldName = "ID";
-            gridViewTextBoxColumn1.HeaderText = "ID";
-            gridViewTextBoxColumn1.IsVisible = false;
-            gridViewTextBoxColumn1.Name = "ID";
-            gridViewTextBoxColumn2.EnableExpressionEditor = false;
-            gridViewTextBoxColumn2.FieldName = "Wmnt#";
-            gridViewTextBoxColumn2.HeaderText = "Wmnt#";
-            gridViewTextBoxColumn2.MinWidth = 0;
-            gridViewTextBoxColumn2.Name = "Wmnt#";
-            gridViewTextBoxColumn2.Width = 53;
-            gridViewTextBoxColumn3.EnableExpressionEditor = false;
-            gridViewTextBoxColumn3.FieldName = "Vehicle#";
-            gridViewTextBoxColumn3.HeaderText = "Vehicle#";
-            gridViewTextBoxColumn3.Name = "Vehicle#";
-            gridViewTextBoxColumn3.Width = 80;
-            gridViewTextBoxColumn4.EnableExpressionEditor = false;
-            gridViewTextBoxColumn4.FieldName = "SBRNum";
-            gridViewTextBoxColumn4.HeaderText = "SBRNum";
-            gridViewTextBoxColumn4.Name = "SBRNum";
-            gridViewTextBoxColumn4.Width = 58;
-            gridViewTextBoxColumn5.EnableExpressionEditor = false;
-            gridViewTextBoxColumn5.FieldName = "ItemName";
-            gridViewTextBoxColumn5.HeaderText = "ItemName";
-            gridViewTextBoxColumn5.Name = "ItemName";
-            gridViewTextBoxColumn5.Width = 103;
-            gridViewTextBoxColumn6.EnableExpressionEditor = false;
-            gridViewTextBoxColumn6.FieldName = "First Weight";
-            gridViewTextBoxColumn6.HeaderText = "First Weight";
-            gridViewTextBoxColumn6.Name = "First Weight";
-            gridViewTextBoxColumn6.Width = 67;
-            gridViewDateTimeColumn1.EnableExpressionEditor = false;
-            gridViewDateTimeColumn1.FieldName = "DocDate";
-            gridViewDateTimeColumn1.Format = System.Windows.Forms.DateTimePickerFormat.Long;
-            gridViewDateTimeColumn1.HeaderText = "DocDate";
-            gridViewDateTimeColumn1.MinWidth = 0;
-            gridViewDateTimeColumn1.Name = "DocDate";
-            gridViewDateTimeColumn1.Width = 64;
+            gridViewTextBoxColumn13.EnableExpressionEditor = false;
+            gridViewTextBoxColumn13.FieldName = "ID";
+            gridViewTextBoxColumn13.HeaderText = "ID";
+            gridViewTextBoxColumn13.IsVisible = false;
+            gridViewTextBoxColumn13.Name = "ID";
+            gridViewTextBoxColumn14.EnableExpressionEditor = false;
+            gridViewTextBoxColumn14.FieldName = "Wmnt#";
+            gridViewTextBoxColumn14.HeaderText = "Wmnt#";
+            gridViewTextBoxColumn14.MinWidth = 0;
+            gridViewTextBoxColumn14.Name = "Wmnt#";
+            gridViewTextBoxColumn14.Width = 85;
+            gridViewTextBoxColumn15.EnableExpressionEditor = false;
+            gridViewTextBoxColumn15.FieldName = "Vehicle#";
+            gridViewTextBoxColumn15.HeaderText = "Vehicle#";
+            gridViewTextBoxColumn15.Name = "Vehicle#";
+            gridViewTextBoxColumn15.Width = 128;
+            gridViewTextBoxColumn16.EnableExpressionEditor = false;
+            gridViewTextBoxColumn16.FieldName = "First Weight";
+            gridViewTextBoxColumn16.HeaderText = "First Weight";
+            gridViewTextBoxColumn16.Name = "First Weight";
+            gridViewTextBoxColumn16.Width = 107;
+            gridViewDateTimeColumn2.EnableExpressionEditor = false;
+            gridViewDateTimeColumn2.FieldName = "DocDate";
+            gridViewDateTimeColumn2.Format = System.Windows.Forms.DateTimePickerFormat.Long;
+            gridViewDateTimeColumn2.HeaderText = "DocDate";
+            gridViewDateTimeColumn2.MinWidth = 0;
+            gridViewDateTimeColumn2.Name = "DocDate";
+            gridViewDateTimeColumn2.Width = 103;
             this.grdDetails.MasterTemplate.Columns.AddRange(new Telerik.WinControls.UI.GridViewDataColumn[] {
-            gridViewTextBoxColumn1,
-            gridViewTextBoxColumn2,
-            gridViewTextBoxColumn3,
-            gridViewTextBoxColumn4,
-            gridViewTextBoxColumn5,
-            gridViewTextBoxColumn6,
-            gridViewDateTimeColumn1});
+            gridViewTextBoxColumn13,
+            gridViewTextBoxColumn14,
+            gridViewTextBoxColumn15,
+            gridViewTextBoxColumn16,
+            gridViewDateTimeColumn2});
             this.grdDetails.MasterTemplate.EnableGrouping = false;
-            sortDescriptor1.PropertyName = "Weighment#";
+            sortDescriptor2.PropertyName = "Weighment#";
             this.grdDetails.MasterTemplate.SortDescriptors.AddRange(new Telerik.WinControls.Data.SortDescriptor[] {
-            sortDescriptor1});
-            this.grdDetails.MasterTemplate.ViewDefinition = tableViewDefinition1;
+            sortDescriptor2});
+            this.grdDetails.MasterTemplate.ViewDefinition = tableViewDefinition3;
             this.grdDetails.Name = "grdDetails";
             this.grdDetails.ReadOnly = true;
             this.grdDetails.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.grdDetails.Size = new System.Drawing.Size(441, 396);
+            this.grdDetails.Size = new System.Drawing.Size(441, 301);
             this.grdDetails.TabIndex = 72;
             this.grdDetails.Text = "radGridView1";
             this.grdDetails.CellDoubleClick += new Telerik.WinControls.UI.GridViewCellEventHandler(this.grdDetails_CellDoubleClick);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(132, 488);
+            this.btnCancel.Location = new System.Drawing.Point(132, 489);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(110, 24);
             this.btnCancel.TabIndex = 71;
@@ -878,146 +810,69 @@ namespace mfmFFS.Screens
             // 
             // btnSubmit
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(16, 488);
+            this.btnSubmit.Location = new System.Drawing.Point(16, 489);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(110, 24);
             this.btnSubmit.TabIndex = 70;
             this.btnSubmit.Text = "&Add";
             this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
-            // radLabel9
-            // 
-            this.radLabel9.Location = new System.Drawing.Point(299, 155);
-            this.radLabel9.Name = "radLabel9";
-            this.radLabel9.Size = new System.Drawing.Size(52, 18);
-            this.radLabel9.TabIndex = 65;
-            this.radLabel9.Text = "SBR Date";
-            // 
-            // radLabel10
-            // 
-            this.radLabel10.Location = new System.Drawing.Point(299, 178);
-            this.radLabel10.Name = "radLabel10";
-            this.radLabel10.Size = new System.Drawing.Size(91, 18);
-            this.radLabel10.TabIndex = 67;
-            this.radLabel10.Text = "Balance Quantity";
-            // 
-            // radLabel11
-            // 
-            this.radLabel11.Location = new System.Drawing.Point(299, 110);
-            this.radLabel11.Name = "radLabel11";
-            this.radLabel11.Size = new System.Drawing.Size(88, 18);
-            this.radLabel11.TabIndex = 64;
-            this.radLabel11.Text = "Customer Name";
-            // 
             // txtCurrTime
             // 
-            this.txtCurrTime.Location = new System.Drawing.Point(462, 88);
+            this.txtCurrTime.Location = new System.Drawing.Point(462, 80);
             this.txtCurrTime.Name = "txtCurrTime";
             this.txtCurrTime.Size = new System.Drawing.Size(159, 20);
             this.txtCurrTime.TabIndex = 60;
             // 
             // radLabel12
             // 
-            this.radLabel12.Location = new System.Drawing.Point(299, 89);
+            this.radLabel12.Location = new System.Drawing.Point(299, 80);
             this.radLabel12.Name = "radLabel12";
             this.radLabel12.Size = new System.Drawing.Size(31, 18);
             this.radLabel12.TabIndex = 61;
             this.radLabel12.Text = "Time";
             // 
-            // txtItemNam
-            // 
-            this.txtItemNam.Location = new System.Drawing.Point(462, 132);
-            this.txtItemNam.Name = "txtItemNam";
-            this.txtItemNam.Size = new System.Drawing.Size(159, 20);
-            this.txtItemNam.TabIndex = 55;
-            // 
             // txtShift
             // 
-            this.txtShift.Location = new System.Drawing.Point(462, 66);
+            this.txtShift.Location = new System.Drawing.Point(462, 59);
             this.txtShift.Name = "txtShift";
             this.txtShift.Size = new System.Drawing.Size(159, 20);
             this.txtShift.TabIndex = 58;
             // 
-            // radLabel5
-            // 
-            this.radLabel5.Location = new System.Drawing.Point(299, 133);
-            this.radLabel5.Name = "radLabel5";
-            this.radLabel5.Size = new System.Drawing.Size(62, 18);
-            this.radLabel5.TabIndex = 57;
-            this.radLabel5.Text = "Item Name";
-            // 
             // radLabel6
             // 
-            this.radLabel6.Location = new System.Drawing.Point(299, 67);
+            this.radLabel6.Location = new System.Drawing.Point(299, 59);
             this.radLabel6.Name = "radLabel6";
             this.radLabel6.Size = new System.Drawing.Size(29, 18);
             this.radLabel6.TabIndex = 59;
             this.radLabel6.Text = "Shift";
             // 
-            // radLabel3
-            // 
-            this.radLabel3.Location = new System.Drawing.Point(11, 155);
-            this.radLabel3.Name = "radLabel3";
-            this.radLabel3.Size = new System.Drawing.Size(32, 18);
-            this.radLabel3.TabIndex = 51;
-            this.radLabel3.Text = "SBR#";
-            // 
-            // txtItemCod
-            // 
-            this.txtItemCod.Location = new System.Drawing.Point(119, 132);
-            this.txtItemCod.Name = "txtItemCod";
-            this.txtItemCod.Size = new System.Drawing.Size(153, 20);
-            this.txtItemCod.TabIndex = 54;
-            // 
             // txtCurrDate
             // 
-            this.txtCurrDate.Location = new System.Drawing.Point(119, 88);
+            this.txtCurrDate.Location = new System.Drawing.Point(119, 80);
             this.txtCurrDate.Name = "txtCurrDate";
             this.txtCurrDate.Size = new System.Drawing.Size(153, 20);
             this.txtCurrDate.TabIndex = 48;
             // 
-            // radLabel7
-            // 
-            this.radLabel7.Location = new System.Drawing.Point(11, 133);
-            this.radLabel7.Name = "radLabel7";
-            this.radLabel7.Size = new System.Drawing.Size(58, 18);
-            this.radLabel7.TabIndex = 56;
-            this.radLabel7.Text = "Item Code";
-            // 
             // radLabel2
             // 
-            this.radLabel2.Location = new System.Drawing.Point(11, 89);
+            this.radLabel2.Location = new System.Drawing.Point(11, 80);
             this.radLabel2.Name = "radLabel2";
             this.radLabel2.Size = new System.Drawing.Size(30, 18);
             this.radLabel2.TabIndex = 49;
             this.radLabel2.Text = "Date";
             // 
-            // txtCustomerCode
-            // 
-            this.txtCustomerCode.Location = new System.Drawing.Point(119, 109);
-            this.txtCustomerCode.Name = "txtCustomerCode";
-            this.txtCustomerCode.Size = new System.Drawing.Size(153, 20);
-            this.txtCustomerCode.TabIndex = 52;
-            // 
             // txtDocNo
             // 
-            this.txtDocNo.Location = new System.Drawing.Point(119, 66);
+            this.txtDocNo.Location = new System.Drawing.Point(119, 59);
             this.txtDocNo.Name = "txtDocNo";
             this.txtDocNo.Size = new System.Drawing.Size(153, 20);
             this.txtDocNo.TabIndex = 46;
             this.txtDocNo.TextChanged += new System.EventHandler(this.txtDocNo_TextChanged);
             // 
-            // radLabel8
-            // 
-            this.radLabel8.Location = new System.Drawing.Point(11, 110);
-            this.radLabel8.Name = "radLabel8";
-            this.radLabel8.Size = new System.Drawing.Size(84, 18);
-            this.radLabel8.TabIndex = 53;
-            this.radLabel8.Text = "Customer Code";
-            // 
             // radLabel1
             // 
-            this.radLabel1.Location = new System.Drawing.Point(11, 67);
+            this.radLabel1.Location = new System.Drawing.Point(11, 59);
             this.radLabel1.Name = "radLabel1";
             this.radLabel1.Size = new System.Drawing.Size(71, 18);
             this.radLabel1.TabIndex = 47;
@@ -1042,34 +897,27 @@ namespace mfmFFS.Screens
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
-            // btnCust
-            // 
-            this.btnCust.Image = global::mfmWeighment.Properties.Resources.Folder16;
-            this.btnCust.Location = new System.Drawing.Point(274, 109);
-            this.btnCust.Name = "btnCust";
-            this.btnCust.Size = new System.Drawing.Size(20, 20);
-            this.btnCust.TabIndex = 85;
-            this.btnCust.Click += new System.EventHandler(this.btnCust_Click);
-            // 
             // radLabel31
             // 
-            this.radLabel31.Location = new System.Drawing.Point(11, 441);
+            this.radLabel31.Location = new System.Drawing.Point(11, 349);
             this.radLabel31.Name = "radLabel31";
             this.radLabel31.Size = new System.Drawing.Size(85, 18);
             this.radLabel31.TabIndex = 146;
             this.radLabel31.Text = "Allow Tolerance";
+            this.radLabel31.Visible = false;
             // 
             // chkAllowTolerance
             // 
-            this.chkAllowTolerance.Location = new System.Drawing.Point(119, 442);
+            this.chkAllowTolerance.Location = new System.Drawing.Point(120, 349);
             this.chkAllowTolerance.Name = "chkAllowTolerance";
             this.chkAllowTolerance.Size = new System.Drawing.Size(15, 15);
             this.chkAllowTolerance.TabIndex = 147;
+            this.chkAllowTolerance.Visible = false;
             this.chkAllowTolerance.ToggleStateChanged += new Telerik.WinControls.UI.StateChangedEventHandler(this.chkAllowTolerance_ToggleStateChanged);
             // 
             // lblToleranceLimit
             // 
-            this.lblToleranceLimit.Location = new System.Drawing.Point(299, 464);
+            this.lblToleranceLimit.Location = new System.Drawing.Point(299, 370);
             this.lblToleranceLimit.Name = "lblToleranceLimit";
             this.lblToleranceLimit.Size = new System.Drawing.Size(82, 18);
             this.lblToleranceLimit.TabIndex = 148;
@@ -1078,17 +926,293 @@ namespace mfmFFS.Screens
             // 
             // txtToleranceLimit
             // 
-            this.txtToleranceLimit.Location = new System.Drawing.Point(462, 464);
+            this.txtToleranceLimit.Location = new System.Drawing.Point(462, 370);
             this.txtToleranceLimit.Name = "txtToleranceLimit";
             this.txtToleranceLimit.Size = new System.Drawing.Size(159, 20);
             this.txtToleranceLimit.TabIndex = 149;
             this.txtToleranceLimit.Visible = false;
             // 
-            // frmDispatch
+            // txtBalanceQuantity
+            // 
+            this.txtBalanceQuantity.Location = new System.Drawing.Point(462, 460);
+            this.txtBalanceQuantity.Name = "txtBalanceQuantity";
+            this.txtBalanceQuantity.Size = new System.Drawing.Size(159, 20);
+            this.txtBalanceQuantity.TabIndex = 87;
+            // 
+            // txtOrderQuantity
+            // 
+            this.txtOrderQuantity.Location = new System.Drawing.Point(119, 460);
+            this.txtOrderQuantity.Name = "txtOrderQuantity";
+            this.txtOrderQuantity.Size = new System.Drawing.Size(153, 20);
+            this.txtOrderQuantity.TabIndex = 76;
+            // 
+            // txtCustomerName
+            // 
+            this.txtCustomerName.Location = new System.Drawing.Point(462, 392);
+            this.txtCustomerName.Name = "txtCustomerName";
+            this.txtCustomerName.Size = new System.Drawing.Size(159, 20);
+            this.txtCustomerName.TabIndex = 61;
+            // 
+            // txtItemNam
+            // 
+            this.txtItemNam.Location = new System.Drawing.Point(462, 437);
+            this.txtItemNam.Name = "txtItemNam";
+            this.txtItemNam.Size = new System.Drawing.Size(159, 20);
+            this.txtItemNam.TabIndex = 55;
+            // 
+            // txtSBRDate
+            // 
+            this.txtSBRDate.Location = new System.Drawing.Point(462, 414);
+            this.txtSBRDate.Name = "txtSBRDate";
+            this.txtSBRDate.Size = new System.Drawing.Size(159, 20);
+            this.txtSBRDate.TabIndex = 86;
+            // 
+            // BtnDocSelect
+            // 
+            this.BtnDocSelect.Image = global::mfmWeighment.Properties.Resources.Folder16;
+            this.BtnDocSelect.Location = new System.Drawing.Point(276, 414);
+            this.BtnDocSelect.Name = "BtnDocSelect";
+            this.BtnDocSelect.Size = new System.Drawing.Size(20, 20);
+            this.BtnDocSelect.TabIndex = 84;
+            this.BtnDocSelect.Click += new System.EventHandler(this.btnItem_Click);
+            // 
+            // txtSBRNum
+            // 
+            this.txtSBRNum.Location = new System.Drawing.Point(119, 414);
+            this.txtSBRNum.Name = "txtSBRNum";
+            this.txtSBRNum.Size = new System.Drawing.Size(153, 20);
+            this.txtSBRNum.TabIndex = 101;
+            this.txtSBRNum.TextChanged += new System.EventHandler(this.txtSBRNum_TextChanged);
+            // 
+            // txtItemCod
+            // 
+            this.txtItemCod.Location = new System.Drawing.Point(119, 437);
+            this.txtItemCod.Name = "txtItemCod";
+            this.txtItemCod.Size = new System.Drawing.Size(153, 20);
+            this.txtItemCod.TabIndex = 54;
+            this.txtItemCod.TextChanged += new System.EventHandler(this.txtItemCod_TextChanged);
+            // 
+            // BtnItemSelect
+            // 
+            this.BtnItemSelect.Image = global::mfmWeighment.Properties.Resources.Folder16;
+            this.BtnItemSelect.Location = new System.Drawing.Point(276, 437);
+            this.BtnItemSelect.Name = "BtnItemSelect";
+            this.BtnItemSelect.Size = new System.Drawing.Size(20, 20);
+            this.BtnItemSelect.TabIndex = 131;
+            this.BtnItemSelect.Click += new System.EventHandler(this.BtnItemSelect_Click);
+            // 
+            // btnCust
+            // 
+            this.btnCust.Image = global::mfmWeighment.Properties.Resources.Folder16;
+            this.btnCust.Location = new System.Drawing.Point(276, 392);
+            this.btnCust.Name = "btnCust";
+            this.btnCust.Size = new System.Drawing.Size(20, 20);
+            this.btnCust.TabIndex = 85;
+            this.btnCust.Click += new System.EventHandler(this.btnCust_Click);
+            // 
+            // txtCustomerCode
+            // 
+            this.txtCustomerCode.Location = new System.Drawing.Point(119, 392);
+            this.txtCustomerCode.Name = "txtCustomerCode";
+            this.txtCustomerCode.Size = new System.Drawing.Size(153, 20);
+            this.txtCustomerCode.TabIndex = 52;
+            this.txtCustomerCode.TextChanged += new System.EventHandler(this.txtCustomerCode_TextChanged);
+            // 
+            // grdWmntDetails
+            // 
+            this.grdWmntDetails.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(219)))), ((int)(((byte)(255)))));
+            this.grdWmntDetails.Cursor = System.Windows.Forms.Cursors.Default;
+            this.grdWmntDetails.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.grdWmntDetails.ForeColor = System.Drawing.Color.Black;
+            this.grdWmntDetails.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.grdWmntDetails.Location = new System.Drawing.Point(672, 392);
+            // 
+            // 
+            // 
+            this.grdWmntDetails.MasterTemplate.AllowAddNewRow = false;
+            this.grdWmntDetails.MasterTemplate.AllowColumnChooser = false;
+            this.grdWmntDetails.MasterTemplate.AllowDragToGroup = false;
+            gridViewTextBoxColumn17.EnableExpressionEditor = false;
+            gridViewTextBoxColumn17.FieldName = "Customer Code";
+            gridViewTextBoxColumn17.HeaderText = "Customer Code";
+            gridViewTextBoxColumn17.Name = "Customer Code";
+            gridViewTextBoxColumn17.ReadOnly = true;
+            gridViewTextBoxColumn17.Width = 98;
+            gridViewTextBoxColumn18.EnableExpressionEditor = false;
+            gridViewTextBoxColumn18.FieldName = "Customer";
+            gridViewTextBoxColumn18.HeaderText = "Customer";
+            gridViewTextBoxColumn18.Name = "Customer";
+            gridViewTextBoxColumn18.ReadOnly = true;
+            gridViewTextBoxColumn18.Width = 123;
+            gridViewTextBoxColumn19.EnableExpressionEditor = false;
+            gridViewTextBoxColumn19.FieldName = "SBR#";
+            gridViewTextBoxColumn19.HeaderText = "SBR#";
+            gridViewTextBoxColumn19.Name = "SBR#";
+            gridViewTextBoxColumn19.ReadOnly = true;
+            gridViewTextBoxColumn19.Width = 95;
+            gridViewTextBoxColumn20.EnableExpressionEditor = false;
+            gridViewTextBoxColumn20.FieldName = "SBR Date";
+            gridViewTextBoxColumn20.HeaderText = "SBR Date";
+            gridViewTextBoxColumn20.Name = "SBR Date";
+            gridViewTextBoxColumn20.ReadOnly = true;
+            gridViewTextBoxColumn20.Width = 88;
+            gridViewTextBoxColumn21.EnableExpressionEditor = false;
+            gridViewTextBoxColumn21.FieldName = "Item Group Code";
+            gridViewTextBoxColumn21.HeaderText = "Item Group Code";
+            gridViewTextBoxColumn21.Name = "Item Group Code";
+            gridViewTextBoxColumn21.ReadOnly = true;
+            gridViewTextBoxColumn21.Width = 110;
+            gridViewTextBoxColumn22.EnableExpressionEditor = false;
+            gridViewTextBoxColumn22.FieldName = "Item Group Name";
+            gridViewTextBoxColumn22.HeaderText = "Item Group Name";
+            gridViewTextBoxColumn22.Name = "Item Group Name";
+            gridViewTextBoxColumn22.ReadOnly = true;
+            gridViewTextBoxColumn22.Width = 110;
+            gridViewTextBoxColumn23.EnableExpressionEditor = false;
+            gridViewTextBoxColumn23.FieldName = "Item Code";
+            gridViewTextBoxColumn23.HeaderText = "Item Code";
+            gridViewTextBoxColumn23.Name = "Item Code";
+            gridViewTextBoxColumn23.ReadOnly = true;
+            gridViewTextBoxColumn23.Width = 94;
+            gridViewTextBoxColumn24.EnableExpressionEditor = false;
+            gridViewTextBoxColumn24.FieldName = "Item Name";
+            gridViewTextBoxColumn24.HeaderText = "Item Name";
+            gridViewTextBoxColumn24.Name = "Item Name";
+            gridViewTextBoxColumn24.ReadOnly = true;
+            gridViewTextBoxColumn24.Width = 101;
+            gridViewDecimalColumn3.EnableExpressionEditor = false;
+            gridViewDecimalColumn3.FieldName = "Loading Qty";
+            gridViewDecimalColumn3.HeaderText = "Loading Qty";
+            gridViewDecimalColumn3.Name = "Loading Qty";
+            gridViewDecimalColumn3.Width = 77;
+            gridViewDecimalColumn4.EnableExpressionEditor = false;
+            gridViewDecimalColumn4.FieldName = "Balance Qty";
+            gridViewDecimalColumn4.HeaderText = "Balance Qty";
+            gridViewDecimalColumn4.Name = "Balance Qty";
+            gridViewDecimalColumn4.ReadOnly = true;
+            gridViewDecimalColumn4.Width = 75;
+            this.grdWmntDetails.MasterTemplate.Columns.AddRange(new Telerik.WinControls.UI.GridViewDataColumn[] {
+            gridViewTextBoxColumn17,
+            gridViewTextBoxColumn18,
+            gridViewTextBoxColumn19,
+            gridViewTextBoxColumn20,
+            gridViewTextBoxColumn21,
+            gridViewTextBoxColumn22,
+            gridViewTextBoxColumn23,
+            gridViewTextBoxColumn24,
+            gridViewDecimalColumn3,
+            gridViewDecimalColumn4});
+            this.grdWmntDetails.MasterTemplate.EnableGrouping = false;
+            this.grdWmntDetails.MasterTemplate.HorizontalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow;
+            this.grdWmntDetails.MasterTemplate.ViewDefinition = tableViewDefinition4;
+            this.grdWmntDetails.Name = "grdWmntDetails";
+            this.grdWmntDetails.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.grdWmntDetails.ShowGroupPanel = false;
+            this.grdWmntDetails.Size = new System.Drawing.Size(441, 121);
+            this.grdWmntDetails.TabIndex = 150;
+            this.grdWmntDetails.Text = "radGridView1";
+            this.grdWmntDetails.CellValueChanged += new Telerik.WinControls.UI.GridViewCellEventHandler(this.grdWmntDetails_CellValueChanged);
+            // 
+            // radLabel8
+            // 
+            this.radLabel8.Location = new System.Drawing.Point(11, 392);
+            this.radLabel8.Name = "radLabel8";
+            this.radLabel8.Size = new System.Drawing.Size(84, 18);
+            this.radLabel8.TabIndex = 151;
+            this.radLabel8.Text = "Customer Code";
+            // 
+            // radLabel11
+            // 
+            this.radLabel11.Location = new System.Drawing.Point(299, 392);
+            this.radLabel11.Name = "radLabel11";
+            this.radLabel11.Size = new System.Drawing.Size(88, 18);
+            this.radLabel11.TabIndex = 152;
+            this.radLabel11.Text = "Customer Name";
+            // 
+            // radLabel7
+            // 
+            this.radLabel7.Location = new System.Drawing.Point(11, 437);
+            this.radLabel7.Name = "radLabel7";
+            this.radLabel7.Size = new System.Drawing.Size(58, 18);
+            this.radLabel7.TabIndex = 153;
+            this.radLabel7.Text = "Item Code";
+            // 
+            // radLabel5
+            // 
+            this.radLabel5.Location = new System.Drawing.Point(299, 437);
+            this.radLabel5.Name = "radLabel5";
+            this.radLabel5.Size = new System.Drawing.Size(62, 18);
+            this.radLabel5.TabIndex = 154;
+            this.radLabel5.Text = "Item Name";
+            // 
+            // radLabel3
+            // 
+            this.radLabel3.Location = new System.Drawing.Point(11, 414);
+            this.radLabel3.Name = "radLabel3";
+            this.radLabel3.Size = new System.Drawing.Size(32, 18);
+            this.radLabel3.TabIndex = 155;
+            this.radLabel3.Text = "SBR#";
+            // 
+            // radLabel9
+            // 
+            this.radLabel9.Location = new System.Drawing.Point(299, 414);
+            this.radLabel9.Name = "radLabel9";
+            this.radLabel9.Size = new System.Drawing.Size(52, 18);
+            this.radLabel9.TabIndex = 156;
+            this.radLabel9.Text = "SBR Date";
+            // 
+            // radLabel4
+            // 
+            this.radLabel4.Location = new System.Drawing.Point(11, 460);
+            this.radLabel4.Name = "radLabel4";
+            this.radLabel4.Size = new System.Drawing.Size(93, 18);
+            this.radLabel4.TabIndex = 157;
+            this.radLabel4.Text = "Loading Quantity";
+            // 
+            // radLabel10
+            // 
+            this.radLabel10.Location = new System.Drawing.Point(299, 460);
+            this.radLabel10.Name = "radLabel10";
+            this.radLabel10.Size = new System.Drawing.Size(91, 18);
+            this.radLabel10.TabIndex = 158;
+            this.radLabel10.Text = "Balance Quantity";
+            // 
+            // radLabel33
+            // 
+            this.radLabel33.Location = new System.Drawing.Point(299, 482);
+            this.radLabel33.Name = "radLabel33";
+            this.radLabel33.Size = new System.Drawing.Size(96, 18);
+            this.radLabel33.TabIndex = 159;
+            this.radLabel33.Text = "Item Group Name";
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Image = ((System.Drawing.Image)(resources.GetObject("btnAdd.Image")));
+            this.btnAdd.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnAdd.Location = new System.Drawing.Point(624, 432);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(42, 25);
+            this.btnAdd.TabIndex = 160;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // frmDispatchM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1024, 519);
+            this.ClientSize = new System.Drawing.Size(1128, 520);
+            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.radLabel33);
+            this.Controls.Add(this.radLabel10);
+            this.Controls.Add(this.radLabel4);
+            this.Controls.Add(this.radLabel9);
+            this.Controls.Add(this.radLabel3);
+            this.Controls.Add(this.radLabel5);
+            this.Controls.Add(this.radLabel7);
+            this.Controls.Add(this.radLabel11);
+            this.Controls.Add(this.radLabel8);
+            this.Controls.Add(this.grdWmntDetails);
+            this.Controls.Add(this.txtSBRDate);
+            this.Controls.Add(this.txtBalanceQuantity);
             this.Controls.Add(this.txtToleranceLimit);
             this.Controls.Add(this.lblToleranceLimit);
             this.Controls.Add(this.chkAllowTolerance);
@@ -1113,7 +1237,6 @@ namespace mfmFFS.Screens
             this.Controls.Add(this.radLabel32);
             this.Controls.Add(this.txtCNICPath);
             this.Controls.Add(this.txtItemGroupName);
-            this.Controls.Add(this.radLabel33);
             this.Controls.Add(this.radLabel30);
             this.Controls.Add(this.txtNetWeightTon);
             this.Controls.Add(this.txt2WeightTon);
@@ -1149,34 +1272,24 @@ namespace mfmFFS.Screens
             this.Controls.Add(this.radLabel14);
             this.Controls.Add(this.txtVehicleNum);
             this.Controls.Add(this.radLabel15);
-            this.Controls.Add(this.txtBalanceQuantity);
-            this.Controls.Add(this.txtSBRDate);
             this.Controls.Add(this.radLabel16);
             this.Controls.Add(this.BtnDocSelect);
             this.Controls.Add(this.txtOrderQuantity);
-            this.Controls.Add(this.radLabel4);
             this.Controls.Add(this.grdDetails);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSubmit);
-            this.Controls.Add(this.radLabel9);
-            this.Controls.Add(this.radLabel10);
-            this.Controls.Add(this.radLabel11);
             this.Controls.Add(this.txtCurrTime);
             this.Controls.Add(this.radLabel12);
             this.Controls.Add(this.txtItemNam);
             this.Controls.Add(this.txtShift);
-            this.Controls.Add(this.radLabel5);
             this.Controls.Add(this.radLabel6);
-            this.Controls.Add(this.radLabel3);
             this.Controls.Add(this.txtItemCod);
             this.Controls.Add(this.txtCurrDate);
-            this.Controls.Add(this.radLabel7);
             this.Controls.Add(this.radLabel2);
             this.Controls.Add(this.txtCustomerCode);
             this.Controls.Add(this.txtDocNo);
-            this.Controls.Add(this.radLabel8);
             this.Controls.Add(this.radLabel1);
-            this.Name = "frmDispatch";
+            this.Name = "frmDispatchM";
             // 
             // 
             // 
@@ -1196,10 +1309,8 @@ namespace mfmFFS.Screens
             ((System.ComponentModel.ISupportInitialize)(this.btnAddNew)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSearch)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnGetWeight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BtnItemSelect)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDifferenceWeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel36)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCustomerName)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnBulkTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtBrandPath)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDaySeries)).EndInit();
@@ -1209,7 +1320,6 @@ namespace mfmFFS.Screens
             ((System.ComponentModel.ISupportInitialize)(this.radLabel32)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCNICPath)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtItemGroupName)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel33)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel30)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNetWeightTon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt2WeightTon)).EndInit();
@@ -1237,7 +1347,6 @@ namespace mfmFFS.Screens
             ((System.ComponentModel.ISupportInitialize)(this.txt1WeightKG)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel19)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel17)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSBRNum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel20)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt1WeightDate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel18)).EndInit();
@@ -1245,40 +1354,47 @@ namespace mfmFFS.Screens
             ((System.ComponentModel.ISupportInitialize)(this.radLabel14)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtVehicleNum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel15)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtBalanceQuantity)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtSBRDate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel16)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BtnDocSelect)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtOrderQuantity)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdDetails.MasterTemplate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdDetails)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCurrTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtItemNam)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtShift)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtItemCod)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCurrDate)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCustomerCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDocNo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRefresh)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnCust)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel31)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkAllowTolerance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblToleranceLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtToleranceLimit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBalanceQuantity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtOrderQuantity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCustomerName)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtItemNam)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSBRDate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BtnDocSelect)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSBRNum)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtItemCod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BtnItemSelect)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCust)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCustomerCode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grdWmntDetails.MasterTemplate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grdWmntDetails)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel33)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnAdd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1290,29 +1406,14 @@ namespace mfmFFS.Screens
         private Telerik.WinControls.UI.RadLabel radLabel1;
         private Telerik.WinControls.UI.RadTextBox txtCurrDate;
         private Telerik.WinControls.UI.RadLabel radLabel2;
-        private Telerik.WinControls.UI.RadLabel radLabel3;
-        private Telerik.WinControls.UI.RadTextBox txtItemNam;
         private Telerik.WinControls.UI.RadTextBox txtShift;
-        private Telerik.WinControls.UI.RadLabel radLabel5;
         private Telerik.WinControls.UI.RadLabel radLabel6;
-        private Telerik.WinControls.UI.RadTextBox txtItemCod;
-        private Telerik.WinControls.UI.RadLabel radLabel7;
-        private Telerik.WinControls.UI.RadTextBox txtCustomerCode;
-        private Telerik.WinControls.UI.RadLabel radLabel8;
-        private Telerik.WinControls.UI.RadLabel radLabel9;
-        private Telerik.WinControls.UI.RadLabel radLabel10;
-        private Telerik.WinControls.UI.RadLabel radLabel11;
         private Telerik.WinControls.UI.RadTextBox txtCurrTime;
         private Telerik.WinControls.UI.RadLabel radLabel12;
         private Telerik.WinControls.UI.RadButton btnCancel;
         private Telerik.WinControls.UI.RadButton btnSubmit;
         private Telerik.WinControls.UI.RadGridView grdDetails;
-        private Telerik.WinControls.UI.RadTextBox txtOrderQuantity;
-        private Telerik.WinControls.UI.RadLabel radLabel4;
-        private Telerik.WinControls.UI.RadButton BtnDocSelect;
         private Telerik.WinControls.UI.RadLabel radLabel16;
-        private Telerik.WinControls.UI.RadTextBox txtSBRDate;
-        private Telerik.WinControls.UI.RadTextBox txtBalanceQuantity;
         private System.Windows.Forms.Timer tmrCamFront;
         private System.Windows.Forms.Timer tmrAlreadyReading;
         private System.Windows.Forms.Timer tmrCamBack;
@@ -1325,7 +1426,6 @@ namespace mfmFFS.Screens
         private Telerik.WinControls.UI.RadTextBox txt1WeightDate;
         private Telerik.WinControls.UI.RadLabel radLabel18;
         private Telerik.WinControls.UI.RadLabel radLabel19;
-        private Telerik.WinControls.UI.RadTextBox txtSBRNum;
         private Telerik.WinControls.UI.RadLabel radLabel20;
         private Telerik.WinControls.UI.RadTextBox txt1WeightTime;
         private Telerik.WinControls.UI.RadLabel radLabel21;
@@ -1356,15 +1456,12 @@ namespace mfmFFS.Screens
         private Telerik.WinControls.UI.RadTextBox txtDaySeries;
         private Telerik.WinControls.UI.RadLabel radLabel32;
         private Telerik.WinControls.UI.RadTextBox txtItemGroupName;
-        private Telerik.WinControls.UI.RadLabel radLabel33;
         private Telerik.WinControls.UI.RadTextBox txtBrandPath;
         private Telerik.WinControls.UI.RadLabel radLabel34;
         private Telerik.WinControls.UI.RadLabel radLabel35;
         private Telerik.WinControls.UI.RadButton btnBulkTable;
-        private Telerik.WinControls.UI.RadTextBox txtCustomerName;
         private Telerik.WinControls.UI.RadTextBox txtDifferenceWeight;
         private Telerik.WinControls.UI.RadLabel radLabel36;
-        private Telerik.WinControls.UI.RadButton BtnItemSelect;
         private Telerik.WinControls.UI.RadPanel pnlControls;
         private Telerik.WinControls.UI.RadButton btnPrint;
         private Telerik.WinControls.UI.RadButton btnGetWeight;
@@ -1379,10 +1476,31 @@ namespace mfmFFS.Screens
         private Telerik.WinControls.UI.RadTextBox txtCWeight;
         private System.Windows.Forms.Label lbl2;
         private Telerik.WinControls.UI.RadButton btnRefresh;
-        private Telerik.WinControls.UI.RadButton btnCust;
         private Telerik.WinControls.UI.RadLabel radLabel31;
         private Telerik.WinControls.UI.RadCheckBox chkAllowTolerance;
         private Telerik.WinControls.UI.RadLabel lblToleranceLimit;
         private Telerik.WinControls.UI.RadTextBox txtToleranceLimit;
+        private Telerik.WinControls.UI.RadTextBox txtBalanceQuantity;
+        private Telerik.WinControls.UI.RadTextBox txtOrderQuantity;
+        private Telerik.WinControls.UI.RadTextBox txtCustomerName;
+        private Telerik.WinControls.UI.RadTextBox txtItemNam;
+        private Telerik.WinControls.UI.RadTextBox txtSBRDate;
+        private Telerik.WinControls.UI.RadButton BtnDocSelect;
+        private Telerik.WinControls.UI.RadTextBox txtSBRNum;
+        private Telerik.WinControls.UI.RadTextBox txtItemCod;
+        private Telerik.WinControls.UI.RadButton BtnItemSelect;
+        private Telerik.WinControls.UI.RadButton btnCust;
+        private Telerik.WinControls.UI.RadTextBox txtCustomerCode;
+        private Telerik.WinControls.UI.RadGridView grdWmntDetails;
+        private Telerik.WinControls.UI.RadLabel radLabel8;
+        private Telerik.WinControls.UI.RadLabel radLabel11;
+        private Telerik.WinControls.UI.RadLabel radLabel7;
+        private Telerik.WinControls.UI.RadLabel radLabel5;
+        private Telerik.WinControls.UI.RadLabel radLabel3;
+        private Telerik.WinControls.UI.RadLabel radLabel9;
+        private Telerik.WinControls.UI.RadLabel radLabel4;
+        private Telerik.WinControls.UI.RadLabel radLabel10;
+        private Telerik.WinControls.UI.RadLabel radLabel33;
+        private Telerik.WinControls.UI.RadButton btnAdd;
     }
 }

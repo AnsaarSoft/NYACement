@@ -30,18 +30,18 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmRawMaterial));
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn7 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn8 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn9 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn10 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn11 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn12 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewDateTimeColumn gridViewDateTimeColumn2 = new Telerik.WinControls.UI.GridViewDateTimeColumn();
-            Telerik.WinControls.Data.SortDescriptor sortDescriptor2 = new Telerik.WinControls.Data.SortDescriptor();
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition2 = new Telerik.WinControls.UI.TableViewDefinition();
-            Telerik.WinControls.UI.RadListDataItem radListDataItem4 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn1 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn2 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn3 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn4 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn5 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn6 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewDateTimeColumn gridViewDateTimeColumn1 = new Telerik.WinControls.UI.GridViewDateTimeColumn();
+            Telerik.WinControls.Data.SortDescriptor sortDescriptor1 = new Telerik.WinControls.Data.SortDescriptor();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
             Telerik.WinControls.UI.RadListDataItem radListDataItem1 = new Telerik.WinControls.UI.RadListDataItem();
             Telerik.WinControls.UI.RadListDataItem radListDataItem2 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.RadListDataItem radListDataItem3 = new Telerik.WinControls.UI.RadListDataItem();
             this.tmrCamFront = new System.Windows.Forms.Timer(this.components);
             this.tmrAlreadyReading = new System.Windows.Forms.Timer(this.components);
             this.tmrCamBack = new System.Windows.Forms.Timer(this.components);
@@ -86,7 +86,6 @@
             this.radLabel26 = new Telerik.WinControls.UI.RadLabel();
             this.txt2WeightDate = new Telerik.WinControls.UI.RadTextBox();
             this.radLabel27 = new Telerik.WinControls.UI.RadLabel();
-            this.cmbTransportCode = new Telerik.WinControls.UI.RadDropDownList();
             this.cmbTransportType = new Telerik.WinControls.UI.RadDropDownList();
             this.cmbYardType = new Telerik.WinControls.UI.RadDropDownList();
             this.txtTransportName = new Telerik.WinControls.UI.RadTextBox();
@@ -141,6 +140,11 @@
             this.radLabel31 = new Telerik.WinControls.UI.RadLabel();
             this.btnVendor = new Telerik.WinControls.UI.RadButton();
             this.tgsDocType = new Telerik.WinControls.UI.RadToggleSwitch();
+            this.chkAllowTolerance = new Telerik.WinControls.UI.RadCheckBox();
+            this.txtToleranceLimit = new Telerik.WinControls.UI.RadTextBox();
+            this.lblToleranceLimit = new Telerik.WinControls.UI.RadLabel();
+            this.radLabel3 = new Telerik.WinControls.UI.RadLabel();
+            this.cmbTransportCode = new Telerik.WinControls.UI.RadDropDownList();
             ((System.ComponentModel.ISupportInitialize)(this.trnsRawMaterialBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFullText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlControls)).BeginInit();
@@ -183,7 +187,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.radLabel26)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt2WeightDate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel27)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmbTransportCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbTransportType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbYardType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTransportName)).BeginInit();
@@ -238,6 +241,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.radLabel31)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnVendor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tgsDocType)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkAllowTolerance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtToleranceLimit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblToleranceLimit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbTransportCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -382,61 +390,61 @@
             this.grdDetails.MasterTemplate.AllowAddNewRow = false;
             this.grdDetails.MasterTemplate.AllowDeleteRow = false;
             this.grdDetails.MasterTemplate.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill;
-            gridViewTextBoxColumn7.EnableExpressionEditor = false;
-            gridViewTextBoxColumn7.FieldName = "ID";
-            gridViewTextBoxColumn7.HeaderText = "ID";
-            gridViewTextBoxColumn7.IsVisible = false;
-            gridViewTextBoxColumn7.Name = "ID";
-            gridViewTextBoxColumn8.EnableExpressionEditor = false;
-            gridViewTextBoxColumn8.FieldName = "Wmnt#";
-            gridViewTextBoxColumn8.HeaderText = "Wmnt#";
-            gridViewTextBoxColumn8.MinWidth = 0;
-            gridViewTextBoxColumn8.Name = "Wmnt#";
-            gridViewTextBoxColumn8.Width = 47;
-            gridViewTextBoxColumn9.EnableExpressionEditor = false;
-            gridViewTextBoxColumn9.FieldName = "Vehicle#";
-            gridViewTextBoxColumn9.HeaderText = "Vehicle#";
-            gridViewTextBoxColumn9.Name = "Vehicle#";
-            gridViewTextBoxColumn9.Width = 67;
-            gridViewTextBoxColumn10.EnableExpressionEditor = false;
-            gridViewTextBoxColumn10.FieldName = "PONum";
-            gridViewTextBoxColumn10.HeaderText = "PONum";
-            gridViewTextBoxColumn10.MinWidth = 0;
-            gridViewTextBoxColumn10.Name = "PONum";
-            gridViewTextBoxColumn10.Width = 67;
-            gridViewTextBoxColumn11.EnableExpressionEditor = false;
-            gridViewTextBoxColumn11.FieldName = "ItemName";
-            gridViewTextBoxColumn11.HeaderText = "ItemName";
-            gridViewTextBoxColumn11.MinWidth = 0;
-            gridViewTextBoxColumn11.Name = "ItemName";
-            gridViewTextBoxColumn11.Width = 104;
-            gridViewTextBoxColumn12.EnableExpressionEditor = false;
-            gridViewTextBoxColumn12.FieldName = "First Weight";
-            gridViewTextBoxColumn12.HeaderText = "First Weight";
-            gridViewTextBoxColumn12.MinWidth = 0;
-            gridViewTextBoxColumn12.Name = "First Weight";
-            gridViewTextBoxColumn12.Width = 75;
-            gridViewDateTimeColumn2.EnableExpressionEditor = false;
-            gridViewDateTimeColumn2.FieldName = "DocDate";
-            gridViewDateTimeColumn2.Format = System.Windows.Forms.DateTimePickerFormat.Long;
-            gridViewDateTimeColumn2.HeaderText = "DocDate";
-            gridViewDateTimeColumn2.MinWidth = 0;
-            gridViewDateTimeColumn2.Name = "DocDate";
-            gridViewDateTimeColumn2.Width = 65;
+            gridViewTextBoxColumn1.EnableExpressionEditor = false;
+            gridViewTextBoxColumn1.FieldName = "ID";
+            gridViewTextBoxColumn1.HeaderText = "ID";
+            gridViewTextBoxColumn1.IsVisible = false;
+            gridViewTextBoxColumn1.Name = "ID";
+            gridViewTextBoxColumn2.EnableExpressionEditor = false;
+            gridViewTextBoxColumn2.FieldName = "Wmnt#";
+            gridViewTextBoxColumn2.HeaderText = "Wmnt#";
+            gridViewTextBoxColumn2.MinWidth = 0;
+            gridViewTextBoxColumn2.Name = "Wmnt#";
+            gridViewTextBoxColumn2.Width = 47;
+            gridViewTextBoxColumn3.EnableExpressionEditor = false;
+            gridViewTextBoxColumn3.FieldName = "Vehicle#";
+            gridViewTextBoxColumn3.HeaderText = "Vehicle#";
+            gridViewTextBoxColumn3.Name = "Vehicle#";
+            gridViewTextBoxColumn3.Width = 67;
+            gridViewTextBoxColumn4.EnableExpressionEditor = false;
+            gridViewTextBoxColumn4.FieldName = "PONum";
+            gridViewTextBoxColumn4.HeaderText = "PONum";
+            gridViewTextBoxColumn4.MinWidth = 0;
+            gridViewTextBoxColumn4.Name = "PONum";
+            gridViewTextBoxColumn4.Width = 67;
+            gridViewTextBoxColumn5.EnableExpressionEditor = false;
+            gridViewTextBoxColumn5.FieldName = "ItemName";
+            gridViewTextBoxColumn5.HeaderText = "ItemName";
+            gridViewTextBoxColumn5.MinWidth = 0;
+            gridViewTextBoxColumn5.Name = "ItemName";
+            gridViewTextBoxColumn5.Width = 104;
+            gridViewTextBoxColumn6.EnableExpressionEditor = false;
+            gridViewTextBoxColumn6.FieldName = "First Weight";
+            gridViewTextBoxColumn6.HeaderText = "First Weight";
+            gridViewTextBoxColumn6.MinWidth = 0;
+            gridViewTextBoxColumn6.Name = "First Weight";
+            gridViewTextBoxColumn6.Width = 75;
+            gridViewDateTimeColumn1.EnableExpressionEditor = false;
+            gridViewDateTimeColumn1.FieldName = "DocDate";
+            gridViewDateTimeColumn1.Format = System.Windows.Forms.DateTimePickerFormat.Long;
+            gridViewDateTimeColumn1.HeaderText = "DocDate";
+            gridViewDateTimeColumn1.MinWidth = 0;
+            gridViewDateTimeColumn1.Name = "DocDate";
+            gridViewDateTimeColumn1.Width = 65;
             this.grdDetails.MasterTemplate.Columns.AddRange(new Telerik.WinControls.UI.GridViewDataColumn[] {
-            gridViewTextBoxColumn7,
-            gridViewTextBoxColumn8,
-            gridViewTextBoxColumn9,
-            gridViewTextBoxColumn10,
-            gridViewTextBoxColumn11,
-            gridViewTextBoxColumn12,
-            gridViewDateTimeColumn2});
+            gridViewTextBoxColumn1,
+            gridViewTextBoxColumn2,
+            gridViewTextBoxColumn3,
+            gridViewTextBoxColumn4,
+            gridViewTextBoxColumn5,
+            gridViewTextBoxColumn6,
+            gridViewDateTimeColumn1});
             this.grdDetails.MasterTemplate.EnableGrouping = false;
-            sortDescriptor2.Direction = System.ComponentModel.ListSortDirection.Descending;
-            sortDescriptor2.PropertyName = "ItemCode";
+            sortDescriptor1.Direction = System.ComponentModel.ListSortDirection.Descending;
+            sortDescriptor1.PropertyName = "ItemCode";
             this.grdDetails.MasterTemplate.SortDescriptors.AddRange(new Telerik.WinControls.Data.SortDescriptor[] {
-            sortDescriptor2});
-            this.grdDetails.MasterTemplate.ViewDefinition = tableViewDefinition2;
+            sortDescriptor1});
+            this.grdDetails.MasterTemplate.ViewDefinition = tableViewDefinition1;
             this.grdDetails.Name = "grdDetails";
             this.grdDetails.ReadOnly = true;
             this.grdDetails.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -589,7 +597,7 @@
             // 
             // radLabel28
             // 
-            this.radLabel28.Location = new System.Drawing.Point(301, 425);
+            this.radLabel28.Location = new System.Drawing.Point(300, 425);
             this.radLabel28.Name = "radLabel28";
             this.radLabel28.Size = new System.Drawing.Size(94, 18);
             this.radLabel28.TabIndex = 127;
@@ -635,7 +643,7 @@
             // 
             // txt2WeightKG
             // 
-            this.txt2WeightKG.Location = new System.Drawing.Point(466, 489);
+            this.txt2WeightKG.Location = new System.Drawing.Point(466, 492);
             this.txt2WeightKG.Name = "txt2WeightKG";
             this.txt2WeightKG.Size = new System.Drawing.Size(154, 20);
             this.txt2WeightKG.TabIndex = 118;
@@ -665,15 +673,6 @@
             this.radLabel27.Size = new System.Drawing.Size(109, 18);
             this.radLabel27.TabIndex = 117;
             this.radLabel27.Text = "Second Weight Date";
-            // 
-            // cmbTransportCode
-            // 
-            this.cmbTransportCode.Items.Add(radListDataItem4);
-            this.cmbTransportCode.Location = new System.Drawing.Point(118, 308);
-            this.cmbTransportCode.Name = "cmbTransportCode";
-            this.cmbTransportCode.Size = new System.Drawing.Size(154, 20);
-            this.cmbTransportCode.TabIndex = 115;
-            this.cmbTransportCode.SelectedIndexChanged += new Telerik.WinControls.UI.Data.PositionChangedEventHandler(this.cmbTransportCode_SelectedIndexChanged);
             // 
             // cmbTransportType
             // 
@@ -876,7 +875,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(132, 485);
+            this.btnCancel.Location = new System.Drawing.Point(132, 492);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(110, 24);
             this.btnCancel.TabIndex = 71;
@@ -885,7 +884,7 @@
             // 
             // btnSubmit
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(16, 485);
+            this.btnSubmit.Location = new System.Drawing.Point(16, 492);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(110, 24);
             this.btnSubmit.TabIndex = 70;
@@ -1042,7 +1041,7 @@
             // btnGetWeight
             // 
             this.btnGetWeight.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGetWeight.Location = new System.Drawing.Point(671, 19);
+            this.btnGetWeight.Location = new System.Drawing.Point(672, 14);
             this.btnGetWeight.Name = "btnGetWeight";
             this.btnGetWeight.Size = new System.Drawing.Size(150, 26);
             this.btnGetWeight.TabIndex = 137;
@@ -1097,11 +1096,57 @@
             this.tgsDocType.Text = "radToggleSwitch1";
             this.tgsDocType.ValueChanged += new System.EventHandler(this.tgsDocType_ValueChanged);
             // 
+            // chkAllowTolerance
+            // 
+            this.chkAllowTolerance.Location = new System.Drawing.Point(118, 469);
+            this.chkAllowTolerance.Name = "chkAllowTolerance";
+            this.chkAllowTolerance.Size = new System.Drawing.Size(15, 15);
+            this.chkAllowTolerance.TabIndex = 142;
+            this.chkAllowTolerance.ToggleStateChanged += new Telerik.WinControls.UI.StateChangedEventHandler(this.chkAllowTolerance_ToggleStateChanged);
+            // 
+            // txtToleranceLimit
+            // 
+            this.txtToleranceLimit.Location = new System.Drawing.Point(464, 469);
+            this.txtToleranceLimit.Name = "txtToleranceLimit";
+            this.txtToleranceLimit.Size = new System.Drawing.Size(156, 20);
+            this.txtToleranceLimit.TabIndex = 133;
+            this.txtToleranceLimit.Visible = false;
+            // 
+            // lblToleranceLimit
+            // 
+            this.lblToleranceLimit.Location = new System.Drawing.Point(300, 469);
+            this.lblToleranceLimit.Name = "lblToleranceLimit";
+            this.lblToleranceLimit.Size = new System.Drawing.Size(82, 18);
+            this.lblToleranceLimit.TabIndex = 134;
+            this.lblToleranceLimit.Text = "Tolerance Limit";
+            this.lblToleranceLimit.Visible = false;
+            // 
+            // radLabel3
+            // 
+            this.radLabel3.Location = new System.Drawing.Point(11, 469);
+            this.radLabel3.Name = "radLabel3";
+            this.radLabel3.Size = new System.Drawing.Size(85, 18);
+            this.radLabel3.TabIndex = 143;
+            this.radLabel3.Text = "Allow Tolerance";
+            // 
+            // cmbTransportCode
+            // 
+            this.cmbTransportCode.Items.Add(radListDataItem3);
+            this.cmbTransportCode.Location = new System.Drawing.Point(118, 308);
+            this.cmbTransportCode.Name = "cmbTransportCode";
+            this.cmbTransportCode.Size = new System.Drawing.Size(154, 20);
+            this.cmbTransportCode.TabIndex = 115;
+            this.cmbTransportCode.SelectedIndexChanged += new Telerik.WinControls.UI.Data.PositionChangedEventHandler(this.cmbTransportCode_SelectedIndexChanged);
+            // 
             // frmRawMaterial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1128, 520);
+            this.Controls.Add(this.radLabel3);
+            this.Controls.Add(this.txtToleranceLimit);
+            this.Controls.Add(this.chkAllowTolerance);
+            this.Controls.Add(this.lblToleranceLimit);
             this.Controls.Add(this.tgsDocType);
             this.Controls.Add(this.btnVendor);
             this.Controls.Add(this.txtPartyWeight);
@@ -1238,7 +1283,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.radLabel26)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txt2WeightDate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel27)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmbTransportCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbTransportType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cmbYardType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTransportName)).EndInit();
@@ -1293,6 +1337,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.radLabel31)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnVendor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tgsDocType)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkAllowTolerance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtToleranceLimit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblToleranceLimit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbTransportCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1350,7 +1399,6 @@
         private Telerik.WinControls.UI.RadLabel radLabel24;
         private Telerik.WinControls.UI.RadDropDownList cmbYardType;
         private Telerik.WinControls.UI.RadDropDownList cmbTransportType;
-        private Telerik.WinControls.UI.RadDropDownList cmbTransportCode;
         private Telerik.WinControls.UI.RadTextBox txt2WeightTon;
         private Telerik.WinControls.UI.RadLabel radLabel13;
         private Telerik.WinControls.UI.RadTextBox txt2WeightTime;
@@ -1401,5 +1449,10 @@
         private Telerik.WinControls.UI.RadLabel radLabel31;
         private Telerik.WinControls.UI.RadButton btnVendor;
         private Telerik.WinControls.UI.RadToggleSwitch tgsDocType;
+        private Telerik.WinControls.UI.RadCheckBox chkAllowTolerance;
+        private Telerik.WinControls.UI.RadTextBox txtToleranceLimit;
+        private Telerik.WinControls.UI.RadLabel lblToleranceLimit;
+        private Telerik.WinControls.UI.RadLabel radLabel3;
+        private Telerik.WinControls.UI.RadDropDownList cmbTransportCode;
     }
 }

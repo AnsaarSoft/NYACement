@@ -30,15 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDispatchReturn));
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn1 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn2 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn3 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn4 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn5 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn6 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn7 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
-            Telerik.WinControls.Data.SortDescriptor sortDescriptor1 = new Telerik.WinControls.Data.SortDescriptor();
-            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn29 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn30 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn31 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn32 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn33 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn34 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn35 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
+            Telerik.WinControls.Data.SortDescriptor sortDescriptor5 = new Telerik.WinControls.Data.SortDescriptor();
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition5 = new Telerik.WinControls.UI.TableViewDefinition();
             this.tmrCamFront = new System.Windows.Forms.Timer(this.components);
             this.tmrAlreadyReading = new System.Windows.Forms.Timer(this.components);
             this.tmrCamBack = new System.Windows.Forms.Timer(this.components);
@@ -133,6 +133,10 @@
             this.lbl2 = new System.Windows.Forms.Label();
             this.btnGetWeight = new Telerik.WinControls.UI.RadButton();
             this.txtCWeight = new Telerik.WinControls.UI.RadTextBox();
+            this.radLabel31 = new Telerik.WinControls.UI.RadLabel();
+            this.chkAllowTolerance = new Telerik.WinControls.UI.RadCheckBox();
+            this.lblToleranceLimit = new Telerik.WinControls.UI.RadLabel();
+            this.txtToleranceLimit = new Telerik.WinControls.UI.RadTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtDifferenceNWTons)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNetWeightTons)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlControls)).BeginInit();
@@ -226,6 +230,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtFullText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnGetWeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCWeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel31)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkAllowTolerance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblToleranceLimit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtToleranceLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -794,59 +802,59 @@
             this.grdDetails.MasterTemplate.AllowAddNewRow = false;
             this.grdDetails.MasterTemplate.AllowDeleteRow = false;
             this.grdDetails.MasterTemplate.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill;
-            gridViewTextBoxColumn1.EnableExpressionEditor = false;
-            gridViewTextBoxColumn1.FieldName = "ID";
-            gridViewTextBoxColumn1.HeaderText = "ID";
-            gridViewTextBoxColumn1.IsVisible = false;
-            gridViewTextBoxColumn1.Name = "ID";
-            gridViewTextBoxColumn2.EnableExpressionEditor = false;
-            gridViewTextBoxColumn2.FieldName = "Wmnt#";
-            gridViewTextBoxColumn2.HeaderText = "Wmnt#";
-            gridViewTextBoxColumn2.MinWidth = 0;
-            gridViewTextBoxColumn2.Name = "Wmnt#";
-            gridViewTextBoxColumn2.Width = 45;
-            gridViewTextBoxColumn3.EnableExpressionEditor = false;
-            gridViewTextBoxColumn3.FieldName = "Vehicle#";
-            gridViewTextBoxColumn3.HeaderText = "Vehicle#";
-            gridViewTextBoxColumn3.MinWidth = 0;
-            gridViewTextBoxColumn3.Name = "Vehicle#";
-            gridViewTextBoxColumn3.Width = 74;
-            gridViewTextBoxColumn4.EnableExpressionEditor = false;
-            gridViewTextBoxColumn4.FieldName = "DONum";
-            gridViewTextBoxColumn4.HeaderText = "DONum";
-            gridViewTextBoxColumn4.MinWidth = 0;
-            gridViewTextBoxColumn4.Name = "DONum";
-            gridViewTextBoxColumn4.Width = 64;
-            gridViewTextBoxColumn5.EnableExpressionEditor = false;
-            gridViewTextBoxColumn5.FieldName = "ItemName";
-            gridViewTextBoxColumn5.HeaderText = "ItemName";
-            gridViewTextBoxColumn5.Name = "ItemName";
-            gridViewTextBoxColumn5.Width = 99;
-            gridViewTextBoxColumn6.EnableExpressionEditor = false;
-            gridViewTextBoxColumn6.FieldName = "First Weight";
-            gridViewTextBoxColumn6.HeaderText = "First Weight";
-            gridViewTextBoxColumn6.MinWidth = 0;
-            gridViewTextBoxColumn6.Name = "First Weight";
-            gridViewTextBoxColumn6.Width = 78;
-            gridViewTextBoxColumn7.EnableExpressionEditor = false;
-            gridViewTextBoxColumn7.FieldName = "DocDate";
-            gridViewTextBoxColumn7.HeaderText = "DocDate";
-            gridViewTextBoxColumn7.MinWidth = 0;
-            gridViewTextBoxColumn7.Name = "DocDate";
-            gridViewTextBoxColumn7.Width = 65;
+            gridViewTextBoxColumn29.EnableExpressionEditor = false;
+            gridViewTextBoxColumn29.FieldName = "ID";
+            gridViewTextBoxColumn29.HeaderText = "ID";
+            gridViewTextBoxColumn29.IsVisible = false;
+            gridViewTextBoxColumn29.Name = "ID";
+            gridViewTextBoxColumn30.EnableExpressionEditor = false;
+            gridViewTextBoxColumn30.FieldName = "Wmnt#";
+            gridViewTextBoxColumn30.HeaderText = "Wmnt#";
+            gridViewTextBoxColumn30.MinWidth = 0;
+            gridViewTextBoxColumn30.Name = "Wmnt#";
+            gridViewTextBoxColumn30.Width = 45;
+            gridViewTextBoxColumn31.EnableExpressionEditor = false;
+            gridViewTextBoxColumn31.FieldName = "Vehicle#";
+            gridViewTextBoxColumn31.HeaderText = "Vehicle#";
+            gridViewTextBoxColumn31.MinWidth = 0;
+            gridViewTextBoxColumn31.Name = "Vehicle#";
+            gridViewTextBoxColumn31.Width = 74;
+            gridViewTextBoxColumn32.EnableExpressionEditor = false;
+            gridViewTextBoxColumn32.FieldName = "DONum";
+            gridViewTextBoxColumn32.HeaderText = "DONum";
+            gridViewTextBoxColumn32.MinWidth = 0;
+            gridViewTextBoxColumn32.Name = "DONum";
+            gridViewTextBoxColumn32.Width = 64;
+            gridViewTextBoxColumn33.EnableExpressionEditor = false;
+            gridViewTextBoxColumn33.FieldName = "ItemName";
+            gridViewTextBoxColumn33.HeaderText = "ItemName";
+            gridViewTextBoxColumn33.Name = "ItemName";
+            gridViewTextBoxColumn33.Width = 99;
+            gridViewTextBoxColumn34.EnableExpressionEditor = false;
+            gridViewTextBoxColumn34.FieldName = "First Weight";
+            gridViewTextBoxColumn34.HeaderText = "First Weight";
+            gridViewTextBoxColumn34.MinWidth = 0;
+            gridViewTextBoxColumn34.Name = "First Weight";
+            gridViewTextBoxColumn34.Width = 78;
+            gridViewTextBoxColumn35.EnableExpressionEditor = false;
+            gridViewTextBoxColumn35.FieldName = "DocDate";
+            gridViewTextBoxColumn35.HeaderText = "DocDate";
+            gridViewTextBoxColumn35.MinWidth = 0;
+            gridViewTextBoxColumn35.Name = "DocDate";
+            gridViewTextBoxColumn35.Width = 65;
             this.grdDetails.MasterTemplate.Columns.AddRange(new Telerik.WinControls.UI.GridViewDataColumn[] {
-            gridViewTextBoxColumn1,
-            gridViewTextBoxColumn2,
-            gridViewTextBoxColumn3,
-            gridViewTextBoxColumn4,
-            gridViewTextBoxColumn5,
-            gridViewTextBoxColumn6,
-            gridViewTextBoxColumn7});
+            gridViewTextBoxColumn29,
+            gridViewTextBoxColumn30,
+            gridViewTextBoxColumn31,
+            gridViewTextBoxColumn32,
+            gridViewTextBoxColumn33,
+            gridViewTextBoxColumn34,
+            gridViewTextBoxColumn35});
             this.grdDetails.MasterTemplate.EnableGrouping = false;
-            sortDescriptor1.PropertyName = "DocNum";
+            sortDescriptor5.PropertyName = "DocNum";
             this.grdDetails.MasterTemplate.SortDescriptors.AddRange(new Telerik.WinControls.Data.SortDescriptor[] {
-            sortDescriptor1});
-            this.grdDetails.MasterTemplate.ViewDefinition = tableViewDefinition1;
+            sortDescriptor5});
+            this.grdDetails.MasterTemplate.ViewDefinition = tableViewDefinition5;
             this.grdDetails.Name = "grdDetails";
             this.grdDetails.ReadOnly = true;
             this.grdDetails.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -857,7 +865,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(132, 485);
+            this.btnCancel.Location = new System.Drawing.Point(132, 494);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(110, 24);
             this.btnCancel.TabIndex = 71;
@@ -866,7 +874,7 @@
             // 
             // btnSubmit
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(16, 485);
+            this.btnSubmit.Location = new System.Drawing.Point(16, 494);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(110, 24);
             this.btnSubmit.TabIndex = 70;
@@ -1039,11 +1047,48 @@
             this.txtCWeight.Size = new System.Drawing.Size(153, 20);
             this.txtCWeight.TabIndex = 139;
             // 
+            // radLabel31
+            // 
+            this.radLabel31.Location = new System.Drawing.Point(14, 463);
+            this.radLabel31.Name = "radLabel31";
+            this.radLabel31.Size = new System.Drawing.Size(85, 18);
+            this.radLabel31.TabIndex = 145;
+            this.radLabel31.Text = "Allow Tolerance";
+            // 
+            // chkAllowTolerance
+            // 
+            this.chkAllowTolerance.Location = new System.Drawing.Point(121, 463);
+            this.chkAllowTolerance.Name = "chkAllowTolerance";
+            this.chkAllowTolerance.Size = new System.Drawing.Size(15, 15);
+            this.chkAllowTolerance.TabIndex = 146;
+            this.chkAllowTolerance.ToggleStateChanged += new Telerik.WinControls.UI.StateChangedEventHandler(this.chkAllowTolerance_ToggleStateChanged);
+            // 
+            // lblToleranceLimit
+            // 
+            this.lblToleranceLimit.Location = new System.Drawing.Point(309, 474);
+            this.lblToleranceLimit.Name = "lblToleranceLimit";
+            this.lblToleranceLimit.Size = new System.Drawing.Size(82, 18);
+            this.lblToleranceLimit.TabIndex = 147;
+            this.lblToleranceLimit.Text = "Tolerance Limit";
+            this.lblToleranceLimit.Visible = false;
+            // 
+            // txtToleranceLimit
+            // 
+            this.txtToleranceLimit.Location = new System.Drawing.Point(472, 474);
+            this.txtToleranceLimit.Name = "txtToleranceLimit";
+            this.txtToleranceLimit.Size = new System.Drawing.Size(153, 20);
+            this.txtToleranceLimit.TabIndex = 148;
+            this.txtToleranceLimit.Visible = false;
+            // 
             // frmDispatchReturn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1024, 520);
+            this.ClientSize = new System.Drawing.Size(1024, 526);
+            this.Controls.Add(this.txtToleranceLimit);
+            this.Controls.Add(this.lblToleranceLimit);
+            this.Controls.Add(this.chkAllowTolerance);
+            this.Controls.Add(this.radLabel31);
             this.Controls.Add(this.txtCWeight);
             this.Controls.Add(this.btnGetWeight);
             this.Controls.Add(this.lbl2);
@@ -1226,6 +1271,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtFullText)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnGetWeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCWeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel31)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkAllowTolerance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblToleranceLimit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtToleranceLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1327,5 +1376,9 @@
         private System.Windows.Forms.Label lbl2;
         private Telerik.WinControls.UI.RadButton btnGetWeight;
         private Telerik.WinControls.UI.RadTextBox txtCWeight;
+        private Telerik.WinControls.UI.RadLabel radLabel31;
+        private Telerik.WinControls.UI.RadCheckBox chkAllowTolerance;
+        private Telerik.WinControls.UI.RadLabel lblToleranceLimit;
+        private Telerik.WinControls.UI.RadTextBox txtToleranceLimit;
     }
 }

@@ -1094,6 +1094,9 @@ namespace mfmFFS.Screens
                 FirstWeightSOList.Clear();
                 //grdDetails.Rows.Clear();
                 //dt.Rows.Clear();
+                txtToleranceLimit.Text = "";
+                txtToleranceLimit.Visible = false;
+                chkAllowTolerance.Checked = false;
             }
             catch (Exception Ex)
             {
@@ -2195,9 +2198,17 @@ namespace mfmFFS.Screens
 
         public bool ChkTolerence()
         {
-            decimal exceed = 0;
+            decimal exceed = 0, Tolerence;
             string itemGrp = txtItemGroupName.Text;
-            decimal Tolerence = Convert.ToDecimal(oDB.MstTolerance.Where(x => x.TName == itemGrp).FirstOrDefault().TRate);
+            if (chkAllowTolerance.Checked)
+            {
+            
+                Tolerence = Convert.ToDecimal(txtToleranceLimit.Text);
+            }
+            else
+            {
+                Tolerence = Convert.ToDecimal(oDB.MstTolerance.Where(x => x.TName == itemGrp).FirstOrDefault().TRate);
+            }
             if (Tolerence > 0)
             {
                 val1 = (Convert.ToDecimal(txtOrderQuantity.Text) * (Tolerence / 100)) + (Convert.ToDecimal(txtOrderQuantity.Text));
@@ -2517,6 +2528,11 @@ namespace mfmFFS.Screens
                 oDoc.SCreateDate = DateTime.Now;
                 oDoc.SUpdateBy = Program.oCurrentUser.UserCode + " @ " + Program.ANV;
                 oDoc.SUpdateDate = DateTime.Now;
+                if (chkAllowTolerance.Checked)
+                {
+                    oDoc.FlgTolerance = chkAllowTolerance.Checked;
+                    oDoc.ToleranceLimit = Convert.ToDecimal(txtToleranceLimit.Text);
+                }
                 oDB.SubmitChanges();
                 Program.SuccesesMsg("Record Successfully Added.");
                 return true;
@@ -2526,6 +2542,28 @@ namespace mfmFFS.Screens
                 Program.oErrMgn.LogException(Program.ANV, ex);
                 Program.ExceptionMsg("Something went wrong, Contact Abacus Support.");
                 return false;
+            }
+        }
+
+        private void chkAllowTolerance_ToggleStateChanged(object sender, StateChangedEventArgs args)
+        {
+            try
+            {
+                if (chkAllowTolerance.Checked)
+                {
+                    lblToleranceLimit.Visible = true;
+                    txtToleranceLimit.Visible = true;
+                }
+                else
+                {
+                    lblToleranceLimit.Visible = false;
+                    txtToleranceLimit.Visible = false;
+                    txtToleranceLimit.Text = string.Empty;
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
             }
         }
 
@@ -2918,6 +2956,14 @@ namespace mfmFFS.Screens
                     {
                         Program.WarningMsg("Balance Quantity can't be zero or nothing.");
                         return false;
+                    }
+                    if (chkAllowTolerance.Checked)
+                    {
+                        if (string.IsNullOrEmpty(txtToleranceLimit.Text))
+                        {
+                            Program.WarningMsg("Tolerance limit can't be empty.");
+                            return false;
+                        }
                     }
                     if (!ChkTolerence())
                     {

@@ -142,6 +142,10 @@
             this.radLabel1 = new Telerik.WinControls.UI.RadLabel();
             this.btnGetWeight = new Telerik.WinControls.UI.RadButton();
             this.txtCWeight = new Telerik.WinControls.UI.RadTextBox();
+            this.radLabel31 = new Telerik.WinControls.UI.RadLabel();
+            this.chkAllowTolerance = new Telerik.WinControls.UI.RadCheckBox();
+            this.lblToleranceLimit = new Telerik.WinControls.UI.RadLabel();
+            this.txtToleranceLimit = new Telerik.WinControls.UI.RadTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtFullText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radButton1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlControls)).BeginInit();
@@ -234,6 +238,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnGetWeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCWeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel31)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkAllowTolerance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblToleranceLimit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtToleranceLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -894,7 +902,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(132, 485);
+            this.btnCancel.Location = new System.Drawing.Point(132, 499);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(110, 24);
             this.btnCancel.TabIndex = 71;
@@ -903,7 +911,7 @@
             // 
             // btnSubmit
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(16, 485);
+            this.btnSubmit.Location = new System.Drawing.Point(16, 499);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(110, 24);
             this.btnSubmit.TabIndex = 70;
@@ -1065,11 +1073,48 @@
             this.txtCWeight.Size = new System.Drawing.Size(153, 20);
             this.txtCWeight.TabIndex = 140;
             // 
+            // radLabel31
+            // 
+            this.radLabel31.Location = new System.Drawing.Point(17, 476);
+            this.radLabel31.Name = "radLabel31";
+            this.radLabel31.Size = new System.Drawing.Size(85, 18);
+            this.radLabel31.TabIndex = 144;
+            this.radLabel31.Text = "Allow Tolerance";
+            // 
+            // chkAllowTolerance
+            // 
+            this.chkAllowTolerance.Location = new System.Drawing.Point(121, 476);
+            this.chkAllowTolerance.Name = "chkAllowTolerance";
+            this.chkAllowTolerance.Size = new System.Drawing.Size(15, 15);
+            this.chkAllowTolerance.TabIndex = 145;
+            this.chkAllowTolerance.ToggleStateChanged += new Telerik.WinControls.UI.StateChangedEventHandler(this.chkAllowTolerance_ToggleStateChanged);
+            // 
+            // lblToleranceLimit
+            // 
+            this.lblToleranceLimit.Location = new System.Drawing.Point(303, 476);
+            this.lblToleranceLimit.Name = "lblToleranceLimit";
+            this.lblToleranceLimit.Size = new System.Drawing.Size(82, 18);
+            this.lblToleranceLimit.TabIndex = 146;
+            this.lblToleranceLimit.Text = "Tolerance Limit";
+            this.lblToleranceLimit.Visible = false;
+            // 
+            // txtToleranceLimit
+            // 
+            this.txtToleranceLimit.Location = new System.Drawing.Point(480, 476);
+            this.txtToleranceLimit.Name = "txtToleranceLimit";
+            this.txtToleranceLimit.Size = new System.Drawing.Size(146, 20);
+            this.txtToleranceLimit.TabIndex = 147;
+            this.txtToleranceLimit.Visible = false;
+            // 
             // frmRawMaterialReturn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1024, 520);
+            this.ClientSize = new System.Drawing.Size(1024, 529);
+            this.Controls.Add(this.txtToleranceLimit);
+            this.Controls.Add(this.lblToleranceLimit);
+            this.Controls.Add(this.chkAllowTolerance);
+            this.Controls.Add(this.radLabel31);
             this.Controls.Add(this.txtCWeight);
             this.Controls.Add(this.btnGetWeight);
             this.Controls.Add(this.lbl2);
@@ -1252,6 +1297,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnGetWeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCWeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel31)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkAllowTolerance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblToleranceLimit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtToleranceLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1353,5 +1402,9 @@
         private System.Windows.Forms.Label lbl2;
         private Telerik.WinControls.UI.RadButton btnGetWeight;
         private Telerik.WinControls.UI.RadTextBox txtCWeight;
+        private Telerik.WinControls.UI.RadLabel radLabel31;
+        private Telerik.WinControls.UI.RadCheckBox chkAllowTolerance;
+        private Telerik.WinControls.UI.RadLabel lblToleranceLimit;
+        private Telerik.WinControls.UI.RadTextBox txtToleranceLimit;
     }
 }

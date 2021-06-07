@@ -82,13 +82,13 @@
     <Reference Include="Accessibility">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="CrystalDecisions.CrystalReports.Design, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.CrystalReports.Design, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="DevComponents.DotNetBar2">
-      <HintPath>obj\x86\Debug\DevComponents.DotNetBar2.dll</HintPath>
+      <HintPath>C:\Users\Faizan Anwar\Downloads\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -124,9 +124,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>obj\x64\Debug\TelerikData.dll</HintPath>
     </Reference>
-    <Reference Include="UFFU, Version=1.0.5.4, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="UFFU, Version=1.0.5.4, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>obj\x64\Debug\UFFU.dll</HintPath>
+      <HintPath>obj\x86\Debug\UFFU.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +183,18 @@
     </Compile>
     <Compile Include="Screens\frmCRpt.Designer.cs">
       <DependentUpon>frmCRpt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmDispatchM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmDispatchM.Designer.cs">
+      <DependentUpon>frmDispatchM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\frmDispatchMPost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\frmDispatchMPost.Designer.cs">
+      <DependentUpon>frmDispatchMPost.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\frmDispatchPost.cs">
       <SubType>Form</SubType>
@@ -319,6 +331,13 @@
     <EmbeddedResource Include="Screens\frmCRpt.resx">
       <DependentUpon>frmCRpt.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmDispatchM.resx">
+      <DependentUpon>frmDispatchM.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\frmDispatchMPost.resx">
+      <DependentUpon>frmDispatchMPost.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Screens\frmDispatchPost.resx">
       <DependentUpon>frmDispatchPost.cs</DependentUpon>
     </EmbeddedResource>
@@ -429,8 +448,8 @@
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="SAPbobsCOM">
-      <Guid>{FC8030BE-F5D2-4B8E-8F92-44228FE30100}</Guid>
-      <VersionMajor>10</VersionMajor>
+      <Guid>{FC8030BE-F5D2-4B8E-8F92-44228FE30090}</Guid>
+      <VersionMajor>9</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>

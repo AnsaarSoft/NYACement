@@ -57,6 +57,8 @@ namespace mfmFFS.Dialog
         public Boolean flgXSlip = false;
         public string SourceDocNum = "";
         public Boolean flgMultiSelect = false;
+
+        public string SaleOrderValue = "";
         //public List<string> oItems = new List<string>();
         //public List<string> oQuantity = new List<string>();
         //public List<string> oBalance = new List<string>();
@@ -175,6 +177,17 @@ namespace mfmFFS.Dialog
 
                         //dtGrid.Columns.Add("U_Driver");
                         //dtGrid.Columns.Add("DriverCnic");
+                        break;
+                    case "oSaleOrderMD":
+                        dtGrid = new DataTable();
+                        dtGrid.Columns.Add("Serial");
+                        dtGrid.Columns.Add("DocNum");
+                        dtGrid.Columns.Add("DocDate");
+                        dtGrid.Columns.Add("CustomerCode");
+                        dtGrid.Columns.Add("CustomerName");
+                        dtGrid.Columns.Add("ItemName");
+                        dtGrid.Columns.Add("OrderQty");
+                        dtGrid.Columns.Add("Balance");
                         break;
 
                     case "oDoOrder":
@@ -327,6 +340,21 @@ namespace mfmFFS.Dialog
                         dtGrid.Columns.Add("Status");
 
                         break;
+                    case "trnsDispatchMultiHeader":
+                        dtGrid = new DataTable();
+                        dtGrid.Columns.Add("Serial");
+                        dtGrid.Columns.Add("DocNum");
+                        dtGrid.Columns.Add("DocDate");
+                        /*dtGrid.Columns.Add("CustomerCode");
+                        dtGrid.Columns.Add("CustomerName");
+                        dtGrid.Columns.Add("ItemCode");
+                        dtGrid.Columns.Add("ItemName");*/
+                        dtGrid.Columns.Add("Vehicle#");
+                        dtGrid.Columns.Add("DriverCNIC");
+                        dtGrid.Columns.Add("DriverName");
+                        dtGrid.Columns.Add("Status");
+
+                        break;
                     case "trnsDispatchReturn":
                         dtGrid = new DataTable();
                         dtGrid.Columns.Add("Serial");
@@ -439,6 +467,10 @@ namespace mfmFFS.Dialog
                         SalesOrder();
                         SaleOrder();
                         break;
+                    case "oSaleOrderMD":
+                        SalesOrderMD();
+                        SaleOrder();
+                        break;
                     case "oSaleOrderM":
                         SalesOrderM2();
                         //SaleOrder();
@@ -492,6 +524,9 @@ namespace mfmFFS.Dialog
                     case "trnsDispatch":
                         GetnPopulateDisptachData();
                         break;
+                    case "trnsDispatchMultiHeader":
+                        GetnPopulateMultipleDisptachData();
+                        break;
                     case "trnsDispatchReturn":
                         GetnPopulateDisptachReturnData();
                         break;
@@ -538,6 +573,53 @@ namespace mfmFFS.Dialog
                     dtRow["CustomerName"] = item.CustomerName;
                     dtRow["ItemCode"] = item.ItemCode;
                     dtRow["ItemName"] = item.ItemName;
+                    dtRow["Vehicle#"] = item.VehicleNum;
+                    dtRow["DriverCNIC"] = item.DriverCNIC;
+                    dtRow["DriverName"] = item.DriverName;
+                    if (item.FlgPosted == true)
+                    {
+                        dtRow["Status"] = "Posted";
+                    }
+                    else
+                    {
+                        dtRow["Status"] = "Unposted";
+                    }
+
+                    dtGrid.Rows.Add(dtRow);
+                }
+                grdOpen.DataSource = dtGrid;
+                grdOpen.AutoSizeColumnsMode = GridViewAutoSizeColumnsMode.Fill;
+                grdOpen.ShowGroupPanel = false;
+                grdOpen.ReadOnly = true;
+                grdOpen.EnableFiltering = true;
+                grdOpen.ShowFilteringRow = true;
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void GetnPopulateMultipleDisptachData()
+        {
+            try
+            {
+                IEnumerable<TrnsDispatchMultiHeader> Getdata = (from a in oDB.TrnsDispatchMultiHeader
+                                                     where a.FlgSecondWeight == true
+                                                     && a.FlgPosted == null
+                                                     select a);
+                Int32 Serial = 1;
+                foreach (var item in Getdata)
+                {
+                    DataRow dtRow = dtGrid.NewRow();
+                    dtRow["Serial"] = Serial;
+                    Serial++;
+                    dtRow["DocNum"] = item.DocNum;
+                    dtRow["DocDate"] = item.FDocDate;
+                    /*dtRow["CustomerCode"] = item.CustomerCode;
+                    dtRow["CustomerName"] = item.CustomerName;
+                    dtRow["ItemCode"] = item.ItemCode;
+                    dtRow["ItemName"] = item.ItemName;*/
                     dtRow["Vehicle#"] = item.VehicleNum;
                     dtRow["DriverCNIC"] = item.DriverCNIC;
                     dtRow["DriverName"] = item.DriverName;
@@ -933,6 +1015,23 @@ Where
                         this.DialogResult = System.Windows.Forms.DialogResult.OK;
                         break;
                     case "oSaleOrder":
+                        if (grdOpen.MasterTemplate.SelectedRows.Count > 0)
+                        {
+                            DocNum = grdOpen.MasterTemplate.SelectedRows[0].Cells["DocNum"].Value.ToString();
+                            DocDate = grdOpen.MasterTemplate.SelectedRows[0].Cells["DocDate"].Value.ToString();
+                            //ItemCode = grdOpen.MasterTemplate.SelectedRows[0].Cells["ItemCode"].Value.ToString();
+                            //ItmsGrpCod = grdOpen.MasterTemplate.SelectedRows[0].Cells["ItmsGrpCod"].Value.ToString();
+                            //ItmsGrpNam = grdOpen.MasterTemplate.SelectedRows[0].Cells["ItmsGrpNam"].Value.ToString();
+                            //Dscription = grdOpen.MasterTemplate.SelectedRows[0].Cells["Dscription"].Value.ToString();
+                            CustomerCode = grdOpen.MasterTemplate.SelectedRows[0].Cells["CustomerCode"].Value.ToString();
+                            CustomerName = grdOpen.MasterTemplate.SelectedRows[0].Cells["CustomerName"].Value.ToString();
+                            ItemName = grdOpen.MasterTemplate.SelectedRows[0].Cells["ItemName"].Value.ToString();
+                            Quantity = grdOpen.MasterTemplate.SelectedRows[0].Cells["OrderQty"].Value.ToString();
+                            Balance = grdOpen.MasterTemplate.SelectedRows[0].Cells["Balance"].Value.ToString();
+                        }
+                        this.DialogResult = System.Windows.Forms.DialogResult.OK;
+                        break;
+                    case "oSaleOrderMD":
                         if (grdOpen.MasterTemplate.SelectedRows.Count > 0)
                         {
                             DocNum = grdOpen.MasterTemplate.SelectedRows[0].Cells["DocNum"].Value.ToString();
@@ -1714,7 +1813,62 @@ Where
 				A.CANCELED = 'N'
 				and A.DocStatus = 'O'
                 and QryGroup1 = 'Y'
-                and B.OpenQty > 0";
+                and B.OpenQty > 0
+                AND U_AgainstReq = 'Yes'";
+                //  WHERE dbo.ORDR.DocNum = '" + SourceDocNum + "'";
+                dtSOrder = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);
+
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void SalesOrderMD()
+        {
+            try
+            {
+                string strQuery = @"Select 
+				A.DocNum,
+				A.DocDate,
+
+				A.CardCode as CustomerCode,
+				A.CardName as CustomerName,
+                B.Dscription as ItemName,
+				B.Quantity as OrderQty,
+				CASE WHEN B.Dscription Like '%Bulk%'
+				THEN
+				(B.OpenQty - (
+								ISNULL((Select SUM(x.OrderQuantity) From [" + APPSetting.Default.cfgAPPDB + @"].[dbo].[TrnsDispatch] x Where x.CustomerCode Collate SQL_Latin1_General_CP850_CI_AS = a.CardCode 
+									and x.ItemCode Collate SQL_Latin1_General_CP850_CI_AS = B.ItemCode and x.SBRNum Collate SQL_Latin1_General_CP850_CI_AS = A.DocNum and ISNULL(x.flgPosted,0) = '0' and ISNULL(x.flgSecondWeight,0) = '0'),0)
+									+ 
+								ISNULL((Select SUM(x.NetWeightTon) From [" + APPSetting.Default.cfgAPPDB + @"].[dbo].[TrnsDispatch] x Where x.CustomerCode Collate SQL_Latin1_General_CP850_CI_AS = a.CardCode 
+									and x.ItemCode Collate SQL_Latin1_General_CP850_CI_AS = B.ItemCode and x.SBRNum Collate SQL_Latin1_General_CP850_CI_AS = A.DocNum and ISNULL(x.flgPosted,0) = '0' and ISNULL(x.flgSecondWeight,0) = '1'),0)))
+				
+				WHEN B.Dscription Like '%Bag%'
+				THEN
+				(B.OpenQty - (
+								ISNULL((Select SUM(x.OrderQuantity) From [" + APPSetting.Default.cfgAPPDB + @"].[dbo].[TrnsDispatch] x Where x.CustomerCode Collate SQL_Latin1_General_CP850_CI_AS = a.CardCode 
+									and x.ItemCode Collate SQL_Latin1_General_CP850_CI_AS = B.ItemCode and x.SBRNum Collate SQL_Latin1_General_CP850_CI_AS = A.DocNum and ISNULL(x.flgPosted,0) = '0' and ISNULL(x.flgSecondWeight,0) = '0'),0)
+									+ 
+								ISNULL((Select SUM(x.OrderQuantity) From [" + APPSetting.Default.cfgAPPDB + @"].[dbo].[TrnsDispatch] x Where x.CustomerCode Collate SQL_Latin1_General_CP850_CI_AS = a.CardCode 
+									and x.ItemCode Collate SQL_Latin1_General_CP850_CI_AS = B.ItemCode and x.SBRNum Collate SQL_Latin1_General_CP850_CI_AS = A.DocNum and ISNULL(x.flgPosted,0) = '0' and ISNULL(x.flgSecondWeight,0) = '1'),0))) 
+				END as 'Balance'
+
+				
+
+from 
+				ORDR A
+			    Inner join RDR1 B On A.DocEntry = B.DocEntry
+				Inner Join OITM C On B.ItemCode = C.ItemCode
+Where
+				A.CANCELED = 'N'
+				and A.DocStatus = 'O'
+                and QryGroup1 = 'Y'
+                and B.OpenQty > 0
+                AND U_AgainstReq = 'Yes'
+                AND A.CardCode = '" + CustomerCode + @"'";
                 //  WHERE dbo.ORDR.DocNum = '" + SourceDocNum + "'";
                 dtSOrder = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);
 
@@ -1804,6 +1958,7 @@ Where
                         AND A.DocStatus = 'O'
                         AND C.QryGroup1 = 'Y'
                         AND B.OpenQty > 0
+                        AND A.U_AgainstReq = 'Yes'                        
                 ORDER BY A.DocNum
 ";
                 dtSOrder = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);

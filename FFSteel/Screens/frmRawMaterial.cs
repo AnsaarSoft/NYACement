@@ -170,6 +170,9 @@ namespace mfmFFS.Screens
                 txtTransportName.Enabled = false;
                 tgsDocType.Enabled = true;
                 //Program.oErrMgn.LogEntry(Program.ANV, "InitiallizeDocument function End");
+                txtToleranceLimit.Text = "";
+                txtToleranceLimit.Visible = false;
+                chkAllowTolerance.Checked = false;
             }
             catch (Exception Ex)
             {
@@ -282,7 +285,6 @@ namespace mfmFFS.Screens
                     {
                         oOld.YardId = Convert.ToInt32(cmbYardType.SelectedValue);
                     }
-
                     oOld.VehicleNum = txtVehicleNo.Text;
                     oOld.DriverCNIC = txtDriverCNIC.Text;
                     oOld.DriverName = txtDriverName.Text;
@@ -607,6 +609,11 @@ namespace mfmFFS.Screens
                 oDoc.SCreateDate = DateTime.Now;
                 oDoc.SUpdateBy = Program.oCurrentUser.UserCode;
                 oDoc.SUpdateDate = DateTime.Now;
+                if (chkAllowTolerance.Checked)
+                {
+                    oDoc.FlgTolerance = chkAllowTolerance.Checked;
+                    oDoc.ToleranceLimit = Convert.ToDecimal(txtToleranceLimit.Text);
+                }
                 oDB.SubmitChanges();
                 Program.SuccesesMsg("Record Successfully Added.");
                 return true;
@@ -1200,13 +1207,20 @@ namespace mfmFFS.Screens
         {
             try
             {
-                decimal exceed = 0;
+                decimal exceed = 0, Tolerence;
                 string itemGrp = txtItemGroupName.Text;
                 //decimal value = oDB.MstTolerance.Where(x => x.TName == itemGrp).FirstOrDefault().TRate.GetValueOrDefault();
-                decimal value = (from a in oDB.MstTolerance
-                                 where a.TName == itemGrp
-                                 select a.TRate).FirstOrDefault().GetValueOrDefault();
-                decimal Tolerence = Convert.ToDecimal( value);
+                if (chkAllowTolerance.Checked)
+                {
+                    Tolerence = Convert.ToDecimal(txtToleranceLimit.Text);
+                }
+                else
+                {
+                    decimal value = (from a in oDB.MstTolerance
+                                     where a.TName == itemGrp
+                                     select a.TRate).FirstOrDefault().GetValueOrDefault();
+                    Tolerence = Convert.ToDecimal(value);
+                }
                 if (Tolerence > 0)
                 {
                     // val1 = (Convert.ToDecimal(txtRemainQuantity.Text) * (Tolerence / 100)) + (Convert.ToDecimal(txtRemainQuantity.Text));
@@ -1404,6 +1418,14 @@ namespace mfmFFS.Screens
         {
             try
             {
+                if (chkAllowTolerance.Checked)
+                {
+                    if (string.IsNullOrEmpty(txtToleranceLimit.Text))
+                    {
+                        Program.WarningMsg("Tolerance Limit can not be Empty");
+                        return false;
+                    }
+                }
                 if (!ChkTolerence())
                 {
                     Program.WarningMsg("Tolerance didn't met.");
@@ -2640,6 +2662,28 @@ namespace mfmFFS.Screens
             {
 
                 throw;
+            }
+        }
+
+        private void chkAllowTolerance_ToggleStateChanged(object sender, StateChangedEventArgs args)
+        {
+            try
+            {
+                if (chkAllowTolerance.Checked)
+                {
+                    lblToleranceLimit.Visible = true;
+                    txtToleranceLimit.Visible = true;
+                }
+                else
+                {
+                    lblToleranceLimit.Visible = false;
+                    txtToleranceLimit.Visible = false;
+                    txtToleranceLimit.Text = string.Empty;
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
             }
         }
 

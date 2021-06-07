@@ -898,7 +898,9 @@ namespace mfmFFS.Screens
                 txtNetWeighTon.Text = "";
                 txtReturnQuant.Text = "";
                 flgSetValues = false;
-
+                txtToleranceLimit.Text = "";
+                txtToleranceLimit.Visible = false;
+                chkAllowTolerance.Checked = false;
             }
             catch (Exception Ex)
             {
@@ -961,7 +963,7 @@ namespace mfmFFS.Screens
                 {
 
                     var oOld = getTrnsDispatch.FirstOrDefault();
-
+                   
                     oOld.Flg2Rpt = false;
                     oOld.FlgWBrpt = false;
                     // oOld.FDocDate = Convert.ToDateTime(txtDate.Text);
@@ -1001,6 +1003,7 @@ namespace mfmFFS.Screens
                     // oOld.FCreateBy = Program.oCurrentUser.UserCode;
                     //  oOld.FUpdateBy = Program.oCurrentUser.UserCode;
                     //  oOld.FUpdateDate = DateTime.Now;
+            
                     if (Convert.ToDecimal(txt1WeighKG.Text) > 0)
 
                     {
@@ -1020,7 +1023,7 @@ namespace mfmFFS.Screens
                         Program.ExceptionMsg("First Weight can not be 0");
                         return false;
                     }
-
+      
                     if (Convert.ToDecimal(txt2WeighKG.Text) > 0)
                     {
                         oOld.SWeighmentKG = Convert.ToDecimal(txt2WeighKG.Text);
@@ -1043,6 +1046,19 @@ namespace mfmFFS.Screens
                     oOld.NetWeightKG = Convert.ToDecimal(txtNetWeighKG.Text);
                     oOld.NetWeightTon = Convert.ToDecimal(txtNetWeighTon.Text);
                     // oOld.ReturnQuantity = Convert.ToDecimal(txtReturnQuant.Text);
+                    if (chkAllowTolerance.Checked)
+                    {
+                        oOld.FlgTolerance = chkAllowTolerance.Checked;
+                        if (!string.IsNullOrEmpty(txtToleranceLimit.Text))
+                        {
+                            oOld.ToleranceLimit = Convert.ToDecimal(txtToleranceLimit.Text);
+                        }
+                        else
+                        {
+                            Program.ExceptionMsg("Tolerance Limit can not be Empty");
+                            return false;
+                        }
+                    }
                     if (!ChkTolerence())
                     {
                         return false;
@@ -1081,7 +1097,6 @@ namespace mfmFFS.Screens
                         Program.SuccesesMsg("Second Weight can not be empty");
                         return false;
                     }
-
                 }
                 else
                 {
@@ -1115,7 +1130,7 @@ namespace mfmFFS.Screens
                     oDoc.FWeighmentDate = Convert.ToDateTime(txt1WeighDate.Text);
                     oDoc.FWeighmentTime = txt1WeighTime.Text;
 
-
+                   
                     if (Convert.ToDecimal(txt1WeighKG.Text) > 0)
 
                     {
@@ -1210,8 +1225,6 @@ namespace mfmFFS.Screens
                     {
                         oDoc.RemainingQuantity = 0;
                     }
-
-
                     oDB.TrnsRawMaterialReturn.InsertOnSubmit(oDoc);
                 }
                 oDB.SubmitChanges();
@@ -2274,6 +2287,29 @@ namespace mfmFFS.Screens
                 this.txtCWeight.Text = pValue;
             }
         }
+
+        private void chkAllowTolerance_ToggleStateChanged(object sender, StateChangedEventArgs args)
+        {
+            try
+            {
+                if (chkAllowTolerance.Checked)
+                {
+                    lblToleranceLimit.Visible = true;
+                    txtToleranceLimit.Visible = true;
+                }
+                else
+                {
+                    lblToleranceLimit.Visible = false;
+                    txtToleranceLimit.Visible = false;
+                    txtToleranceLimit.Text = string.Empty;
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
         //private void btnInOut_ToggleStateChanged(object sender, StateChangedEventArgs args)
         //{
         //    try
@@ -2293,7 +2329,7 @@ namespace mfmFFS.Screens
         //    {
         //    }
         //}
-        
+
         private void DisplayData(string data)
         {
             lblWeight.Invoke(new EventHandler(delegate { lblWeight.Text = data; }));
@@ -2352,10 +2388,17 @@ namespace mfmFFS.Screens
 
         public bool ChkTolerence()
         {
-            decimal exceed = 0;
+            decimal exceed = 0, Tolerence;
             string itemGrp = txtItemGrpName.Text;
-            decimal Tolerence = Convert.ToDecimal(oDB.MstTolerance.Where(x => x.TName == itemGrp).FirstOrDefault().TRate);
-
+            if (chkAllowTolerance.Checked)
+            {
+                Tolerence = Convert.ToDecimal(txtToleranceLimit.Text);
+            }
+            else
+            {
+                Tolerence = Convert.ToDecimal(oDB.MstTolerance.Where(x => x.TName == itemGrp).FirstOrDefault().TRate);
+            }
+            
             if (Convert.ToDecimal(txtNetWeighTon.Text) < Convert.ToDecimal(txtRemainingQuant.Text))
             {
                 return true;
