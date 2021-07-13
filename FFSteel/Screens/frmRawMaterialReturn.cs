@@ -51,708 +51,7 @@ namespace mfmFFS.Screens
         int ZeroHit = 0;
         long currentwt = 0;
         delegate void delCWeight(string value);
-        #endregion
-
-        #region Events
-
-        private void btnSubmit_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                oDB = new dbFFS(Program.ConStrApp);
-                frmOpenDlg od = new frmOpenDlg();
-                string critaria = txtVoucherNo.Text;
-                string PldFor = Program.Screen;
-                var Doc = oDB.TrnsRawMaterialReturn.Where(x => x.DocNum == Convert.ToInt32(critaria)).FirstOrDefault();
-
-
-                if (btnSubmit.Text == "&Add")
-                {
-                    if (AddRecord())
-                    {
-                        var RMRadd = oDB.TrnsRawMaterialReturn.Where(x => x.DocNum == Convert.ToInt32(critaria)).FirstOrDefault();
-                        if (od.AddSealToDb())
-                        {
-                            if (Program.OpenLayout(PldFor, critaria, PldFor + " " + critaria))
-                            {
-                                try
-                                {
-                                    RMRadd.Flg1Rpt = true;
-
-                                }
-                                catch (Exception)
-                                {
-                                    throw;
-                                }
-                            }
-                            oDB.SubmitChanges();
-                            InitiallizeDocument();
-                            LoadGrid();
-                        }
-                    }
-                }
-
-                if (btnSubmit.Text == "&Update")
-                {
-
-                    string flgSecondWeight = Convert.ToString(Doc.FlgSecondWeight);
-                    if (AddRecord())
-                    {
-                        if (od.AddSealToDb())
-                        {
-                            if (flgSecondWeight == "False")
-                            {
-                                if (Program.OpenLayout(PldFor, critaria, PldFor + " " + critaria))
-                                {
-                                    Doc.Flg2Rpt = true;
-                                    oDB.SubmitChanges();
-                                }
-                            }
-
-                            InitiallizeDocument();
-                            LoadGrid();
-                        }
-                    }
-                }
-
-            }
-            catch (Exception Ex)
-            {
-                Program.ExceptionMsg(Ex.ToString());
-            }
-            //try
-            //{
-            //    frmOpenDlg od = new frmOpenDlg();
-
-            //    if (btnSubmit.Text == "&Add")
-            //    {
-
-            //        if (AddRecord())
-            //        {
-            //            if (od.AddSealToDb())
-            //            {
-            //                string critaria = txtVoucherNo.Text;
-            //                string PldFor = Program.Screen;
-            //                Program.OpenLayout(PldFor, critaria, PldFor + " " + txtVoucherNo.Text);
-            //                InitiallizeDocument();
-            //                LoadGrid();
-            //            }
-            //        }
-            //    }
-            //    if (btnSubmit.Text == "&Update")
-            //    {
-            //        if (AddRecord())
-            //        {
-            //            if (od.AddSealToDb())
-            //            {
-            //                InitiallizeDocument();
-            //                LoadGrid();
-            //            }
-            //        }
-            //    }
-            //}
-            //catch (Exception Ex)
-            //{
-            //    Program.ExceptionMsg(Ex.ToString());
-            //}
-        }
-
-        private void radButton1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                HandleDialogControlItems();
-                txtDaySerial.Text = Convert.ToString(daySeries());
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                DialogResult oResult = System.Windows.Forms.DialogResult.Cancel;
-                if (btnCancel.Text == "Close")
-                {
-                    oResult = RadMessageBox.Show("Are you sure you to close this form. ", "Confirmation.", MessageBoxButtons.YesNo);
-                }
-                if (oResult == System.Windows.Forms.DialogResult.Cancel)
-                {
-
-                   // comportRawR.Close();
-                    if (comportRawR.IsOpen)
-                    {
-                        comportRawR.DiscardInBuffer();
-                        comportRawR.DiscardOutBuffer();
-                        comportRawR.Close();
-                        // Program.oErrMgn.LogEntry(Program.ANV, "Port Ex 103");
-                    }
-                    Program.flgIndicator = false;
-                    this.Dispose();
-                    base.mytabpage.Dispose();
-
-                }
-            }
-            catch(Exception ex)
-            {
-
-            }
-
-        }
-
-        private void grdDetails_CellDoubleClick(object sender, GridViewCellEventArgs e)
-        {
-            int DocNum = 0;
-            DocNum = Convert.ToInt32(e.Row.Cells["Wmnt#"].Value);
-            setValues(DocNum);
-            txtDriverCNIC.Enabled = true;
-            txtDriverName.Enabled = true;
-            txtTransportName.Enabled = false;
-            txtVehicleNUm.Enabled = true;
-            cmbYardType.Enabled = true;
-            cmbTransportType.Enabled = true;
-            cmbTransportCode.Enabled = true;
-            bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
-            if (super == true)
-            {
-                foreach (Control o in this.Controls)
-                {
-                    // special handling for the menu
-                    o.Enabled = true;
-
-                }
-            }
-            else
-            {
-                //btnPOItem.Enabled = true;
-                //btnDocNum.Enabled = true;
-                btnSubmit.Enabled = true;
-            }
-            txtCWeight.Enabled = false;
-            // comportRawR.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
-            btnSubmit.Text = "&Update";
-            //flgSetValues = false;
-
-        }
-
-
-        private void radButton3_Click(object sender, EventArgs e)
-        {
-
-            try
-            {
-                HandleDialogControlBulkSealer();
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void frmRawMaterialReturn_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                shiftName = this.GetShift();
-                shiftid = this.shiftidParent;
-                InitiallizeForm();
-
-            }
-            catch (Exception Ex)
-            {
-            }
-        }
-
-        private void btnAddNew_Click_1(object sender, EventArgs e)
-        {
-            InitiallizeDocument();
-            btnSubmit.Text = "&Add";
-            flgSetValues = false;
-            btnItem.Enabled = true;
-            radButton1.Enabled = true;
-            btnSubmit.Enabled = true;
-            txtDriverCNIC.Enabled = true;
-            txtDriverName.Enabled = true;
-            txtTransportName.Enabled = false;
-            txtVehicleNUm.Enabled = true;
-            cmbYardType.Enabled = true;
-            cmbTransportType.Enabled = true;
-            cmbTransportCode.Enabled = true;
-        }
-
-        private void txt1WeighKG_TextChanged(object sender, EventArgs e)
-        {
-            if (flgSetValues == true)
-            {
-                lblWeight.Text = "";
-            }
-            else
-            {
-                lblWeight.Text = txt1WeighKG.Text;
-            }
-
-            if (!string.IsNullOrEmpty(txt1WeighKG.Text))
-            {
-                txt1WeighTon.Text = Convert.ToString(Convert.ToDecimal(txt1WeighKG.Text) / 1000);
-
-            }
-
-            else
-            {
-                txt1WeighTon.Text = null;
-            }
-        }
-
-        private void txt2WeighKG_TextChanged(object sender, EventArgs e)
-        {
-            if (flgSetValues == false)
-            {
-                lblWeight.Text = "";
-            }
-            else
-            {
-                lblWeight.Text = txt2WeighKG.Text;
-            }
-
-            if (!string.IsNullOrWhiteSpace(txt2WeighKG.Text))
-            {
-                if (!string.IsNullOrEmpty(txt2WeighKG.Text))
-                {
-                    txt2WeighTon.Text = Convert.ToString(Convert.ToDecimal(txt2WeighKG.Text) / 1000);
-                    txtNetWeighKG.Text = Convert.ToString(System.Math.Abs(Convert.ToDecimal(txt1WeighKG.Text) - Convert.ToDecimal(txt2WeighKG.Text)));
-                    txtNetWeighTon.Text = Convert.ToString(System.Math.Abs(Convert.ToDecimal(txt1WeighTon.Text) - Convert.ToDecimal(txt2WeighTon.Text)));
-                    txtDiffGRPONtWt.Text = Convert.ToString(Convert.ToDecimal(txtGRPOQuanTon.Text) - Convert.ToDecimal(txtNetWeighTon.Text));
-                }
-            }
-            else
-            {
-                txt2WeighTon.Text = null;
-                txtNetWeighKG.Text = null;
-                txtNetWeighTon.Text = null;
-                txtDiffGRPONtWt.Text = null;
-            }
-        }
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //HandleDialogControl();
-            }
-            catch (Exception Ex)
-            {
-            }
-        }
-
-        private void btnSearch_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                Program.DocNum = null;
-                HandleDialogSearch();
-                if (Program.DocNum != null)
-                {
-                    setValues(Convert.ToInt32(Program.DocNum));
-                    txtDriverCNIC.Enabled = false;
-                    txtDriverName.Enabled = false;
-                    txtTransportName.Enabled = false;
-                    txtVehicleNUm.Enabled = false;
-                    cmbYardType.Enabled = false;
-                    cmbTransportType.Enabled = false;
-                    cmbTransportCode.Enabled = false;
-                    flgSetValues = false;
-                    btnSubmit.Text = "&Update";
-                }
-                bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
-                if (super == true)
-                {
-                    foreach (Control o in this.Controls)
-                    {
-                        // special handling for the menu
-                        o.Enabled = true;
-
-                    }
-                }
-                else
-                {
-                    btnItem.Enabled = false;
-                    radButton1.Enabled = false;
-                    btnSubmit.Enabled = false;
-                }
-                txtCWeight.Enabled = false;
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-
-        private void txtVoucherNo_TextChanged(object sender, EventArgs e)
-        {
-            if (Program.sealdt != null)
-            {
-                Program.sealdt.Clear();
-            }
-        }
-
-        private void btnLastRecord_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                var MaxRecord = (from a in oDB.TrnsRawMaterialReturn where a.FlgSecondWeight == true && a.FlgPosted == null select a.DocNum).Max();
-
-                if (MaxRecord != null)
-                {
-                    int DocNum = Convert.ToInt32(MaxRecord);
-                    setValues(DocNum);
-                    txtDriverCNIC.Enabled = false;
-                    txtDriverName.Enabled = false;
-                    txtTransportName.Enabled = false;
-                    txtVehicleNUm.Enabled = false;
-                    cmbYardType.Enabled = false;
-                    cmbTransportType.Enabled = false;
-                    cmbTransportCode.Enabled = false;
-                    flgSetValues = false;
-                 
-                    txtCWeight.Enabled = false;
-                    Program.WarningMsg("Reached To Last Record");
-                }
-                bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
-                if (super == true)
-                {
-                    foreach (Control o in this.Controls)
-                    {
-                        // special handling for the menu
-                        o.Enabled = true;
-
-                    }
-                }
-                else
-                {
-                    btnItem.Enabled = false;
-                    radButton1.Enabled = false;
-                    btnSubmit.Enabled = false;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-        }
-
-        private void btnNextRecord_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                int DocNum = Convert.ToInt32(txtVoucherNo.Text);
-                int previusDocNum = DocNum + 1;
-                int checkDoc = 0;
-                checkDoc = (from a in oDB.TrnsRawMaterialReturn where a.DocNum == previusDocNum && a.FlgSecondWeight == true && a.FlgPosted == null select a).Count();
-
-                if (checkDoc > 0)
-                {
-                    setValues(previusDocNum);
-                    txtDriverCNIC.Enabled = false;
-                    txtDriverName.Enabled = false;
-                    txtTransportName.Enabled = false;
-                    txtVehicleNUm.Enabled = false;
-                    cmbYardType.Enabled = false;
-                    cmbTransportType.Enabled = false;
-                    cmbTransportCode.Enabled = false;
-                    flgSetValues = false;
-                 
-                    txtCWeight.Enabled = false;
-                }
-                else
-                {
-                    Program.WarningMsg("Reached To Last Record");
-                }
-
-                bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
-                if (super == true)
-                {
-                    foreach (Control o in this.Controls)
-                    {
-                        // special handling for the menu
-                        o.Enabled = true;
-
-                    }
-                }
-                else
-                {
-                    btnItem.Enabled = false;
-                    radButton1.Enabled = false;
-                    btnSubmit.Enabled = false;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-        }
-
-        private void btnPreviosRecord_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                int DocNum = Convert.ToInt32(txtVoucherNo.Text);
-                int previusDocNum = DocNum - 1;
-                int checkDoc = 0;
-                checkDoc = (from a in oDB.TrnsRawMaterialReturn where a.DocNum == previusDocNum && a.FlgSecondWeight == true && a.FlgPosted == null select a).Count();
-
-                if (checkDoc > 0)
-                {
-                    setValues(previusDocNum);
-                    txtDriverCNIC.Enabled = false;
-                    txtDriverName.Enabled = false;
-                    txtTransportName.Enabled = false;
-                    txtVehicleNUm.Enabled = false;
-                    cmbYardType.Enabled = false;
-                    cmbTransportType.Enabled = false;
-                    cmbTransportCode.Enabled = false;
-                    flgSetValues = false;
-                  
-                    txtCWeight.Enabled = false;
-                }
-                else
-                {
-                    Program.WarningMsg("Reached To First Record");
-                }
-                bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
-                if (super == true)
-                {
-                    foreach (Control o in this.Controls)
-                    {
-                        // special handling for the menu
-                        o.Enabled = true;
-
-                    }
-                }
-                else
-                {
-                    btnItem.Enabled = false;
-                    radButton1.Enabled = false;
-                    btnSubmit.Enabled = false;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-        }
-
-        private void btnFirstRecord_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                var MaxRecord = (from a in oDB.TrnsRawMaterialReturn where a.FlgSecondWeight == true && a.FlgPosted == null select a.DocNum).First();
-
-                if (MaxRecord != null)
-                {
-                    int DocNum = Convert.ToInt32(MaxRecord);
-                    setValues(DocNum);
-                    txtDriverCNIC.Enabled = false;
-                    txtDriverName.Enabled = false;
-                    txtTransportName.Enabled = false;
-                    txtVehicleNUm.Enabled = false;
-                    cmbYardType.Enabled = false;
-                    cmbTransportType.Enabled = false;
-                    cmbTransportCode.Enabled = false;
-                    flgSetValues = false;
-                   
-                    txtCWeight.Enabled = false;
-                    Program.WarningMsg("Reached To First Record");
-                }
-                bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
-                if (super == true)
-                {
-                    foreach (Control o in this.Controls)
-                    {
-                        // special handling for the menu
-                        o.Enabled = true;
-
-                    }
-                }
-                else
-                {
-                    btnItem.Enabled = false;
-                    radButton1.Enabled = false;
-                    btnSubmit.Enabled = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                
-            }
-        }
-
-        private void txtFullText_TextChanged(object sender, EventArgs e)
-        {
-            //if (string.IsNullOrEmpty(txt1WeighKG.Text) || txt1WeighKG.Text == "0")
-            //{
-            //    txt1WeighKG.Text = txtFullText.Text;
-            //}
-            //else if (flgSetValues)
-            //{
-            //    txt2WeighKG.Text = txtFullText.Text;
-            //}
-            if (flgSetValues)
-            {
-                txt2WeighKG.Text = txtFullText.Text;
-            }
-            else if (string.IsNullOrEmpty(txt2WeighKG.Text))
-            {
-                txt1WeighKG.Text = txtFullText.Text;
-            }
-            lblWeight.Text = txtFullText.Text;
-        }
-
-        private void btnAddNew_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                InitiallizeDocument();
-            }
-            catch (Exception Ex)
-            {
-            }
-        }
-
-        private void btnFirstRecord_Click(object sender, EventArgs e)
-        {
-            try
-            {
-            }
-            catch (Exception Ex)
-            {
-            }
-        }
-
-        private void btnPreviosRecord_Click(object sender, EventArgs e)
-        {
-            try
-            {
-            }
-            catch (Exception Ex)
-            {
-            }
-        }
-
-        private void btnNextRecord_Click(object sender, EventArgs e)
-        {
-            try
-            {
-            }
-            catch (Exception Ex)
-            {
-            }
-        }
-
-        private void btnLastRecord_Click(object sender, EventArgs e)
-        {
-            try
-            {
-            }
-            catch (Exception Ex)
-            {
-            }
-        }
-
-        //private void cmbSourceDoc_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        //LoadItemsCombo();
-        //        tmrCamFront.Enabled = true;
-        //    }
-        //    catch (Exception Ex)
-        //    {
-        //        Program.oErrMgn.LogException(Program.ANV, Ex);
-        //    }
-        //}
-
-        //private void txtRTWeight_TextChanged(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        //string value = txtRTWeight.Text;
-        //        //Int64 value1 = Convert.ToInt64(value);
-        //        //lblWeight.Text = Convert.ToString((value1 / 10) * 10);
-        //        lblWeight.Text = txtGRPOQuanTon.Text;
-        //    }
-        //    catch (Exception Ex)
-        //    {
-        //        Program.oErrMgn.LogException(Program.ANV, Ex);
-        //    }
-        //}
-
-        private void btnItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                HandleDialogControlGRPO();
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-
-
-        //private void tmrCamFront_Tick(object sender, EventArgs e)
-        //{
-        //    if (!isLoadingImageFront)
-        //    {
-        //        if (FrontCam != "")
-        //        {
-        //            getImageFront(FrontCam);
-        //        }
-
-        //    }
-        //}
-
-        //private void tmrCamBack_Tick(object sender, EventArgs e)
-        //{
-        //    if (!isLoadingImageBack)
-        //    {
-        //        if (BackCam != "")
-        //        {
-        //            getImageBack(BackCam);
-        //        }
-        //    }
-        //}
-
-        //private void txtFullData_TextChanged(object sender, EventArgs e)
-        //{
-        //    txtRTWeight.Text = mostRecentWeight.ToString();
-        //}
-
-        private void tmrAlreadyReading_Tick(object sender, EventArgs e)
-        {
-            alreadyReading = false;
-        }
-
-        private void btnPrint_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string critaria = " WHERE GatePass IN ('" + txtDate.Text + "') ";
-                //string PldFor = cmbSourceDoc.SelectedItem.Text;
-                //Program.OpenLayout(PldFor, critaria, PldFor + " " + txtGatePass.Text);
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
+        string CardName = "";
         #endregion
 
         #region Functions
@@ -760,8 +59,8 @@ namespace mfmFFS.Screens
         {
             InitializeComponent();
             //txtCWeight.Visible = false;
-            txtCWeight.Enabled = false;
-            comportRawR.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+           /* txtCWeight.Enabled = false;
+            comportRawR.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);*/
         }
         
         private void InitiallizeForm()
@@ -772,7 +71,7 @@ namespace mfmFFS.Screens
                 Program.flgIndicator = true;
                 dt.Clear();
                 oDB = new dbFFS(Program.ConStrApp);
-                GetMachineSetting();
+                /*GetMachineSetting();*/
                 FillTransportCode();
                 FillTransporttype();
                 FillYard();
@@ -815,7 +114,7 @@ namespace mfmFFS.Screens
                 txtNetWeighTon.Enabled = false;
                 txtDiffGRPONtWt.Enabled = false;
                 txtFullText.Visible = false;
-                tmrAlreadyReading.Interval = 1000;
+                /*tmrAlreadyReading.Interval = 1000;*/
                 byte Auth = Convert.ToByte(oDB.CnfRolesDetail.Where(x => x.RoleID == Program.oCurrentUser.RoleID && x.MenuName == "RawMaterialReturn").FirstOrDefault().GivenRight);
                 if (Auth == 4)
                 {
@@ -982,9 +281,6 @@ namespace mfmFFS.Screens
                     oOld.DriverPath = txtPathCnic.Text;
                     //oOld.FWeighmentDate = Convert.ToDateTime(txt1WeighDate.Text);
                     // oOld.FWeighmentTime = txt1WeighTime.Text;
-
-
-
                     if (!string.IsNullOrEmpty(Convert.ToString(cmbTransportType.SelectedValue)))
                     {
                         oOld.TransportID = Convert.ToInt32(cmbTransportType.SelectedValue);
@@ -1048,9 +344,9 @@ namespace mfmFFS.Screens
                     // oOld.ReturnQuantity = Convert.ToDecimal(txtReturnQuant.Text);
                     if (chkAllowTolerance.Checked)
                     {
-                        oOld.FlgTolerance = chkAllowTolerance.Checked;
                         if (!string.IsNullOrEmpty(txtToleranceLimit.Text))
                         {
+                            oOld.FlgTolerance = chkAllowTolerance.Checked;
                             oOld.ToleranceLimit = Convert.ToDecimal(txtToleranceLimit.Text);
                         }
                         else
@@ -1241,6 +537,7 @@ namespace mfmFFS.Screens
 
             return retValue;
         }
+
         private void FillTransporttype()
         {
             try
@@ -1262,6 +559,7 @@ namespace mfmFFS.Screens
                 Program.oErrMgn.LogException(Program.ANV, Ex);
             }
         }
+
         private void FillYard()
         {
             try
@@ -1284,81 +582,13 @@ namespace mfmFFS.Screens
             }
         }
 
-        private void radButton2_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog theDialog = new OpenFileDialog();
-            theDialog.Title = "Open for Driver ID Picture";
-
-            theDialog.InitialDirectory = @"C:\";
-            if (theDialog.ShowDialog() == DialogResult.OK)
-            {
-                txtPathCnic.Text = theDialog.FileName.ToString();
-            }
-        }
-
-        private void btnPrint_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                string critaria = txtVoucherNo.Text;
-                string PldFor = Program.Screen;
-                string Fwmnt = txt1WeighKG.Text;
-                if (!string.IsNullOrEmpty(Fwmnt))
-                {
-                    if (lbl2.Text == "True")
-                    {
-                        Program.OpenLayout(PldFor, critaria, PldFor + " " + txtVoucherNo.Text);
-                        Program.OpenLayout("WayBridgeDelivery", critaria, "WayBridgeDelivery " + txtVoucherNo.Text);
-                    }
-                    else
-                    {
-                        Program.OpenLayout(PldFor, critaria, PldFor + " " + txtVoucherNo.Text);
-                    }
-                }
-                else
-                {
-                    Program.ExceptionMsg("Kindly select any document first");
-                }
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void txt2WeighKG_Click(object sender, EventArgs e)
-        {
-            btnSubmit.Text = "&Update";
-        }
-        string CardName = "";
-
-        private void cmbTransportCode_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e)
-        {
-            try
-            {
-                string[] CardName = cmbTransportCode.Text.Split(':');
-                string CArdName1 = CardName[1];
-                DataTable val = new DataTable();
-                string strQuery = @"select CardName from ocrd Where GroupCode = 116 and CardCode ='" + CArdName1 + "'";
-                //  WHERE dbo.ORDR.DocNum = '" + SourceDocNum + "'";
-                val = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);
-
-                txtTransportName.Text = val.Rows[0][0].ToString();
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-            //txtTransportName.Text = CardName;
-        }
-
         private void FillTransportCode()
         {
             try
             {
                 DataTable dt = new DataTable();
 
-                string strQuery = @"select CardCode,CardName +':'+ CardCode as CardCodeName from ocrd Where GroupCode = 116";
+                string strQuery = @"select CardCode,CardName +':'+ CardCode as CardCodeName from ocrd Where GroupCode = 108";
 
                 //  WHERE dbo.ORDR.DocNum = '" + SourceDocNum + "'";
                 dt = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);
@@ -1371,31 +601,6 @@ namespace mfmFFS.Screens
                 //    cmbTransportCode.Items.Add(dt.Rows[i][0].ToString());
 
                 //}
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void btnGetWeight_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Program.oErrMgn.LogEntry(Program.ANV, "Getweight " + txtCWeight.Text);
-                string Cval = txtCWeight.Text;
-                // txtFullText.Text = Cval;
-                Program.oErrMgn.LogEntry(Program.ANV, "Gotweight " + Cval);
-                lblWeight.Text = Cval;// txtFullText.Text;
-                if (flgSetValues)
-                {
-                    txt2WeighKG.Text = lblWeight.Text;
-                }
-                else if (string.IsNullOrEmpty(txt2WeighKG.Text))
-                {
-                    txt1WeighKG.Text = lblWeight.Text;
-                }
-
             }
             catch (Exception Ex)
             {
@@ -2086,7 +1291,7 @@ namespace mfmFFS.Screens
                 txtVehicleNUm.Text = trm.VehicleNum;
                 txtDriverCNIC.Text = trm.DriverCNIC;
                 txtPathCnic.Text = trm.DriverPath;
-                string tCodeName = @"select  CardName +':'+ CardCode as CardCode from ocrd Where GroupCode = 116 and CardCode ='" + trm.TransportCode + "'";
+                string tCodeName = @"select  CardName +':'+ CardCode as CardCode from ocrd Where GroupCode = 108 and CardCode ='" + trm.TransportCode + "'";
                 string tCode = mFm.ExecuteQueryScaler(tCodeName, Program.ConStrSAP);
                 cmbTransportCode.Text = tCode;
                 int Yard = Convert.ToInt32(trm.YardId);
@@ -2191,9 +1396,8 @@ namespace mfmFFS.Screens
             }
 
         }
-
-
-    private void HandleDialogControlGRPO()
+        
+        private void HandleDialogControlGRPO()
         {
             try
             {
@@ -2259,6 +1463,7 @@ namespace mfmFFS.Screens
                 Program.oErrMgn.LogException(Program.ANV, Ex);
             }
         }
+
         private void HandleDialogSearch()
         {
             try
@@ -2275,6 +1480,7 @@ namespace mfmFFS.Screens
                 
             }
         }
+
         private void CallSafeCWeight(string pValue)
         {
             if (txtCWeight.InvokeRequired)
@@ -2287,29 +1493,7 @@ namespace mfmFFS.Screens
                 this.txtCWeight.Text = pValue;
             }
         }
-
-        private void chkAllowTolerance_ToggleStateChanged(object sender, StateChangedEventArgs args)
-        {
-            try
-            {
-                if (chkAllowTolerance.Checked)
-                {
-                    lblToleranceLimit.Visible = true;
-                    txtToleranceLimit.Visible = true;
-                }
-                else
-                {
-                    lblToleranceLimit.Visible = false;
-                    txtToleranceLimit.Visible = false;
-                    txtToleranceLimit.Text = string.Empty;
-                }
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
+        
         //private void btnInOut_ToggleStateChanged(object sender, StateChangedEventArgs args)
         //{
         //    try
@@ -2364,6 +1548,7 @@ namespace mfmFFS.Screens
                 throw;
             }
         }
+
         public int daySeries()
         {
             int dSeries = 0;
@@ -2459,20 +1644,6 @@ namespace mfmFFS.Screens
 
             //return false;
 
-        }
-
-        [STAThread]
-        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            if (IndicatorType.ToString() == "RM-OUT" || IndicatorType.ToString() == "DSP-IN" || IndicatorType.ToString() == "DSP-OUT" || IndicatorType.ToString() == "SILO-1")
-            {
-                Indicator01();
-            }
-            else if (IndicatorType.ToString() == "RM-IN")
-            {
-                Indicator02();
-            }
-            
         }
 
         private void Indicator01()
@@ -2572,6 +1743,844 @@ namespace mfmFFS.Screens
             }
 
         }
+        #endregion
+
+        #region Events
+
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                oDB = new dbFFS(Program.ConStrApp);
+                frmOpenDlg od = new frmOpenDlg();
+                string critaria = txtVoucherNo.Text;
+                string PldFor = Program.Screen;
+                var Doc = oDB.TrnsRawMaterialReturn.Where(x => x.DocNum == Convert.ToInt32(critaria)).FirstOrDefault();
+
+
+                if (btnSubmit.Text == "&Add")
+                {
+                    if (AddRecord())
+                    {
+                        var RMRadd = oDB.TrnsRawMaterialReturn.Where(x => x.DocNum == Convert.ToInt32(critaria)).FirstOrDefault();
+                        if (od.AddSealToDb())
+                        {
+                            if (Program.OpenLayout(PldFor, critaria, PldFor + " " + critaria))
+                            {
+                                try
+                                {
+                                    RMRadd.Flg1Rpt = true;
+
+                                }
+                                catch (Exception)
+                                {
+                                    throw;
+                                }
+                            }
+                            oDB.SubmitChanges();
+                            InitiallizeDocument();
+                            LoadGrid();
+                        }
+                    }
+                }
+
+                if (btnSubmit.Text == "&Update")
+                {
+
+                    string flgSecondWeight = Convert.ToString(Doc.FlgSecondWeight);
+                    if (AddRecord())
+                    {
+                        if (od.AddSealToDb())
+                        {
+                            if (flgSecondWeight == "False")
+                            {
+                                if (Program.OpenLayout(PldFor, critaria, PldFor + " " + critaria))
+                                {
+                                    Doc.Flg2Rpt = true;
+                                    oDB.SubmitChanges();
+                                }
+                            }
+
+                            InitiallizeDocument();
+                            LoadGrid();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception Ex)
+            {
+                Program.ExceptionMsg(Ex.ToString());
+            }
+            //try
+            //{
+            //    frmOpenDlg od = new frmOpenDlg();
+
+            //    if (btnSubmit.Text == "&Add")
+            //    {
+
+            //        if (AddRecord())
+            //        {
+            //            if (od.AddSealToDb())
+            //            {
+            //                string critaria = txtVoucherNo.Text;
+            //                string PldFor = Program.Screen;
+            //                Program.OpenLayout(PldFor, critaria, PldFor + " " + txtVoucherNo.Text);
+            //                InitiallizeDocument();
+            //                LoadGrid();
+            //            }
+            //        }
+            //    }
+            //    if (btnSubmit.Text == "&Update")
+            //    {
+            //        if (AddRecord())
+            //        {
+            //            if (od.AddSealToDb())
+            //            {
+            //                InitiallizeDocument();
+            //                LoadGrid();
+            //            }
+            //        }
+            //    }
+            //}
+            //catch (Exception Ex)
+            //{
+            //    Program.ExceptionMsg(Ex.ToString());
+            //}
+        }
+
+        private void radButton1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                HandleDialogControlItems();
+                txtDaySerial.Text = Convert.ToString(daySeries());
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult oResult = System.Windows.Forms.DialogResult.Cancel;
+                if (btnCancel.Text == "Close")
+                {
+                    oResult = RadMessageBox.Show("Are you sure you to close this form. ", "Confirmation.", MessageBoxButtons.YesNo);
+                }
+                if (oResult == System.Windows.Forms.DialogResult.Cancel)
+                {
+
+                   // comportRawR.Close();
+                    if (comportRawR.IsOpen)
+                    {
+                        comportRawR.DiscardInBuffer();
+                        comportRawR.DiscardOutBuffer();
+                        comportRawR.Close();
+                        // Program.oErrMgn.LogEntry(Program.ANV, "Port Ex 103");
+                    }
+                    Program.flgIndicator = false;
+                    this.Dispose();
+                    base.mytabpage.Dispose();
+
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+        }
+
+        private void grdDetails_CellDoubleClick(object sender, GridViewCellEventArgs e)
+        {
+            int DocNum = 0;
+            DocNum = Convert.ToInt32(e.Row.Cells["Wmnt#"].Value);
+            setValues(DocNum);
+            txtDriverCNIC.Enabled = true;
+            txtDriverName.Enabled = true;
+            txtTransportName.Enabled = false;
+            txtVehicleNUm.Enabled = true;
+            cmbYardType.Enabled = true;
+            cmbTransportType.Enabled = true;
+            cmbTransportCode.Enabled = true;
+            bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
+            if (super == true)
+            {
+                foreach (Control o in this.Controls)
+                {
+                    // special handling for the menu
+                    o.Enabled = true;
+
+                }
+            }
+            else
+            {
+                //btnPOItem.Enabled = true;
+                //btnDocNum.Enabled = true;
+                btnSubmit.Enabled = true;
+            }
+            txtCWeight.Enabled = false;
+            // comportRawR.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+            btnSubmit.Text = "&Update";
+            //flgSetValues = false;
+
+        }
+
+        private void radButton3_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                HandleDialogControlBulkSealer();
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void frmRawMaterialReturn_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                shiftName = this.GetShift();
+                shiftid = this.shiftidParent;
+                InitiallizeForm();
+
+            }
+            catch (Exception Ex)
+            {
+            }
+        }
+
+        private void btnAddNew_Click_1(object sender, EventArgs e)
+        {
+            InitiallizeDocument();
+            btnSubmit.Text = "&Add";
+            flgSetValues = false;
+            btnItem.Enabled = true;
+            radButton1.Enabled = true;
+            btnSubmit.Enabled = true;
+            txtDriverCNIC.Enabled = true;
+            txtDriverName.Enabled = true;
+            txtTransportName.Enabled = false;
+            txtVehicleNUm.Enabled = true;
+            cmbYardType.Enabled = true;
+            cmbTransportType.Enabled = true;
+            cmbTransportCode.Enabled = true;
+        }
+
+        private void txt1WeighKG_TextChanged(object sender, EventArgs e)
+        {
+            if (flgSetValues == true)
+            {
+                lblWeight.Text = "";
+            }
+            else
+            {
+                lblWeight.Text = txt1WeighKG.Text;
+            }
+
+            if (!string.IsNullOrEmpty(txt1WeighKG.Text))
+            {
+                txt1WeighTon.Text = Convert.ToString(Convert.ToDecimal(txt1WeighKG.Text) / 1000);
+
+            }
+
+            else
+            {
+                txt1WeighTon.Text = null;
+            }
+        }
+
+        private void txt2WeighKG_TextChanged(object sender, EventArgs e)
+        {
+            if (flgSetValues == false)
+            {
+                lblWeight.Text = "";
+            }
+            else
+            {
+                lblWeight.Text = txt2WeighKG.Text;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txt2WeighKG.Text))
+            {
+                if (!string.IsNullOrEmpty(txt2WeighKG.Text))
+                {
+                    txt2WeighTon.Text = Convert.ToString(Convert.ToDecimal(txt2WeighKG.Text) / 1000);
+                    txtNetWeighKG.Text = Convert.ToString(System.Math.Abs(Convert.ToDecimal(txt1WeighKG.Text) - Convert.ToDecimal(txt2WeighKG.Text)));
+                    txtNetWeighTon.Text = Convert.ToString(System.Math.Abs(Convert.ToDecimal(txt1WeighTon.Text) - Convert.ToDecimal(txt2WeighTon.Text)));
+                    txtDiffGRPONtWt.Text = Convert.ToString(Convert.ToDecimal(txtGRPOQuanTon.Text) - Convert.ToDecimal(txtNetWeighTon.Text));
+                }
+            }
+            else
+            {
+                txt2WeighTon.Text = null;
+                txtNetWeighKG.Text = null;
+                txtNetWeighTon.Text = null;
+                txtDiffGRPONtWt.Text = null;
+            }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //HandleDialogControl();
+            }
+            catch (Exception Ex)
+            {
+            }
+        }
+
+        private void btnSearch_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                Program.DocNum = null;
+                HandleDialogSearch();
+                if (Program.DocNum != null)
+                {
+                    setValues(Convert.ToInt32(Program.DocNum));
+                    txtDriverCNIC.Enabled = false;
+                    txtDriverName.Enabled = false;
+                    txtTransportName.Enabled = false;
+                    txtVehicleNUm.Enabled = false;
+                    cmbYardType.Enabled = false;
+                    cmbTransportType.Enabled = false;
+                    cmbTransportCode.Enabled = false;
+                    flgSetValues = false;
+                    btnSubmit.Text = "&Update";
+                }
+                bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
+                if (super == true)
+                {
+                    foreach (Control o in this.Controls)
+                    {
+                        // special handling for the menu
+                        o.Enabled = true;
+
+                    }
+                }
+                else
+                {
+                    btnItem.Enabled = false;
+                    radButton1.Enabled = false;
+                    btnSubmit.Enabled = false;
+                }
+                txtCWeight.Enabled = false;
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void txtVoucherNo_TextChanged(object sender, EventArgs e)
+        {
+            if (Program.sealdt != null)
+            {
+                Program.sealdt.Clear();
+            }
+        }
+
+        private void btnLastRecord_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                var MaxRecord = (from a in oDB.TrnsRawMaterialReturn where a.FlgSecondWeight == true && a.FlgPosted == null select a.DocNum).Max();
+
+                if (MaxRecord != null)
+                {
+                    int DocNum = Convert.ToInt32(MaxRecord);
+                    setValues(DocNum);
+                    txtDriverCNIC.Enabled = false;
+                    txtDriverName.Enabled = false;
+                    txtTransportName.Enabled = false;
+                    txtVehicleNUm.Enabled = false;
+                    cmbYardType.Enabled = false;
+                    cmbTransportType.Enabled = false;
+                    cmbTransportCode.Enabled = false;
+                    flgSetValues = false;
+                 
+                    txtCWeight.Enabled = false;
+                    Program.WarningMsg("Reached To Last Record");
+                }
+                bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
+                if (super == true)
+                {
+                    foreach (Control o in this.Controls)
+                    {
+                        // special handling for the menu
+                        o.Enabled = true;
+
+                    }
+                }
+                else
+                {
+                    btnItem.Enabled = false;
+                    radButton1.Enabled = false;
+                    btnSubmit.Enabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        private void btnNextRecord_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                int DocNum = Convert.ToInt32(txtVoucherNo.Text);
+                int previusDocNum = DocNum + 1;
+                int checkDoc = 0;
+                checkDoc = (from a in oDB.TrnsRawMaterialReturn where a.DocNum == previusDocNum && a.FlgSecondWeight == true && a.FlgPosted == null select a).Count();
+
+                if (checkDoc > 0)
+                {
+                    setValues(previusDocNum);
+                    txtDriverCNIC.Enabled = false;
+                    txtDriverName.Enabled = false;
+                    txtTransportName.Enabled = false;
+                    txtVehicleNUm.Enabled = false;
+                    cmbYardType.Enabled = false;
+                    cmbTransportType.Enabled = false;
+                    cmbTransportCode.Enabled = false;
+                    flgSetValues = false;
+                 
+                    txtCWeight.Enabled = false;
+                }
+                else
+                {
+                    Program.WarningMsg("Reached To Last Record");
+                }
+
+                bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
+                if (super == true)
+                {
+                    foreach (Control o in this.Controls)
+                    {
+                        // special handling for the menu
+                        o.Enabled = true;
+
+                    }
+                }
+                else
+                {
+                    btnItem.Enabled = false;
+                    radButton1.Enabled = false;
+                    btnSubmit.Enabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        private void btnPreviosRecord_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                int DocNum = Convert.ToInt32(txtVoucherNo.Text);
+                int previusDocNum = DocNum - 1;
+                int checkDoc = 0;
+                checkDoc = (from a in oDB.TrnsRawMaterialReturn where a.DocNum == previusDocNum && a.FlgSecondWeight == true && a.FlgPosted == null select a).Count();
+
+                if (checkDoc > 0)
+                {
+                    setValues(previusDocNum);
+                    txtDriverCNIC.Enabled = false;
+                    txtDriverName.Enabled = false;
+                    txtTransportName.Enabled = false;
+                    txtVehicleNUm.Enabled = false;
+                    cmbYardType.Enabled = false;
+                    cmbTransportType.Enabled = false;
+                    cmbTransportCode.Enabled = false;
+                    flgSetValues = false;
+                  
+                    txtCWeight.Enabled = false;
+                }
+                else
+                {
+                    Program.WarningMsg("Reached To First Record");
+                }
+                bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
+                if (super == true)
+                {
+                    foreach (Control o in this.Controls)
+                    {
+                        // special handling for the menu
+                        o.Enabled = true;
+
+                    }
+                }
+                else
+                {
+                    btnItem.Enabled = false;
+                    radButton1.Enabled = false;
+                    btnSubmit.Enabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        private void btnFirstRecord_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                var MaxRecord = (from a in oDB.TrnsRawMaterialReturn where a.FlgSecondWeight == true && a.FlgPosted == null select a.DocNum).First();
+
+                if (MaxRecord != null)
+                {
+                    int DocNum = Convert.ToInt32(MaxRecord);
+                    setValues(DocNum);
+                    txtDriverCNIC.Enabled = false;
+                    txtDriverName.Enabled = false;
+                    txtTransportName.Enabled = false;
+                    txtVehicleNUm.Enabled = false;
+                    cmbYardType.Enabled = false;
+                    cmbTransportType.Enabled = false;
+                    cmbTransportCode.Enabled = false;
+                    flgSetValues = false;
+                   
+                    txtCWeight.Enabled = false;
+                    Program.WarningMsg("Reached To First Record");
+                }
+                bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
+                if (super == true)
+                {
+                    foreach (Control o in this.Controls)
+                    {
+                        // special handling for the menu
+                        o.Enabled = true;
+
+                    }
+                }
+                else
+                {
+                    btnItem.Enabled = false;
+                    radButton1.Enabled = false;
+                    btnSubmit.Enabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
+
+        private void txtFullText_TextChanged(object sender, EventArgs e)
+        {
+            //if (string.IsNullOrEmpty(txt1WeighKG.Text) || txt1WeighKG.Text == "0")
+            //{
+            //    txt1WeighKG.Text = txtFullText.Text;
+            //}
+            //else if (flgSetValues)
+            //{
+            //    txt2WeighKG.Text = txtFullText.Text;
+            //}
+            if (flgSetValues)
+            {
+                txt2WeighKG.Text = txtFullText.Text;
+            }
+            else if (string.IsNullOrEmpty(txt2WeighKG.Text))
+            {
+                txt1WeighKG.Text = txtFullText.Text;
+            }
+            lblWeight.Text = txtFullText.Text;
+        }
+
+        private void btnAddNew_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                InitiallizeDocument();
+            }
+            catch (Exception Ex)
+            {
+            }
+        }
+
+        private void btnFirstRecord_Click(object sender, EventArgs e)
+        {
+            try
+            {
+            }
+            catch (Exception Ex)
+            {
+            }
+        }
+
+        private void btnPreviosRecord_Click(object sender, EventArgs e)
+        {
+            try
+            {
+            }
+            catch (Exception Ex)
+            {
+            }
+        }
+
+        private void btnNextRecord_Click(object sender, EventArgs e)
+        {
+            try
+            {
+            }
+            catch (Exception Ex)
+            {
+            }
+        }
+
+        private void btnLastRecord_Click(object sender, EventArgs e)
+        {
+            try
+            {
+            }
+            catch (Exception Ex)
+            {
+            }
+        }
+
+        //private void cmbSourceDoc_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        //LoadItemsCombo();
+        //        tmrCamFront.Enabled = true;
+        //    }
+        //    catch (Exception Ex)
+        //    {
+        //        Program.oErrMgn.LogException(Program.ANV, Ex);
+        //    }
+        //}
+
+        //private void txtRTWeight_TextChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        //string value = txtRTWeight.Text;
+        //        //Int64 value1 = Convert.ToInt64(value);
+        //        //lblWeight.Text = Convert.ToString((value1 / 10) * 10);
+        //        lblWeight.Text = txtGRPOQuanTon.Text;
+        //    }
+        //    catch (Exception Ex)
+        //    {
+        //        Program.oErrMgn.LogException(Program.ANV, Ex);
+        //    }
+        //}
+
+        private void btnItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                HandleDialogControlGRPO();
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+        
+        //private void tmrCamFront_Tick(object sender, EventArgs e)
+        //{
+        //    if (!isLoadingImageFront)
+        //    {
+        //        if (FrontCam != "")
+        //        {
+        //            getImageFront(FrontCam);
+        //        }
+
+        //    }
+        //}
+
+        //private void tmrCamBack_Tick(object sender, EventArgs e)
+        //{
+        //    if (!isLoadingImageBack)
+        //    {
+        //        if (BackCam != "")
+        //        {
+        //            getImageBack(BackCam);
+        //        }
+        //    }
+        //}
+
+        //private void txtFullData_TextChanged(object sender, EventArgs e)
+        //{
+        //    txtRTWeight.Text = mostRecentWeight.ToString();
+        //}
+
+        private void tmrAlreadyReading_Tick(object sender, EventArgs e)
+        {
+            alreadyReading = false;
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string critaria = " WHERE GatePass IN ('" + txtDate.Text + "') ";
+                //string PldFor = cmbSourceDoc.SelectedItem.Text;
+                //Program.OpenLayout(PldFor, critaria, PldFor + " " + txtGatePass.Text);
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void radButton2_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog theDialog = new OpenFileDialog();
+            theDialog.Title = "Open for Driver ID Picture";
+
+            theDialog.InitialDirectory = @"C:\";
+            if (theDialog.ShowDialog() == DialogResult.OK)
+            {
+                txtPathCnic.Text = theDialog.FileName.ToString();
+            }
+        }
+
+        private void btnPrint_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                string critaria = txtVoucherNo.Text;
+                string PldFor = Program.Screen;
+                string Fwmnt = txt1WeighKG.Text;
+                if (!string.IsNullOrEmpty(Fwmnt))
+                {
+                    if (lbl2.Text == "True")
+                    {
+                        Program.OpenLayout(PldFor, critaria, PldFor + " " + txtVoucherNo.Text);
+                        Program.OpenLayout("WayBridgeDelivery", critaria, "WayBridgeDelivery " + txtVoucherNo.Text);
+                    }
+                    else
+                    {
+                        Program.OpenLayout(PldFor, critaria, PldFor + " " + txtVoucherNo.Text);
+                    }
+                }
+                else
+                {
+                    Program.ExceptionMsg("Kindly select any document first");
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void txt2WeighKG_Click(object sender, EventArgs e)
+        {
+            btnSubmit.Text = "&Update";
+        }
+
+        private void cmbTransportCode_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e)
+        {
+            try
+            {
+                string[] CardName = cmbTransportCode.Text.Split(':');
+                string CArdName1 = CardName[1];
+                DataTable val = new DataTable();
+                string strQuery = @"select CardName from ocrd Where GroupCode = 108 and CardCode ='" + CArdName1 + "'";
+                //  WHERE dbo.ORDR.DocNum = '" + SourceDocNum + "'";
+                val = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);
+
+                txtTransportName.Text = val.Rows[0][0].ToString();
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+            //txtTransportName.Text = CardName;
+        }
+
+        private void btnGetWeight_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //Program.oErrMgn.LogEntry(Program.ANV, "Getweight " + txtCWeight.Text);
+                //string Cval = txtCWeight.Text;
+                //// txtFullText.Text = Cval;
+                string Cval = "";
+                if (rbBridge01.IsChecked)
+                {
+                    Program.oErrMgn.LogEntry(Program.ANV, "Getweight1 " + Program.Bridge01Value);
+                    Cval = Program.Bridge01Value;
+                }
+                else
+                {
+                    Program.oErrMgn.LogEntry(Program.ANV, "Getweight2 " + Program.Bridge02Value);
+                    Cval = Program.Bridge02Value;
+                }
+                Program.oErrMgn.LogEntry(Program.ANV, "Gotweight " + Cval);
+                lblWeight.Text = Cval;// txtFullText.Text;
+                if (flgSetValues)
+                {
+                    txt2WeighKG.Text = lblWeight.Text;
+                }
+                else if (string.IsNullOrEmpty(txt2WeighKG.Text))
+                {
+                    txt1WeighKG.Text = lblWeight.Text;
+                }
+
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void chkAllowTolerance_ToggleStateChanged(object sender, StateChangedEventArgs args)
+        {
+            try
+            {
+                if (chkAllowTolerance.Checked)
+                {
+                    lblToleranceLimit.Visible = true;
+                    txtToleranceLimit.Visible = true;
+                }
+                else
+                {
+                    lblToleranceLimit.Visible = false;
+                    txtToleranceLimit.Visible = false;
+                    txtToleranceLimit.Text = string.Empty;
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        [STAThread]
+        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            if (IndicatorType.ToString() == "RM-OUT" || IndicatorType.ToString() == "DSP-IN" || IndicatorType.ToString() == "DSP-OUT" || IndicatorType.ToString() == "SILO-1")
+            {
+                Indicator01();
+            }
+            else if (IndicatorType.ToString() == "RM-IN")
+            {
+                Indicator02();
+            }
+
+        }
+
         #endregion
 
     }

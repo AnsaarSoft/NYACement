@@ -27,7 +27,7 @@ namespace mfmFFS
     static class Program
     {
         public static string AppName = "Weighment ";
-        public static string AppVersion = "v1.2.0.1";
+        public static string AppVersion = "v1.2.0.11";
         public static string ANV = AppName + " " + AppVersion;
         public static string FormItemCode = "";
         public static int FormDocNum = 0;
@@ -56,6 +56,8 @@ namespace mfmFFS
         public static string PRBaseType = "";
         public static bool flgIndicator = false;
         public static mFm oErrMgn;
+        public static string Bridge01Value = "";
+        public static string Bridge02Value = "";
 
         public static frmMain MasterForm;
         //public static frmUser User;

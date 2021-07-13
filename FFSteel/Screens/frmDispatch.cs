@@ -60,677 +60,6 @@ namespace mfmFFS.Screens
         List<SaleOrderData> FirstWeightSOList = new List<SaleOrderData>();
         #endregion
 
-        #region Events
-
-        private void grdDetails_CellDoubleClick(object sender, GridViewCellEventArgs e)
-        {
-            try
-            {
-                int DocNum = 0;
-                DocNum = Convert.ToInt32(e.Row.Cells["Wmnt#"].Value);
-                Program.DocNum = DocNum.ToString();
-                setValues(DocNum);
-                ApplyAuthorization();
-                txtCWeight.Enabled = false;
-                btnSubmit.Text = "&Update";
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        private void txtItemGroupName_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnAddNew_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //txtFullText.Text = "";
-                //txtFullText.Text= mostRecentWeight.ToString();
-                InitiallizeDocument();
-                btnSubmit.Text = "&Add";
-                BtnDocSelect.Enabled = true;
-                BtnItemSelect.Enabled = true;
-                btnSubmit.Enabled = true;
-                txtDriverCNIC.Enabled = true;
-                txtDriverName.Enabled = true;
-                TxtTransportName.Enabled = false;
-                txtVehicleNum.Enabled = true;
-                cmbPacker.Enabled = true;
-                cmbTransportType.Enabled = true;
-                cmbTransportCode.Enabled = true;
-                txtOrderQuantity.Enabled = true;
-                if (Program.oCurrentUser.UserCode.ToLower() == "manager")
-                {
-                    txt1WeightKG.Enabled = true;
-                    txt2WeightKG.Enabled = true;
-                }
-                // txtOrderQuantity.Enabled = true;
-                flgSetValues = false;
-                //bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
-
-                //if (super == false)
-                //{
-                //    txtDocNo.Enabled = false;
-                //    txtSBRDate.Enabled = false;
-                //    txtSBRNum.Enabled = false;
-                //    txtShift.Enabled = false;
-                //    txtCustomerName.Enabled = false;
-                //    txtCustomerCode.Enabled = false;
-                //    txtItemCod.Enabled = false;
-                //    txtItemGroupName.Enabled = false;
-                //    txtItemNam.Enabled = false;
-                //    txtOrderQuantity.Enabled = true;
-                //    txtBalanceQuantity.Enabled = false;
-                //    txtCurrDate.Enabled = false;
-                //    txtCurrTime.Enabled = false;
-                //    txtDaySeries.Enabled = false;
-                //    TxtTransportName.Enabled = false;
-                //    txt1WeightDate.Enabled = false;
-                //    txt1WeightKG.Enabled = false;
-                //    txt1WeightTime.Enabled = false;
-                //    txt1WeightTon.Enabled = false;
-                //    txt2WeightDate.Enabled = false;
-                //    txt2WeightKG.Enabled = false;
-                //    txt2WeightTime.Enabled = false;
-                //    txt2WeightTon.Enabled = false;
-                //    txtNetWeightKG.Enabled = false;
-                //    txtNetWeightTon.Enabled = false;
-                //    txtDifferenceWeight.Enabled = false;
-                //}
-                txtCWeight.Enabled = false;
-                flgMultiSales = false;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        private void txt2WeightKG_Click(object sender, EventArgs e)
-        {
-            //btnSubmit.Text = "&Update";
-        }
-
-        private void txtDocNo_TextChanged(object sender, EventArgs e)
-        {
-            if (Program.sealdt != null)
-            {
-                Program.sealdt.Clear();
-            }
-
-        }
-
-        private void txtFullText_TextChanged(object sender, EventArgs e)
-        {
-            //lblWeight.Text = txtFullText.Text;
-            ////if (string.IsNullOrEmpty(txt1WeightKG.Text) || txt1WeightKG.Text == "0")
-            ////{
-
-            ////}
-            //else
-            if (flgSetValues)
-            {
-                txt2WeightKG.Text = txtFullText.Text;
-            }
-            else if (string.IsNullOrEmpty(txt2WeightKG.Text))
-            {
-                txt1WeightKG.Text = txtFullText.Text;
-            }
-            lblWeight.Text = txtFullText.Text;
-        }
-
-        private void btnNextRecord_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                int DocNum = Convert.ToInt32(txtDocNo.Text);
-                int previusDocNum = DocNum + 1;
-                int checkDoc = 0;
-                checkDoc = (from a in oDB.TrnsDispatch where a.DocNum == previusDocNum select a).Count();
-
-                if (checkDoc > 0)
-                {
-                    setValues(previusDocNum);
-                    ApplyAuthorization();
-                    //txtDriverCNIC.Enabled = false;
-                    //txtDriverName.Enabled = false;
-                    //TxtTransportName.Enabled = false;
-                    //txtVehicleNum.Enabled = false;
-                    //cmbPacker.Enabled = false;
-                    //cmbTransportType.Enabled = false;
-                    //cmbTransportCode.Enabled = false;
-                    //txtOrderQuantity.Enabled = false;
-                    btnSubmit.Text = "&Update";
-                    //flgSetValues = false;
-                    //bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
-                    //if (super == true)
-                    //{
-                    //    foreach (Control o in this.Controls)
-                    //    {
-                    //        // special handling for the menu
-                    //        o.Enabled = true;
-
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    BtnDocSelect.Enabled = false;
-                    //    BtnItemSelect.Enabled = false;
-                    //    btnSubmit.Enabled = false;
-                    //}
-                    //txtCWeight.Enabled = false;
-                }
-                else
-                {
-                    Program.WarningMsg("Reached To Last Record");
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-
-
-        }
-
-        private void btnPreviosRecord_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                int DocNum = Convert.ToInt32(txtDocNo.Text);
-                int previusDocNum = DocNum - 1;
-                int checkDoc = 0;
-                checkDoc = (from a in oDB.TrnsDispatch where a.DocNum == previusDocNum select a).Count();
-
-                if (checkDoc > 0)
-                {
-                    setValues(previusDocNum);
-                    ApplyAuthorization();
-                    //txtDriverCNIC.Enabled = false;
-                    //txtDriverName.Enabled = false;
-                    //TxtTransportName.Enabled = false;
-                    //txtVehicleNum.Enabled = false;
-                    //cmbPacker.Enabled = false;
-                    //cmbTransportType.Enabled = false;
-                    //cmbTransportCode.Enabled = false;
-                    //txtOrderQuantity.Enabled = false;
-                    btnSubmit.Text = "&Update";
-                    //flgSetValues = false;
-                    //bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
-                    //if (super == true)
-                    //{
-                    //    foreach (Control o in this.Controls)
-                    //    {
-                    //        // special handling for the menu
-                    //        o.Enabled = true;
-
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    BtnDocSelect.Enabled = false;
-                    //    BtnItemSelect.Enabled = false;
-                    //    btnSubmit.Enabled = false;
-                    //}
-                    //txtCWeight.Enabled = false;
-                }
-                else
-                {
-                    Program.WarningMsg("Reached To First Record");
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-        }
-
-        private void btnLastRecord_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                var MaxRecord = (from a in oDB.TrnsDispatch select a.DocNum).Max();
-
-                if (MaxRecord != null)
-                {
-                    int DocNum = Convert.ToInt32(MaxRecord);
-                    setValues(DocNum);
-                    ApplyAuthorization();
-                    btnSubmit.Text = "&Update";
-                    //txtDriverCNIC.Enabled = false;
-                    //txtDriverName.Enabled = false;
-                    //TxtTransportName.Enabled = false;
-                    //txtVehicleNum.Enabled = false;
-                    //cmbPacker.Enabled = false;
-                    //cmbTransportType.Enabled = false;
-                    //cmbTransportCode.Enabled = false;
-                    //txtOrderQuantity.Enabled = false;
-                    //flgSetValues = false;
-                    //Program.WarningMsg("Reached To Last Record");
-                    //bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
-                    //if (super == true)
-                    //{
-                    //    foreach (Control o in this.Controls)
-                    //    {
-                    //        // special handling for the menu
-                    //        o.Enabled = true;
-
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    BtnDocSelect.Enabled = false;
-                    //    BtnItemSelect.Enabled = false;
-                    //    btnSubmit.Enabled = false;
-                    //}
-                    //txtCWeight.Enabled = false;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-        }
-
-        private void btnFirstRecord_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                var MaxRecord = (from a in oDB.TrnsDispatch select a.DocNum).First();
-
-                if (MaxRecord != null)
-                {
-                    int DocNum = Convert.ToInt32(MaxRecord);
-                    setValues(DocNum);
-                    ApplyAuthorization();
-                    btnSubmit.Text = "&Update";
-                    //txtDriverCNIC.Enabled = false;
-                    //txtDriverName.Enabled = false;
-                    //TxtTransportName.Enabled = false;
-                    //txtVehicleNum.Enabled = false;
-                    //cmbPacker.Enabled = false;
-                    //cmbTransportType.Enabled = false;
-                    //cmbTransportCode.Enabled = false;
-                    //txtOrderQuantity.Enabled = false;
-                    //flgSetValues = false;
-                    //Program.WarningMsg("Reached To First Record");
-                    //bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
-                    //if (super == true)
-                    //{
-                    //    foreach (Control o in this.Controls)
-                    //    {
-                    //        // special handling for the menu
-                    //        o.Enabled = true;
-
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    BtnDocSelect.Enabled = false;
-                    //    BtnItemSelect.Enabled = false;
-                    //    btnSubmit.Enabled = false;
-                    //}
-                    //txtCWeight.Enabled = false;
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        private void btnSearch_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Program.DocNum))
-                {
-                    Program.DocNum = null;
-                    HandleDialogSearch();
-                    if (Program.DocNum != null)
-                    {
-                        setValues(Convert.ToInt32(Program.DocNum));
-                        btnSubmit.Text = "&Update";
-                    }
-                    flgSetValues = false;
-                    txtCWeight.Enabled = false;
-                }
-                else
-                {
-                    Program.WarningMsg("You can't search document already selected.");
-                }
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void txt1WeightKG_TextChanged(object sender, EventArgs e)
-        {
-            //if (!string.IsNullOrEmpty(txt2WeightKG.Text) && !string.IsNullOrEmpty(txt1WeightKG.Text))
-            //{
-            //    txtNetWeightKG.Text = Convert.ToString(System.Math.Abs(Convert.ToDecimal(txt1WeightKG.Text) - Convert.ToDecimal(txt2WeightKG.Text)));
-            //    txt1WeightTon.Text = Convert.ToString(Convert.ToDecimal(txt1WeightKG.Text) / 1000);
-            //    txt2WeightTon.Text = Convert.ToString(Convert.ToDecimal(txt2WeightKG.Text) / 1000);
-            //}
-            if (flgSetValues == true)
-            {
-                lblWeight.Text = "";
-            }
-            else
-            {
-                lblWeight.Text = txt1WeightKG.Text;
-            }
-
-            if (!string.IsNullOrEmpty(txt1WeightKG.Text))
-            {
-                txt1WeightTon.Text = Convert.ToString(Convert.ToDecimal(txt1WeightKG.Text) / 1000);
-
-            }
-
-            else
-            {
-                txt1WeightTon.Text = null;
-            }
-
-        }
-
-        private void txt2WeightKG_TextChanged(object sender, EventArgs e)
-        {
-
-            //Program.NoMsg("");
-            //int n;
-            //bool isNumeric = int.TryParse(Convert.ToString(txt2WeightKG.Text), out n);
-
-            if (flgSetValues == false)
-
-            {
-                lblWeight.Text = "";
-            }
-            else
-            {
-                lblWeight.Text = txt2WeightKG.Text;
-            }
-
-            if (!string.IsNullOrWhiteSpace(txt2WeightKG.Text))
-            {
-                if (!string.IsNullOrEmpty(txt2WeightKG.Text))
-                {
-                    //if (isNumeric)
-                    //{
-
-
-                    txt2WeightTon.Text = Convert.ToString(Convert.ToDecimal(txt2WeightKG.Text) / 1000);
-                    txtNetWeightKG.Text = Convert.ToString(System.Math.Abs(Convert.ToDecimal(txt1WeightKG.Text) - Convert.ToDecimal(txt2WeightKG.Text)));
-                    txtNetWeightTon.Text = Convert.ToString(System.Math.Abs(Convert.ToDecimal(txt1WeightTon.Text) - Convert.ToDecimal(txt2WeightTon.Text)));
-                    if (!string.IsNullOrEmpty(txtOrderQuantity.Text))
-                    {
-                        txtDifferenceWeight.Text = Convert.ToString(Convert.ToDecimal(txtNetWeightTon.Text) - Convert.ToDecimal(txtOrderQuantity.Text));
-                    }
-                    //}
-                    //else
-                    //{
-                    //    Program.ExceptionMsg("Values can only be Numeric");
-                    //}
-
-                }
-            }
-            else
-            {
-                txt2WeightTon.Text = null;
-                txtNetWeightKG.Text = null;
-                txtNetWeightTon.Text = null;
-                txtDifferenceWeight.Text = null;
-            }
-        }
-
-        private void cmbTransportCode_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e)
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(cmbTransportCode.Text))
-                {
-                    string[] CardName = cmbTransportCode.Text.Split(':');
-                    string CArdName1 = CardName[1];
-                    DataTable val = new DataTable();
-                    string strQuery = @"select CardName from ocrd Where GroupCode = 117 and CardCode ='" + CArdName1 + "'";
-                    //  WHERE dbo.ORDR.DocNum = '" + SourceDocNum + "'";
-                    val = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);
-                    TxtTransportName.Text = val.Rows[0][0].ToString();
-                }
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void btnSubmit_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                AddDocument();
-                //frmOpenDlg od = new frmOpenDlg();
-                //string critaria = txtDocNo.Text;
-                //string PldFor = Program.Screen;
-                ////var Doc = oDB.TrnsDispatch.Where(x => x.DocNum == Convert.ToInt32(critaria)).FirstOrDefault();
-                //if (btnSubmit.Text == "&Add")
-                //{
-                //    if (AddRecord())
-                //    {
-                //        if (od.AddSealToDb())
-                //        {
-                //            using (dbFFS oDB1 = new dbFFS(Program.ConStrApp))
-                //            {
-                //                try
-                //                {
-                //                    var dispatchAdd = oDB1.TrnsDispatch.Where(x => x.DocNum == Convert.ToInt32(critaria)).FirstOrDefault();
-                //                    if (Program.OpenLayout(PldFor, critaria, PldFor + " " + critaria))
-                //                    {
-                //                        dispatchAdd.Flg1Rpt = true;
-                //                    }
-                //                    oDB1.SubmitChanges();
-                //                }
-                //                catch (Exception ex)
-                //                {
-                //                    Program.oErrMgn.LogException(Program.ANV, ex);
-                //                }
-                //            }
-                //            //Program.comport.Close();
-                //            InitiallizeDocument();
-                //            LoadGrid();
-                //        }
-                //    }
-                //    else
-                //    {
-                //        // Program.WarningMsg("Reached To First Record");
-                //    }
-                //}
-
-                //if (btnSubmit.Text == "&Update")
-                //{
-                //    if (AddRecord())
-                //    {
-                //        if (od.AddSealToDb())
-                //        {
-                //            using (dbFFS oDB1 = new dbFFS(Program.ConStrApp))
-                //            {
-                //                try
-                //                {
-                //                    var Doc = oDB1.TrnsDispatch.Where(x => x.DocNum == Convert.ToInt32(critaria)).FirstOrDefault();
-                //                    //string flgSecondWeight = Convert.ToString(Doc.FlgSecondWeight);
-
-                //                    //if (flgSecondWeight == "False")
-                //                    if (Doc.FlgSecondWeight.GetValueOrDefault())
-                //                    {
-                //                        if (Program.OpenLayout(PldFor, critaria, PldFor + " " + critaria))
-                //                        {
-                //                            Doc.Flg2Rpt = true;
-                //                            if (Program.OpenLayout("WayBridgeDelivery", critaria, "WayBridgeDelivery " + critaria))
-                //                            {
-                //                                Doc.FlgWBrpt = true;
-                //                            }
-                //                            oDB1.SubmitChanges();
-                //                            //Program.comport.Close();
-                //                        }
-                //                    }
-                //                }
-                //                catch (Exception ex)
-                //                {
-                //                    Program.oErrMgn.LogException(Program.ANV, ex);
-                //                }
-                //            }
-                //            InitiallizeDocument();
-                //            LoadGrid();
-                //        }
-                //    }
-                //}
-
-                // if (Program.comport.IsOpen) Program.comport.Close();
-                //GetMachineSetting();
-                // Program.comport.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
-            }
-            catch (Exception Ex)
-            {
-                //Program.ExceptionMsg(Ex.ToString());
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            //DialogResult oResult = System.Windows.Forms.DialogResult.Cancel;
-            //if (btnCancel.Text == "Close")
-            //{
-            //    oResult = RadMessageBox.Show("Are you sure you to close this form. ", "Confirmation.", MessageBoxButtons.YesNo);
-            //}
-            //if (oResult == System.Windows.Forms.DialogResult.Cancel)
-            //{
-            //    //Program.comport.Close();
-            //    this.Dispose();
-            //    base.mytabpage.Dispose();
-            //}
-            try
-            {
-                if (comportDispatch.IsOpen)
-                {
-                    comportDispatch.DiscardInBuffer();
-                    comportDispatch.DiscardOutBuffer();
-                    comportDispatch.Close();
-                }
-                Program.flgIndicator = false;
-                this.Dispose();
-                base.mytabpage.Dispose();
-            }
-            catch (Exception ex)
-            {
-                Program.oErrMgn.LogEntry(Program.ANV, "Form Close Port Exception Dispatch.");
-                Program.oErrMgn.LogException(Program.ANV, ex);
-            }
-        }
-
-        private void btnItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (flgMultiSales)
-                {
-                    HandleDialogControlSaleOrderMulti();
-                }
-                else
-                {
-                    HandleDialogControlSaleOrder();
-                }
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void frmDispatch_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                shiftName = this.GetShift();
-                shiftid = this.shiftidParent;
-                InitiallizeForm();
-            }
-            catch (Exception Ex)
-            {
-            }
-        }
-
-        private void radButton2_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog theDialog = new OpenFileDialog();
-            theDialog.Title = "Open for Driver ID Picture";
-
-            theDialog.InitialDirectory = @"C:\";
-            if (theDialog.ShowDialog() == DialogResult.OK)
-            {
-                txtCNICPath.Text = theDialog.FileName.ToString();
-            }
-        }
-
-        private void btnBulkTable_Click(object sender, EventArgs e)
-        {
-
-            try
-            {
-                HandleDialogControlBulkSealer();
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void BtnItemSelect_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!flgMultiSales)
-                {
-                    HandleDialogControlSaleOrderItem();
-                    txtDaySeries.Text = Convert.ToString(daySeries());
-                }
-                else
-                {
-                    HandleDialogControlSaleOrderItemNewLogic();
-                    txtDaySeries.Text = Convert.ToString(daySeries());
-                }
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void btnCust_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                HandleDialogControlCustomer();
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        #endregion
-
         #region Functions
 
         private void CallSafeCWeight(string pValue)
@@ -751,10 +80,10 @@ namespace mfmFFS.Screens
             InitializeComponent();
             txt1WeightDate.Text = DateTime.Now.ToString();
             txt2WeightDate.Text = DateTime.Now.ToString();
-            txtCWeight.Visible = true;
-            txtCWeight.Enabled = false;
+            /*txtCWeight.Visible = true;
+            txtCWeight.Enabled = false;*/
             //Program.comport.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
-            comportDispatch.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+            /*comportDispatch.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);*/
         }
 
         private void InitiallizeForm()
@@ -765,7 +94,7 @@ namespace mfmFFS.Screens
                 Program.flgIndicator = true;
                 Program.NoMsg("");
                 dt.Clear();
-                GetMachineSetting();
+                /*GetMachineSetting();*/
                 CreateDt();
                 FillPacker();
                 FillTransportCode();
@@ -783,7 +112,7 @@ namespace mfmFFS.Screens
 
                 ApplyAuthorization();
 
-                tmrAlreadyReading.Interval = 1000;
+                /*tmrAlreadyReading.Interval = 1000;*/
             }
             catch (Exception Ex)
             {
@@ -819,7 +148,7 @@ namespace mfmFFS.Screens
             {
                 DataTable dt = new DataTable();
 
-                string strQuery = @"select CardCode, CardName +':'+ CardCode as CardCodeName from ocrd Where GroupCode = 117";
+                string strQuery = @"select CardCode, CardName +':'+ CardCode as CardCodeName from ocrd Where GroupCode = 108";
 
                 //  WHERE dbo.ORDR.DocNum = '" + SourceDocNum + "'";
                 dt = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);
@@ -890,18 +219,19 @@ namespace mfmFFS.Screens
                 txt1WeightKG.Text = Convert.ToString(trm.FWeighmentKG);
 
 
-                string tCodeName = @"select  CardName +':'+ CardCode as CardCode from ocrd Where GroupCode = 117 and CardCode ='" + trm.TransportCode + "'";
+                string tCodeName = @"select  CardName +':'+ CardCode as CardCode from ocrd Where GroupCode = 108 and CardCode ='" + trm.TransportCode + "'";
 
                 string tCode = mFm.ExecuteQueryScaler(tCodeName, Program.ConStrSAP);
-                cmbTransportCode.Text = tCode;
+                //cmbTransportCode.Text = tCode;
+                cmbTransportCode.SelectedIndex = (cmbTransportCode.Items.IndexOf(tCode));
                 int ttype = Convert.ToInt32(trm.TransportID);
                 string ttypeName = (from a in oDB.MstTransportType where a.ID == ttype select a.Name).FirstOrDefault();
-                cmbTransportType.Text = ttypeName;
+                //cmbTransportType.Text = ttypeName;
+                cmbTransportType.SelectedIndex = (cmbTransportType.Items.IndexOf(ttypeName));
                 int pckr = Convert.ToInt32(trm.PackerId);
                 string pckName = (from a in oDB.MstPacker where a.ID == pckr select a.Name).FirstOrDefault();
-                cmbPacker.Text = pckName;
-
-
+                //cmbPacker.Text = pckName;
+                cmbPacker.SelectedIndex = (cmbPacker.Items.IndexOf(pckName));
                 if (!string.IsNullOrEmpty(Convert.ToString(trm.SWeighmentDate)))
                 {
                     string[] sdate = trm.SWeighmentDate.ToString().Split(' ');
@@ -1097,66 +427,7 @@ namespace mfmFFS.Screens
                 txtToleranceLimit.Text = "";
                 txtToleranceLimit.Visible = false;
                 chkAllowTolerance.Checked = false;
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void tmrAlreadyReading_Tick(object sender, EventArgs e)
-        {
-            alreadyReading = false;
-        }
-
-        private void btnGetWeight_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Program.oErrMgn.LogEntry(Program.ANV, "Getweight " + txtCWeight.Text);
-                string Cval = txtCWeight.Text;
-                // txtFullText.Text = Cval;
-                Program.oErrMgn.LogEntry(Program.ANV, "Gotweight " + Cval);
-                lblWeight.Text = Cval;// txtFullText.Text;
-                if (flgSetValues)
-                {
-                    txt2WeightKG.Text = lblWeight.Text;
-                }
-                else if (string.IsNullOrEmpty(txt2WeightKG.Text))
-                {
-                    txt1WeightKG.Text = lblWeight.Text;
-                }
-
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void btnPrint_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string critaria = txtDocNo.Text;
-                string PldFor = Program.Screen;
-                string Fwmnt = txt1WeightKG.Text;
-                if (!string.IsNullOrEmpty(Fwmnt))
-                {
-                    if (lbl2.Text == "True")
-                    {
-                        Program.OpenLayout(PldFor, critaria, PldFor + " " + txtDocNo.Text);
-                        Program.OpenLayout("WayBridgeDelivery", critaria, "WayBridgeDelivery " + txtDocNo.Text);
-                    }
-                    else
-                    {
-                        Program.OpenLayout(PldFor, critaria, PldFor + " " + txtDocNo.Text);
-                    }
-                }
-                else
-                {
-                    Program.ExceptionMsg("Kindly select any document first");
-                }
+                SaleOrderList.Clear();
             }
             catch (Exception Ex)
             {
@@ -1171,11 +442,6 @@ namespace mfmFFS.Screens
             oDlg.SourceDocNum = txtSBRNum.Text;
 
             oDlg.ShowDialog();
-        }
-
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            LoadGrid();
         }
 
         private void GetMachineSetting()
@@ -2143,7 +1409,6 @@ namespace mfmFFS.Screens
             lblWeight.Invoke(new EventHandler(delegate { lblWeight.Text = data; }));
         }
 
-
         private void LoadGrid()
         {
             try
@@ -2545,28 +1810,6 @@ namespace mfmFFS.Screens
             }
         }
 
-        private void chkAllowTolerance_ToggleStateChanged(object sender, StateChangedEventArgs args)
-        {
-            try
-            {
-                if (chkAllowTolerance.Checked)
-                {
-                    lblToleranceLimit.Visible = true;
-                    txtToleranceLimit.Visible = true;
-                }
-                else
-                {
-                    lblToleranceLimit.Visible = false;
-                    txtToleranceLimit.Visible = false;
-                    txtToleranceLimit.Text = string.Empty;
-                }
-            }
-            catch (Exception Ex)
-            {
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
         public bool UpdateRecordSpecial()
         {
             try
@@ -2701,6 +1944,20 @@ namespace mfmFFS.Screens
                     }
                 }
 
+                if (chkAllowTolerance.Checked)
+                {
+                    if (string.IsNullOrEmpty(txtToleranceLimit.Text))
+                    {
+                        Program.WarningMsg("Tolerance limit can't be empty.");
+                        return false;
+                    }
+                    else
+                    {
+                        oDoc.FlgTolerance = chkAllowTolerance.Checked;
+                        oDoc.ToleranceLimit = Convert.ToDecimal(txtToleranceLimit.Text);
+                    }
+                }
+
                 if (flgMultiSales && flgDetailReset)
                 {
                     decimal CurOrderQty = oDoc.OrderQuantity.GetValueOrDefault();
@@ -2815,6 +2072,7 @@ namespace mfmFFS.Screens
                     }
                 }
 
+            
                 oDB.SubmitChanges();
                 Program.SuccesesMsg("Record Successfully Updated.");
                 return true;
@@ -2980,21 +2238,21 @@ namespace mfmFFS.Screens
                     //    return false;
                     //}
                 }
-                //if (string.IsNullOrEmpty(Convert.ToString(cmbPacker.Text)))
-                //{
-                //    Program.WarningMsg("Packer should be selected.");
-                //    return false;
-                //}
-                //if (string.IsNullOrEmpty(Convert.ToString(cmbTransportCode.Text)))
-                //{
-                //    Program.WarningMsg("Transporter code is mandatory.");
-                //    return false;
-                //}
-                //if (string.IsNullOrEmpty(Convert.ToString(cmbTransportType.Text)))
-                //{
-                //    Program.WarningMsg("Transporter type is mandatory");
-                //    return false;
-                //}
+                if (string.IsNullOrEmpty(Convert.ToString(cmbPacker.Text)))
+                {
+                    Program.WarningMsg("Packer should be selected.");
+                    return false;
+                }
+                if (string.IsNullOrEmpty(Convert.ToString(cmbTransportCode.Text)))
+                {
+                    Program.WarningMsg("Transporter code is mandatory.");
+                    return false;
+                }
+                if (string.IsNullOrEmpty(Convert.ToString(cmbTransportType.Text)))
+                {
+                    Program.WarningMsg("Transporter type is mandatory");
+                    return false;
+                }
                 if (string.IsNullOrEmpty(txt1WeightKG.Text))
                 {
                     Program.WarningMsg("First weight can't be empty.");
@@ -3290,19 +2548,6 @@ namespace mfmFFS.Screens
             return DocNum;
         }
 
-        [STAThread]
-        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            if (IndicatorType.ToString() == "RM-OUT" || IndicatorType.ToString() == "DSP-IN" || IndicatorType.ToString() == "DSP-OUT" || IndicatorType.ToString() == "SILO-1")
-            {
-                Indicator01();
-            }
-            else if (IndicatorType.ToString() == "RM-IN")
-            {
-                Indicator02();
-            }
-        }
-
         private void Indicator01()
         {
 
@@ -3399,6 +2644,788 @@ namespace mfmFFS.Screens
         
         #endregion
 
+        #region Events
+
+        private void grdDetails_CellDoubleClick(object sender, GridViewCellEventArgs e)
+        {
+            try
+            {
+                int DocNum = 0;
+                DocNum = Convert.ToInt32(e.Row.Cells["Wmnt#"].Value);
+                Program.DocNum = DocNum.ToString();
+                setValues(DocNum);
+                ApplyAuthorization();
+                txtCWeight.Enabled = false;
+                btnSubmit.Text = "&Update";
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void txtItemGroupName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAddNew_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //txtFullText.Text = "";
+                //txtFullText.Text= mostRecentWeight.ToString();
+                InitiallizeDocument();
+                btnSubmit.Text = "&Add";
+                BtnDocSelect.Enabled = true;
+                BtnItemSelect.Enabled = true;
+                btnSubmit.Enabled = true;
+                txtDriverCNIC.Enabled = true;
+                txtDriverName.Enabled = true;
+                TxtTransportName.Enabled = false;
+                txtVehicleNum.Enabled = true;
+                cmbPacker.Enabled = true;
+                cmbTransportType.Enabled = true;
+                cmbTransportCode.Enabled = true;
+                txtOrderQuantity.Enabled = true;
+                if (Program.oCurrentUser.UserCode.ToLower() == "manager")
+                {
+                    txt1WeightKG.Enabled = true;
+                    txt2WeightKG.Enabled = true;
+                }
+                // txtOrderQuantity.Enabled = true;
+                flgSetValues = false;
+                //bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
+
+                //if (super == false)
+                //{
+                //    txtDocNo.Enabled = false;
+                //    txtSBRDate.Enabled = false;
+                //    txtSBRNum.Enabled = false;
+                //    txtShift.Enabled = false;
+                //    txtCustomerName.Enabled = false;
+                //    txtCustomerCode.Enabled = false;
+                //    txtItemCod.Enabled = false;
+                //    txtItemGroupName.Enabled = false;
+                //    txtItemNam.Enabled = false;
+                //    txtOrderQuantity.Enabled = true;
+                //    txtBalanceQuantity.Enabled = false;
+                //    txtCurrDate.Enabled = false;
+                //    txtCurrTime.Enabled = false;
+                //    txtDaySeries.Enabled = false;
+                //    TxtTransportName.Enabled = false;
+                //    txt1WeightDate.Enabled = false;
+                //    txt1WeightKG.Enabled = false;
+                //    txt1WeightTime.Enabled = false;
+                //    txt1WeightTon.Enabled = false;
+                //    txt2WeightDate.Enabled = false;
+                //    txt2WeightKG.Enabled = false;
+                //    txt2WeightTime.Enabled = false;
+                //    txt2WeightTon.Enabled = false;
+                //    txtNetWeightKG.Enabled = false;
+                //    txtNetWeightTon.Enabled = false;
+                //    txtDifferenceWeight.Enabled = false;
+                //}
+                txtCWeight.Enabled = false;
+                flgMultiSales = false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void txt2WeightKG_Click(object sender, EventArgs e)
+        {
+            //btnSubmit.Text = "&Update";
+        }
+
+        private void txtDocNo_TextChanged(object sender, EventArgs e)
+        {
+            if (Program.sealdt != null)
+            {
+                Program.sealdt.Clear();
+            }
+
+        }
+
+        private void txtFullText_TextChanged(object sender, EventArgs e)
+        {
+            //lblWeight.Text = txtFullText.Text;
+            ////if (string.IsNullOrEmpty(txt1WeightKG.Text) || txt1WeightKG.Text == "0")
+            ////{
+
+            ////}
+            //else
+            if (flgSetValues)
+            {
+                txt2WeightKG.Text = txtFullText.Text;
+            }
+            else if (string.IsNullOrEmpty(txt2WeightKG.Text))
+            {
+                txt1WeightKG.Text = txtFullText.Text;
+            }
+            lblWeight.Text = txtFullText.Text;
+        }
+
+        private void btnNextRecord_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                int DocNum = Convert.ToInt32(txtDocNo.Text);
+                int previusDocNum = DocNum + 1;
+                int checkDoc = 0;
+                checkDoc = (from a in oDB.TrnsDispatch where a.DocNum == previusDocNum select a).Count();
+
+                if (checkDoc > 0)
+                {
+                    setValues(previusDocNum);
+                    ApplyAuthorization();
+                    //txtDriverCNIC.Enabled = false;
+                    //txtDriverName.Enabled = false;
+                    //TxtTransportName.Enabled = false;
+                    //txtVehicleNum.Enabled = false;
+                    //cmbPacker.Enabled = false;
+                    //cmbTransportType.Enabled = false;
+                    //cmbTransportCode.Enabled = false;
+                    //txtOrderQuantity.Enabled = false;
+                    btnSubmit.Text = "&Update";
+                    //flgSetValues = false;
+                    //bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
+                    //if (super == true)
+                    //{
+                    //    foreach (Control o in this.Controls)
+                    //    {
+                    //        // special handling for the menu
+                    //        o.Enabled = true;
+
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    BtnDocSelect.Enabled = false;
+                    //    BtnItemSelect.Enabled = false;
+                    //    btnSubmit.Enabled = false;
+                    //}
+                    //txtCWeight.Enabled = false;
+                }
+                else
+                {
+                    Program.WarningMsg("Reached To Last Record");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+
+        }
+
+        private void btnPreviosRecord_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                int DocNum = Convert.ToInt32(txtDocNo.Text);
+                int previusDocNum = DocNum - 1;
+                int checkDoc = 0;
+                checkDoc = (from a in oDB.TrnsDispatch where a.DocNum == previusDocNum select a).Count();
+
+                if (checkDoc > 0)
+                {
+                    setValues(previusDocNum);
+                    ApplyAuthorization();
+                    //txtDriverCNIC.Enabled = false;
+                    //txtDriverName.Enabled = false;
+                    //TxtTransportName.Enabled = false;
+                    //txtVehicleNum.Enabled = false;
+                    //cmbPacker.Enabled = false;
+                    //cmbTransportType.Enabled = false;
+                    //cmbTransportCode.Enabled = false;
+                    //txtOrderQuantity.Enabled = false;
+                    btnSubmit.Text = "&Update";
+                    //flgSetValues = false;
+                    //bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
+                    //if (super == true)
+                    //{
+                    //    foreach (Control o in this.Controls)
+                    //    {
+                    //        // special handling for the menu
+                    //        o.Enabled = true;
+
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    BtnDocSelect.Enabled = false;
+                    //    BtnItemSelect.Enabled = false;
+                    //    btnSubmit.Enabled = false;
+                    //}
+                    //txtCWeight.Enabled = false;
+                }
+                else
+                {
+                    Program.WarningMsg("Reached To First Record");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        private void btnLastRecord_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                var MaxRecord = (from a in oDB.TrnsDispatch select a.DocNum).Max();
+
+                if (MaxRecord != null)
+                {
+                    int DocNum = Convert.ToInt32(MaxRecord);
+                    setValues(DocNum);
+                    ApplyAuthorization();
+                    btnSubmit.Text = "&Update";
+                    //txtDriverCNIC.Enabled = false;
+                    //txtDriverName.Enabled = false;
+                    //TxtTransportName.Enabled = false;
+                    //txtVehicleNum.Enabled = false;
+                    //cmbPacker.Enabled = false;
+                    //cmbTransportType.Enabled = false;
+                    //cmbTransportCode.Enabled = false;
+                    //txtOrderQuantity.Enabled = false;
+                    //flgSetValues = false;
+                    //Program.WarningMsg("Reached To Last Record");
+                    //bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
+                    //if (super == true)
+                    //{
+                    //    foreach (Control o in this.Controls)
+                    //    {
+                    //        // special handling for the menu
+                    //        o.Enabled = true;
+
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    BtnDocSelect.Enabled = false;
+                    //    BtnItemSelect.Enabled = false;
+                    //    btnSubmit.Enabled = false;
+                    //}
+                    //txtCWeight.Enabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        private void btnFirstRecord_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                var MaxRecord = (from a in oDB.TrnsDispatch select a.DocNum).First();
+
+                if (MaxRecord != null)
+                {
+                    int DocNum = Convert.ToInt32(MaxRecord);
+                    setValues(DocNum);
+                    ApplyAuthorization();
+                    btnSubmit.Text = "&Update";
+                    //txtDriverCNIC.Enabled = false;
+                    //txtDriverName.Enabled = false;
+                    //TxtTransportName.Enabled = false;
+                    //txtVehicleNum.Enabled = false;
+                    //cmbPacker.Enabled = false;
+                    //cmbTransportType.Enabled = false;
+                    //cmbTransportCode.Enabled = false;
+                    //txtOrderQuantity.Enabled = false;
+                    //flgSetValues = false;
+                    //Program.WarningMsg("Reached To First Record");
+                    //bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
+                    //if (super == true)
+                    //{
+                    //    foreach (Control o in this.Controls)
+                    //    {
+                    //        // special handling for the menu
+                    //        o.Enabled = true;
+
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    BtnDocSelect.Enabled = false;
+                    //    BtnItemSelect.Enabled = false;
+                    //    btnSubmit.Enabled = false;
+                    //}
+                    //txtCWeight.Enabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void btnSearch_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Program.DocNum))
+                {
+                    Program.DocNum = null;
+                    HandleDialogSearch();
+                    if (Program.DocNum != null)
+                    {
+                        setValues(Convert.ToInt32(Program.DocNum));
+                        btnSubmit.Text = "&Update";
+                    }
+                    flgSetValues = false;
+                    txtCWeight.Enabled = false;
+                }
+                else
+                {
+                    Program.WarningMsg("You can't search document already selected.");
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void txt1WeightKG_TextChanged(object sender, EventArgs e)
+        {
+            //if (!string.IsNullOrEmpty(txt2WeightKG.Text) && !string.IsNullOrEmpty(txt1WeightKG.Text))
+            //{
+            //    txtNetWeightKG.Text = Convert.ToString(System.Math.Abs(Convert.ToDecimal(txt1WeightKG.Text) - Convert.ToDecimal(txt2WeightKG.Text)));
+            //    txt1WeightTon.Text = Convert.ToString(Convert.ToDecimal(txt1WeightKG.Text) / 1000);
+            //    txt2WeightTon.Text = Convert.ToString(Convert.ToDecimal(txt2WeightKG.Text) / 1000);
+            //}
+            if (flgSetValues == true)
+            {
+                lblWeight.Text = "";
+            }
+            else
+            {
+                lblWeight.Text = txt1WeightKG.Text;
+            }
+
+            if (!string.IsNullOrEmpty(txt1WeightKG.Text))
+            {
+                txt1WeightTon.Text = Convert.ToString(Convert.ToDecimal(txt1WeightKG.Text) / 1000);
+
+            }
+
+            else
+            {
+                txt1WeightTon.Text = null;
+            }
+
+        }
+
+        private void txt2WeightKG_TextChanged(object sender, EventArgs e)
+        {
+
+            //Program.NoMsg("");
+            //int n;
+            //bool isNumeric = int.TryParse(Convert.ToString(txt2WeightKG.Text), out n);
+
+            if (flgSetValues == false)
+
+            {
+                lblWeight.Text = "";
+            }
+            else
+            {
+                lblWeight.Text = txt2WeightKG.Text;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txt2WeightKG.Text))
+            {
+                if (!string.IsNullOrEmpty(txt2WeightKG.Text))
+                {
+                    //if (isNumeric)
+                    //{
+
+
+                    txt2WeightTon.Text = Convert.ToString(Convert.ToDecimal(txt2WeightKG.Text) / 1000);
+                    txtNetWeightKG.Text = Convert.ToString(System.Math.Abs(Convert.ToDecimal(txt1WeightKG.Text) - Convert.ToDecimal(txt2WeightKG.Text)));
+                    txtNetWeightTon.Text = Convert.ToString(System.Math.Abs(Convert.ToDecimal(txt1WeightTon.Text) - Convert.ToDecimal(txt2WeightTon.Text)));
+                    if (!string.IsNullOrEmpty(txtOrderQuantity.Text))
+                    {
+                        txtDifferenceWeight.Text = Convert.ToString(Convert.ToDecimal(txtNetWeightTon.Text) - Convert.ToDecimal(txtOrderQuantity.Text));
+                    }
+                    //}
+                    //else
+                    //{
+                    //    Program.ExceptionMsg("Values can only be Numeric");
+                    //}
+
+                }
+            }
+            else
+            {
+                txt2WeightTon.Text = null;
+                txtNetWeightKG.Text = null;
+                txtNetWeightTon.Text = null;
+                txtDifferenceWeight.Text = null;
+            }
+        }
+
+        private void cmbTransportCode_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(cmbTransportCode.Text))
+                {
+                    string[] CardName = cmbTransportCode.Text.Split(':');
+                    string CArdName1 = CardName[1];
+                    DataTable val = new DataTable();
+                    string strQuery = @"select CardName from ocrd Where GroupCode = 108 and CardCode ='" + CArdName1 + "'";
+                    //  WHERE dbo.ORDR.DocNum = '" + SourceDocNum + "'";
+                    val = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);
+                    TxtTransportName.Text = val.Rows[0][0].ToString();
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AddDocument();
+                //frmOpenDlg od = new frmOpenDlg();
+                //string critaria = txtDocNo.Text;
+                //string PldFor = Program.Screen;
+                ////var Doc = oDB.TrnsDispatch.Where(x => x.DocNum == Convert.ToInt32(critaria)).FirstOrDefault();
+                //if (btnSubmit.Text == "&Add")
+                //{
+                //    if (AddRecord())
+                //    {
+                //        if (od.AddSealToDb())
+                //        {
+                //            using (dbFFS oDB1 = new dbFFS(Program.ConStrApp))
+                //            {
+                //                try
+                //                {
+                //                    var dispatchAdd = oDB1.TrnsDispatch.Where(x => x.DocNum == Convert.ToInt32(critaria)).FirstOrDefault();
+                //                    if (Program.OpenLayout(PldFor, critaria, PldFor + " " + critaria))
+                //                    {
+                //                        dispatchAdd.Flg1Rpt = true;
+                //                    }
+                //                    oDB1.SubmitChanges();
+                //                }
+                //                catch (Exception ex)
+                //                {
+                //                    Program.oErrMgn.LogException(Program.ANV, ex);
+                //                }
+                //            }
+                //            //Program.comport.Close();
+                //            InitiallizeDocument();
+                //            LoadGrid();
+                //        }
+                //    }
+                //    else
+                //    {
+                //        // Program.WarningMsg("Reached To First Record");
+                //    }
+                //}
+
+                //if (btnSubmit.Text == "&Update")
+                //{
+                //    if (AddRecord())
+                //    {
+                //        if (od.AddSealToDb())
+                //        {
+                //            using (dbFFS oDB1 = new dbFFS(Program.ConStrApp))
+                //            {
+                //                try
+                //                {
+                //                    var Doc = oDB1.TrnsDispatch.Where(x => x.DocNum == Convert.ToInt32(critaria)).FirstOrDefault();
+                //                    //string flgSecondWeight = Convert.ToString(Doc.FlgSecondWeight);
+
+                //                    //if (flgSecondWeight == "False")
+                //                    if (Doc.FlgSecondWeight.GetValueOrDefault())
+                //                    {
+                //                        if (Program.OpenLayout(PldFor, critaria, PldFor + " " + critaria))
+                //                        {
+                //                            Doc.Flg2Rpt = true;
+                //                            if (Program.OpenLayout("WayBridgeDelivery", critaria, "WayBridgeDelivery " + critaria))
+                //                            {
+                //                                Doc.FlgWBrpt = true;
+                //                            }
+                //                            oDB1.SubmitChanges();
+                //                            //Program.comport.Close();
+                //                        }
+                //                    }
+                //                }
+                //                catch (Exception ex)
+                //                {
+                //                    Program.oErrMgn.LogException(Program.ANV, ex);
+                //                }
+                //            }
+                //            InitiallizeDocument();
+                //            LoadGrid();
+                //        }
+                //    }
+                //}
+
+                // if (Program.comport.IsOpen) Program.comport.Close();
+                //GetMachineSetting();
+                // Program.comport.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+            }
+            catch (Exception Ex)
+            {
+                //Program.ExceptionMsg(Ex.ToString());
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            //DialogResult oResult = System.Windows.Forms.DialogResult.Cancel;
+            //if (btnCancel.Text == "Close")
+            //{
+            //    oResult = RadMessageBox.Show("Are you sure you to close this form. ", "Confirmation.", MessageBoxButtons.YesNo);
+            //}
+            //if (oResult == System.Windows.Forms.DialogResult.Cancel)
+            //{
+            //    //Program.comport.Close();
+            //    this.Dispose();
+            //    base.mytabpage.Dispose();
+            //}
+            try
+            {
+                if (comportDispatch.IsOpen)
+                {
+                    comportDispatch.DiscardInBuffer();
+                    comportDispatch.DiscardOutBuffer();
+                    comportDispatch.Close();
+                }
+                Program.flgIndicator = false;
+                this.Dispose();
+                base.mytabpage.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Program.oErrMgn.LogEntry(Program.ANV, "Form Close Port Exception Dispatch.");
+                Program.oErrMgn.LogException(Program.ANV, ex);
+            }
+        }
+
+        private void btnItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (flgMultiSales)
+                {
+                    HandleDialogControlSaleOrderMulti();
+                }
+                else
+                {
+                    HandleDialogControlSaleOrder();
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void frmDispatch_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                shiftName = this.GetShift();
+                shiftid = this.shiftidParent;
+                InitiallizeForm();
+            }
+            catch (Exception Ex)
+            {
+            }
+        }
+
+        private void radButton2_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog theDialog = new OpenFileDialog();
+            theDialog.Title = "Open for Driver ID Picture";
+
+            theDialog.InitialDirectory = @"C:\";
+            if (theDialog.ShowDialog() == DialogResult.OK)
+            {
+                txtCNICPath.Text = theDialog.FileName.ToString();
+            }
+        }
+
+        private void btnBulkTable_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                HandleDialogControlBulkSealer();
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void BtnItemSelect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!flgMultiSales)
+                {
+                    HandleDialogControlSaleOrderItem();
+                    txtDaySeries.Text = Convert.ToString(daySeries());
+                }
+                else
+                {
+                    HandleDialogControlSaleOrderItemNewLogic();
+                    txtDaySeries.Text = Convert.ToString(daySeries());
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void btnCust_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                HandleDialogControlCustomer();
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void tmrAlreadyReading_Tick(object sender, EventArgs e)
+        {
+            alreadyReading = false;
+        }
+
+        private void btnGetWeight_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //Program.oErrMgn.LogEntry(Program.ANV, "Getweight " + txtCWeight.Text);
+                //string Cval = txtCWeight.Text;
+                //// txtFullText.Text = Cval;
+                //Program.oErrMgn.LogEntry(Program.ANV, "Gotweight " + Cval);
+                //lblWeight.Text = Cval;// txtFullText.Text;
+                string Cval = "";
+                if (rbBridge01.IsChecked)
+                {
+                    Program.oErrMgn.LogEntry(Program.ANV, "Getweight1 " + Program.Bridge01Value);
+                    Cval = Program.Bridge01Value;
+                }
+                else
+                {
+                    Program.oErrMgn.LogEntry(Program.ANV, "Getweight2 " + Program.Bridge02Value);
+                    Cval = Program.Bridge02Value;
+                }
+                Program.oErrMgn.LogEntry(Program.ANV, "Gotweight " + Cval);
+                lblWeight.Text = Cval;
+                if (flgSetValues)
+                {
+                    txt2WeightKG.Text = lblWeight.Text;
+                }
+                else if (string.IsNullOrEmpty(txt2WeightKG.Text))
+                {
+                    txt1WeightKG.Text = lblWeight.Text;
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string critaria = txtDocNo.Text;
+                string PldFor = Program.Screen;
+                string Fwmnt = txt1WeightKG.Text;
+                if (!string.IsNullOrEmpty(Fwmnt))
+                {
+                    if (lbl2.Text == "True")
+                    {
+                        Program.OpenLayout(PldFor, critaria, PldFor + " " + txtDocNo.Text);
+                        Program.OpenLayout("WayBridgeDelivery", critaria, "WayBridgeDelivery " + txtDocNo.Text);
+                    }
+                    else
+                    {
+                        Program.OpenLayout(PldFor, critaria, PldFor + " " + txtDocNo.Text);
+                    }
+                }
+                else
+                {
+                    Program.ExceptionMsg("Kindly select any document first");
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            LoadGrid();
+        }
+
+        private void chkAllowTolerance_ToggleStateChanged(object sender, StateChangedEventArgs args)
+        {
+            try
+            {
+                if (chkAllowTolerance.Checked)
+                {
+                    lblToleranceLimit.Visible = true;
+                    txtToleranceLimit.Visible = true;
+                }
+                else
+                {
+                    lblToleranceLimit.Visible = false;
+                    txtToleranceLimit.Visible = false;
+                    txtToleranceLimit.Text = string.Empty;
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        [STAThread]
+        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            if (IndicatorType.ToString() == "RM-OUT" || IndicatorType.ToString() == "DSP-IN" || IndicatorType.ToString() == "DSP-OUT" || IndicatorType.ToString() == "SILO-1")
+            {
+                Indicator01();
+            }
+            else if (IndicatorType.ToString() == "RM-IN")
+            {
+                Indicator02();
+            }
+        }
+
+        #endregion
     }
 
     public class SaleOrderData

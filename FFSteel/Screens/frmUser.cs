@@ -85,6 +85,7 @@ namespace mfmFFS.Screens
                     oldData1.FlgSuper = chkSuperUser.Checked;
                     oldData1.FlgSpecial = chkSpecial.Checked;
                     oldData1.Email = txtEmail.Text;
+                    oldData1.FlgTolerance = chkToleranceRights.Checked;
 
                     Int64 RoleID = Convert.ToInt64(cmbRole.SelectedValue);
                     CnfRoles oRec = (from a in oDB.CnfRoles where a.ID == RoleID select a).FirstOrDefault();
@@ -107,6 +108,7 @@ namespace mfmFFS.Screens
                     oNew.FlgSuper = chkSuperUser.Checked;
                     oNew.FlgSpecial = chkSpecial.Checked;
                     oNew.Email = txtEmail.Text;
+                    oNew.FlgTolerance = chkToleranceRights.Checked;
 
                     Int64 RoleID = Convert.ToInt64(cmbRole.SelectedValue);
                     CnfRoles oRec = (from a in oDB.CnfRoles where a.ID == RoleID select a).FirstOrDefault();

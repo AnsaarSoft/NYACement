@@ -36,6 +36,7 @@
             Telerik.WinControls.UI.RadListDataItem radListDataItem6 = new Telerik.WinControls.UI.RadListDataItem();
             Telerik.WinControls.UI.RadListDataItem radListDataItem7 = new Telerik.WinControls.UI.RadListDataItem();
             Telerik.WinControls.UI.RadListDataItem radListDataItem8 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.RadListDataItem radListDataItem9 = new Telerik.WinControls.UI.RadListDataItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmReportManagement));
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn1 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn2 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
@@ -44,8 +45,8 @@
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn5 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.GridViewTextBoxColumn gridViewTextBoxColumn6 = new Telerik.WinControls.UI.GridViewTextBoxColumn();
             Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
-            Telerik.WinControls.UI.RadListDataItem radListDataItem9 = new Telerik.WinControls.UI.RadListDataItem();
             Telerik.WinControls.UI.RadListDataItem radListDataItem10 = new Telerik.WinControls.UI.RadListDataItem();
+            Telerik.WinControls.UI.RadListDataItem radListDataItem11 = new Telerik.WinControls.UI.RadListDataItem();
             this.btnDefault = new Telerik.WinControls.UI.RadButton();
             this.cmbMenu = new Telerik.WinControls.UI.RadDropDownList();
             this.cmbSourceDoc = new Telerik.WinControls.UI.RadDropDownList();
@@ -136,11 +137,13 @@
             radListDataItem6.Text = "RawMaterial";
             radListDataItem7.Text = "RawMaterialReturn";
             radListDataItem8.Text = "WayBridgeDelivery";
+            radListDataItem9.Text = "MultipleDispatch";
             this.cmbSourceDoc.Items.Add(radListDataItem4);
             this.cmbSourceDoc.Items.Add(radListDataItem5);
             this.cmbSourceDoc.Items.Add(radListDataItem6);
             this.cmbSourceDoc.Items.Add(radListDataItem7);
             this.cmbSourceDoc.Items.Add(radListDataItem8);
+            this.cmbSourceDoc.Items.Add(radListDataItem9);
             this.cmbSourceDoc.Location = new System.Drawing.Point(141, 172);
             this.cmbSourceDoc.Name = "cmbSourceDoc";
             this.cmbSourceDoc.Size = new System.Drawing.Size(166, 20);
@@ -393,10 +396,10 @@
             // 
             // cmbRptName
             // 
-            radListDataItem9.Text = "Dispatch";
-            radListDataItem10.Text = "RawMaterial";
-            this.cmbRptName.Items.Add(radListDataItem9);
+            radListDataItem10.Text = "Dispatch";
+            radListDataItem11.Text = "RawMaterial";
             this.cmbRptName.Items.Add(radListDataItem10);
+            this.cmbRptName.Items.Add(radListDataItem11);
             this.cmbRptName.Location = new System.Drawing.Point(141, 100);
             this.cmbRptName.Name = "cmbRptName";
             this.cmbRptName.Size = new System.Drawing.Size(166, 20);

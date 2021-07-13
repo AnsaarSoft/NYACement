@@ -8409,8 +8409,6 @@ namespace mfmFFSDB
 		
 		private System.Nullable<decimal> _ToleranceLimit;
 		
-		private string _IGPNo;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -8527,8 +8525,6 @@ namespace mfmFFSDB
     partial void OnFlgToleranceChanged();
     partial void OnToleranceLimitChanging(System.Nullable<decimal> value);
     partial void OnToleranceLimitChanged();
-    partial void OnIGPNoChanging(string value);
-    partial void OnIGPNoChanged();
     #endregion
 		
 		public TrnsRawMaterial()
@@ -9652,26 +9648,6 @@ namespace mfmFFSDB
 					this._ToleranceLimit = value;
 					this.SendPropertyChanged("ToleranceLimit");
 					this.OnToleranceLimitChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_IGPNo", DbType="VarChar(100)")]
-		public string IGPNo
-		{
-			get
-			{
-				return this._IGPNo;
-			}
-			set
-			{
-				if ((this._IGPNo != value))
-				{
-					this.OnIGPNoChanging(value);
-					this.SendPropertyChanging();
-					this._IGPNo = value;
-					this.SendPropertyChanged("IGPNo");
-					this.OnIGPNoChanged();
 				}
 			}
 		}

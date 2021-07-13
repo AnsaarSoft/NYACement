@@ -43,6 +43,12 @@
             this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
             this.tabItem2 = new DevComponents.DotNetBar.TabItem(this.components);
             this.pnlHead = new Telerik.WinControls.UI.RadPanel();
+            this.txtFullText2 = new Telerik.WinControls.UI.RadTextBox();
+            this.radLabel5 = new Telerik.WinControls.UI.RadLabel();
+            this.txtCWeight2 = new Telerik.WinControls.UI.RadTextBox();
+            this.radLabel4 = new Telerik.WinControls.UI.RadLabel();
+            this.txtFullText = new Telerik.WinControls.UI.RadTextBox();
+            this.txtCWeight = new Telerik.WinControls.UI.RadTextBox();
             this.btnLogout = new Telerik.WinControls.UI.RadButton();
             this.txtLoginDisplay = new Telerik.WinControls.UI.RadTextBox();
             this.txtNameDisplay = new Telerik.WinControls.UI.RadTextBox();
@@ -56,6 +62,10 @@
             this.pnlBase = new Telerik.WinControls.UI.RadPanel();
             this.tmrIntegration = new System.Windows.Forms.Timer(this.components);
             this.tmrSync = new System.Windows.Forms.Timer(this.components);
+            this.tmrAlreadyReading = new System.Windows.Forms.Timer(this.components);
+            this.tmrCamFront = new System.Windows.Forms.Timer(this.components);
+            this.tmrAlreadyReading2 = new System.Windows.Forms.Timer(this.components);
+            this.tmrCamFront2 = new System.Windows.Forms.Timer(this.components);
             this.npMain.SuspendLayout();
             this.navigationPanePanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tvMain)).BeginInit();
@@ -63,6 +73,12 @@
             this.tbMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlHead)).BeginInit();
             this.pnlHead.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFullText2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCWeight2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFullText)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCWeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnLogout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLoginDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNameDisplay)).BeginInit();
@@ -287,6 +303,12 @@
             // 
             // pnlHead
             // 
+            this.pnlHead.Controls.Add(this.txtFullText2);
+            this.pnlHead.Controls.Add(this.radLabel5);
+            this.pnlHead.Controls.Add(this.txtCWeight2);
+            this.pnlHead.Controls.Add(this.radLabel4);
+            this.pnlHead.Controls.Add(this.txtFullText);
+            this.pnlHead.Controls.Add(this.txtCWeight);
             this.pnlHead.Controls.Add(this.btnLogout);
             this.pnlHead.Controls.Add(this.txtLoginDisplay);
             this.pnlHead.Controls.Add(this.txtNameDisplay);
@@ -300,6 +322,54 @@
             this.pnlHead.Name = "pnlHead";
             this.pnlHead.Size = new System.Drawing.Size(746, 100);
             this.pnlHead.TabIndex = 3;
+            // 
+            // txtFullText2
+            // 
+            this.txtFullText2.Location = new System.Drawing.Point(711, 32);
+            this.txtFullText2.Name = "txtFullText2";
+            this.txtFullText2.Size = new System.Drawing.Size(23, 20);
+            this.txtFullText2.TabIndex = 146;
+            this.txtFullText2.Visible = false;
+            // 
+            // radLabel5
+            // 
+            this.radLabel5.Location = new System.Drawing.Point(418, 49);
+            this.radLabel5.Name = "radLabel5";
+            this.radLabel5.Size = new System.Drawing.Size(54, 18);
+            this.radLabel5.TabIndex = 144;
+            this.radLabel5.Text = "Bridge 02";
+            // 
+            // txtCWeight2
+            // 
+            this.txtCWeight2.Location = new System.Drawing.Point(478, 47);
+            this.txtCWeight2.Name = "txtCWeight2";
+            this.txtCWeight2.Size = new System.Drawing.Size(129, 20);
+            this.txtCWeight2.TabIndex = 143;
+            this.txtCWeight2.TextChanged += new System.EventHandler(this.txtCWeight2_TextChanged);
+            // 
+            // radLabel4
+            // 
+            this.radLabel4.Location = new System.Drawing.Point(418, 25);
+            this.radLabel4.Name = "radLabel4";
+            this.radLabel4.Size = new System.Drawing.Size(54, 18);
+            this.radLabel4.TabIndex = 142;
+            this.radLabel4.Text = "Bridge 01";
+            // 
+            // txtFullText
+            // 
+            this.txtFullText.Location = new System.Drawing.Point(711, 7);
+            this.txtFullText.Name = "txtFullText";
+            this.txtFullText.Size = new System.Drawing.Size(23, 20);
+            this.txtFullText.TabIndex = 141;
+            this.txtFullText.Visible = false;
+            // 
+            // txtCWeight
+            // 
+            this.txtCWeight.Location = new System.Drawing.Point(478, 23);
+            this.txtCWeight.Name = "txtCWeight";
+            this.txtCWeight.Size = new System.Drawing.Size(129, 20);
+            this.txtCWeight.TabIndex = 140;
+            this.txtCWeight.TextChanged += new System.EventHandler(this.txtCWeight_TextChanged);
             // 
             // btnLogout
             // 
@@ -323,7 +393,7 @@
             this.txtNameDisplay.Location = new System.Drawing.Point(177, 71);
             this.txtNameDisplay.Name = "txtNameDisplay";
             this.txtNameDisplay.ReadOnly = true;
-            this.txtNameDisplay.Size = new System.Drawing.Size(278, 20);
+            this.txtNameDisplay.Size = new System.Drawing.Size(229, 20);
             this.txtNameDisplay.TabIndex = 5;
             // 
             // txtUserCodeDisplay
@@ -407,6 +477,16 @@
             this.tmrSync.Interval = 360000;
             this.tmrSync.Tick += new System.EventHandler(this.tmrSync_Tick);
             // 
+            // tmrAlreadyReading
+            // 
+            this.tmrAlreadyReading.Enabled = true;
+            this.tmrAlreadyReading.Interval = 1000;
+            // 
+            // tmrAlreadyReading2
+            // 
+            this.tmrAlreadyReading2.Enabled = true;
+            this.tmrAlreadyReading2.Interval = 1000;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -435,6 +515,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlHead)).EndInit();
             this.pnlHead.ResumeLayout(false);
             this.pnlHead.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFullText2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCWeight2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtFullText)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCWeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnLogout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtLoginDisplay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNameDisplay)).EndInit();
@@ -480,6 +566,16 @@
         private System.Windows.Forms.Timer tmrIntegration;
         private System.Windows.Forms.Timer tmrSync;
         private Telerik.WinControls.UI.RadButton btnLogout;
+        private Telerik.WinControls.UI.RadTextBox txtFullText;
+        private System.Windows.Forms.Timer tmrAlreadyReading;
+        private System.Windows.Forms.Timer tmrCamFront;
+        private Telerik.WinControls.UI.RadLabel radLabel5;
+        private Telerik.WinControls.UI.RadLabel radLabel4;
+        private Telerik.WinControls.UI.RadTextBox txtFullText2;
+        private System.Windows.Forms.Timer tmrAlreadyReading2;
+        private System.Windows.Forms.Timer tmrCamFront2;
+        public Telerik.WinControls.UI.RadTextBox txtCWeight;
+        public Telerik.WinControls.UI.RadTextBox txtCWeight2;
     }
 }
 

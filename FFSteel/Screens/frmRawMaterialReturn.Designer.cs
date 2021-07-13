@@ -146,6 +146,9 @@
             this.chkAllowTolerance = new Telerik.WinControls.UI.RadCheckBox();
             this.lblToleranceLimit = new Telerik.WinControls.UI.RadLabel();
             this.txtToleranceLimit = new Telerik.WinControls.UI.RadTextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.rbBridge02 = new Telerik.WinControls.UI.RadRadioButton();
+            this.rbBridge01 = new Telerik.WinControls.UI.RadRadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.txtFullText)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radButton1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlControls)).BeginInit();
@@ -238,23 +241,26 @@
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnGetWeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCWeight)).BeginInit();
+            this.txtCWeight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel31)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkAllowTolerance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblToleranceLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtToleranceLimit)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rbBridge02)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rbBridge01)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
             // tmrAlreadyReading
             // 
-            this.tmrAlreadyReading.Enabled = true;
             this.tmrAlreadyReading.Interval = 1000;
             this.tmrAlreadyReading.Tick += new System.EventHandler(this.tmrAlreadyReading_Tick);
             // 
             // lbl2
             // 
             this.lbl2.AutoSize = true;
-            this.lbl2.Location = new System.Drawing.Point(956, 26);
+            this.lbl2.Location = new System.Drawing.Point(-3, 0);
             this.lbl2.Name = "lbl2";
             this.lbl2.Size = new System.Drawing.Size(26, 13);
             this.lbl2.TabIndex = 136;
@@ -849,36 +855,36 @@
             gridViewTextBoxColumn2.HeaderText = "Wmnt#";
             gridViewTextBoxColumn2.MinWidth = 0;
             gridViewTextBoxColumn2.Name = "Wmnt#";
-            gridViewTextBoxColumn2.Width = 46;
+            gridViewTextBoxColumn2.Width = 35;
             gridViewTextBoxColumn3.EnableExpressionEditor = false;
             gridViewTextBoxColumn3.FieldName = "Vehicle#";
             gridViewTextBoxColumn3.HeaderText = "Vehicle#";
             gridViewTextBoxColumn3.MinWidth = 0;
             gridViewTextBoxColumn3.Name = "Vehicle#";
-            gridViewTextBoxColumn3.Width = 74;
+            gridViewTextBoxColumn3.Width = 56;
             gridViewTextBoxColumn4.EnableExpressionEditor = false;
             gridViewTextBoxColumn4.FieldName = "GRPO#";
             gridViewTextBoxColumn4.HeaderText = "GRPO#";
             gridViewTextBoxColumn4.MinWidth = 0;
             gridViewTextBoxColumn4.Name = "GRPO#";
-            gridViewTextBoxColumn4.Width = 62;
+            gridViewTextBoxColumn4.Width = 47;
             gridViewTextBoxColumn5.EnableExpressionEditor = false;
             gridViewTextBoxColumn5.FieldName = "ItemName";
             gridViewTextBoxColumn5.HeaderText = "ItemName";
             gridViewTextBoxColumn5.Name = "ItemName";
-            gridViewTextBoxColumn5.Width = 93;
+            gridViewTextBoxColumn5.Width = 71;
             gridViewTextBoxColumn6.EnableExpressionEditor = false;
             gridViewTextBoxColumn6.FieldName = "First Weight";
             gridViewTextBoxColumn6.HeaderText = "First Weight";
             gridViewTextBoxColumn6.MinWidth = 0;
             gridViewTextBoxColumn6.Name = "First Weight";
-            gridViewTextBoxColumn6.Width = 91;
+            gridViewTextBoxColumn6.Width = 69;
             gridViewTextBoxColumn7.EnableExpressionEditor = false;
             gridViewTextBoxColumn7.FieldName = "DocDate";
             gridViewTextBoxColumn7.HeaderText = "DocDate";
             gridViewTextBoxColumn7.MinWidth = 0;
             gridViewTextBoxColumn7.Name = "DocDate";
-            gridViewTextBoxColumn7.Width = 59;
+            gridViewTextBoxColumn7.Width = 46;
             this.grdDetails.MasterTemplate.Columns.AddRange(new Telerik.WinControls.UI.GridViewDataColumn[] {
             gridViewTextBoxColumn1,
             gridViewTextBoxColumn2,
@@ -895,7 +901,7 @@
             this.grdDetails.Name = "grdDetails";
             this.grdDetails.ReadOnly = true;
             this.grdDetails.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.grdDetails.Size = new System.Drawing.Size(441, 403);
+            this.grdDetails.Size = new System.Drawing.Size(340, 407);
             this.grdDetails.TabIndex = 72;
             this.grdDetails.Text = "radGridView1";
             this.grdDetails.CellDoubleClick += new Telerik.WinControls.UI.GridViewCellEventHandler(this.grdDetails_CellDoubleClick);
@@ -1068,10 +1074,12 @@
             // 
             // txtCWeight
             // 
-            this.txtCWeight.Location = new System.Drawing.Point(843, 24);
+            this.txtCWeight.Controls.Add(this.lbl2);
+            this.txtCWeight.Location = new System.Drawing.Point(975, 47);
             this.txtCWeight.Name = "txtCWeight";
-            this.txtCWeight.Size = new System.Drawing.Size(153, 20);
+            this.txtCWeight.Size = new System.Drawing.Size(37, 20);
             this.txtCWeight.TabIndex = 140;
+            this.txtCWeight.Visible = false;
             // 
             // radLabel31
             // 
@@ -1106,18 +1114,46 @@
             this.txtToleranceLimit.TabIndex = 147;
             this.txtToleranceLimit.Visible = false;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.rbBridge02);
+            this.panel1.Controls.Add(this.rbBridge01);
+            this.panel1.Location = new System.Drawing.Point(828, 19);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(153, 26);
+            this.panel1.TabIndex = 148;
+            // 
+            // rbBridge02
+            // 
+            this.rbBridge02.Location = new System.Drawing.Point(81, 4);
+            this.rbBridge02.Name = "rbBridge02";
+            this.rbBridge02.Size = new System.Drawing.Size(68, 18);
+            this.rbBridge02.TabIndex = 1;
+            this.rbBridge02.TabStop = false;
+            this.rbBridge02.Text = "Bridge 02";
+            // 
+            // rbBridge01
+            // 
+            this.rbBridge01.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.rbBridge01.Location = new System.Drawing.Point(4, 4);
+            this.rbBridge01.Name = "rbBridge01";
+            this.rbBridge01.Size = new System.Drawing.Size(68, 18);
+            this.rbBridge01.TabIndex = 0;
+            this.rbBridge01.Text = "Bridge 01";
+            this.rbBridge01.ToggleState = Telerik.WinControls.Enumerations.ToggleState.On;
+            // 
             // frmRawMaterialReturn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 529);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.txtToleranceLimit);
             this.Controls.Add(this.lblToleranceLimit);
             this.Controls.Add(this.chkAllowTolerance);
             this.Controls.Add(this.radLabel31);
             this.Controls.Add(this.txtCWeight);
             this.Controls.Add(this.btnGetWeight);
-            this.Controls.Add(this.lbl2);
             this.Controls.Add(this.txtFullText);
             this.Controls.Add(this.radButton1);
             this.Controls.Add(this.pnlControls);
@@ -1297,10 +1333,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnGetWeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtCWeight)).EndInit();
+            this.txtCWeight.ResumeLayout(false);
+            this.txtCWeight.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel31)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkAllowTolerance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblToleranceLimit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtToleranceLimit)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rbBridge02)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rbBridge01)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1406,5 +1448,8 @@
         private Telerik.WinControls.UI.RadCheckBox chkAllowTolerance;
         private Telerik.WinControls.UI.RadLabel lblToleranceLimit;
         private Telerik.WinControls.UI.RadTextBox txtToleranceLimit;
+        private System.Windows.Forms.Panel panel1;
+        private Telerik.WinControls.UI.RadRadioButton rbBridge02;
+        private Telerik.WinControls.UI.RadRadioButton rbBridge01;
     }
 }

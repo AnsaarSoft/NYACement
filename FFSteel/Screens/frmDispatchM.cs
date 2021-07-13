@@ -19,7 +19,7 @@ using System.IO.Ports;
 using System.IO;
 using System.Threading;
 using System.Net;
-
+using System.Data.Linq;
 
 namespace mfmFFS.Screens
 {
@@ -56,11 +56,13 @@ namespace mfmFFS.Screens
         delegate void delCWeight(string value);
         bool flgMultiSales = false;
         bool flgCustChange = false, flgItemChange = false, flgReselect = false;
-
         decimal totalLoadingQty = 0;
 
-        /*List<SaleOrderData> SaleOrderList = new List<SaleOrderData>();
-        List<SaleOrderData> FirstWeightSOList = new List<SaleOrderData>();*/
+        string ToleranceApprovedBy = "";
+        bool flgChkStatus = false;
+        //bool flgcehckexcep = false;
+        public List<ItemCheckList> ItemList = new List<ItemCheckList>();
+
         #endregion
 
         #region Functions
@@ -83,10 +85,10 @@ namespace mfmFFS.Screens
             InitializeComponent();
             txt1WeightDate.Text = DateTime.Now.ToString();
             txt2WeightDate.Text = DateTime.Now.ToString();
-            txtCWeight.Visible = true;
-            txtCWeight.Enabled = false;
+            /*txtCWeight.Visible = true;
+            txtCWeight.Enabled = false;*/
             //Program.comport.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
-            comportDispatch.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+            /*comportDispatch.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);*/
         }
 
         private void InitiallizeForm()
@@ -98,7 +100,7 @@ namespace mfmFFS.Screens
                 Program.NoMsg("");
                 dt.Clear();
                 dtM.Clear();
-                GetMachineSetting();
+                /*GetMachineSetting();*/
                 CreateDt();
                 CreateMultipleDispatchDt();
                 FillPacker();
@@ -117,7 +119,7 @@ namespace mfmFFS.Screens
 
                 ApplyAuthorization();
 
-                tmrAlreadyReading.Interval = 1000;
+                /*tmrAlreadyReading.Interval = 1000;*/
             }
             catch (Exception Ex)
             {
@@ -134,12 +136,6 @@ namespace mfmFFS.Screens
                 cmbTransportType.DataSource = oDoc;
                 cmbTransportType.DisplayMember = "Name";
                 cmbTransportType.ValueMember = "ID";
-
-                //foreach (var data in oDoc)
-                //{
-                //    cmbTransportType.Items.Add(data.Name);
-
-                //}
             }
             catch (Exception Ex)
             {
@@ -153,7 +149,7 @@ namespace mfmFFS.Screens
             {
                 DataTable dt = new DataTable();
 
-                string strQuery = @"select CardCode, CardName +':'+ CardCode as CardCodeName from ocrd Where GroupCode = 117";
+                string strQuery = @"select CardCode, CardName +':'+ CardCode as CardCodeName from ocrd Where GroupCode = 108";
 
                 //  WHERE dbo.ORDR.DocNum = '" + SourceDocNum + "'";
                 dt = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);
@@ -171,6 +167,23 @@ namespace mfmFFS.Screens
             {
                 Program.oErrMgn.LogException(Program.ANV, Ex);
             }
+        }
+
+        private double TotalLoadingQty()
+        {
+            double totalLoadingQty = 0;
+            if (grdWmntDetails.Rows.Count > 0)
+            {
+                for (int i = 0; i < grdWmntDetails.Rows.Count; i++)
+                {
+                    totalLoadingQty += Convert.ToDouble(grdWmntDetails.Rows[i].Cells["Loading Qty"].Value.ToString());
+                }
+            }
+            else
+            {
+                txtTotalLoadingQty.Text = string.Empty;
+            }
+            return totalLoadingQty;
         }
 
         public void FillPacker()
@@ -224,7 +237,7 @@ namespace mfmFFS.Screens
                 txt1WeightKG.Text = Convert.ToString(trm.FWeighmentKG);
 
 
-                string tCodeName = @"select  CardName +':'+ CardCode as CardCode from ocrd Where GroupCode = 117 and CardCode ='" + trm.TransportCode + "'";
+                string tCodeName = @"select  CardName +':'+ CardCode as CardCode from ocrd Where GroupCode = 108 and CardCode ='" + trm.TransportCode + "'";
 
                 string tCode = mFm.ExecuteQueryScaler(tCodeName, Program.ConStrSAP);
 
@@ -307,6 +320,7 @@ namespace mfmFFS.Screens
 
                 LoadMultipleDispatchGrid(Convert.ToInt32(txtDocNo.Text));
 
+
                 #endregion
 
                 //ApplyAuthorization();
@@ -346,6 +360,9 @@ namespace mfmFFS.Screens
                 //{
                 //    txtOrderQuantity.Enabled = false;
                 //}
+
+
+                btnAdd.Enabled = false;
 
             }
             catch (Exception ex)
@@ -452,10 +469,7 @@ namespace mfmFFS.Screens
                 flgSetValues = false;
                 txtOrderQuantity.Enabled = true;
 
-                /*flgMultiSales = true;*/ //closed by talha 26-05-2021
-                /**added by talha**/
-                flgMultiSales = false;
-                /***/
+                flgMultiSales = true;
 
                 flgCustChange = false;
                 flgItemChange = false;
@@ -466,6 +480,7 @@ namespace mfmFFS.Screens
                 //dt.Rows.Clear();
                 txtToleranceLimit.Text = "";
                 txtToleranceLimit.Visible = false;
+                lblToleranceLimit.Visible = false;
                 chkAllowTolerance.Checked = false;
                 if (btnSubmit.Text == "&Add")
                 {
@@ -477,6 +492,16 @@ namespace mfmFFS.Screens
                 }
                 btnSubmit.Text = "&Add";
                 btnAdd.Enabled = true;
+                ItemList.Clear();
+                txtTotalLoadingQty.Text = "";
+                //if (Program.oCurrentUser.FlgSpecial.GetValueOrDefault())
+                //{
+                //    grdWmntDetails.Columns["Loading Qty"].ReadOnly = fasle;
+                //}
+                if (Program.oCurrentUser.FlgSpecial.GetValueOrDefault())
+                {
+                    grdWmntDetails.Columns["Loading Qty"].ReadOnly = false;
+                }
             }
             catch (Exception Ex)
             {
@@ -1265,7 +1290,7 @@ namespace mfmFFS.Screens
                     txtCustomerCode.Text = oDlg.CustomerCode;
                     txtCustomerName.Text = oDlg.CustomerName;
 
-                    /*flgMultiSales = true;*/ //closed by talha
+                    flgMultiSales = true;
                 }
             }
             catch (Exception Ex)
@@ -1279,9 +1304,13 @@ namespace mfmFFS.Screens
             try
             {
                 frmOpenDlg oDlg = new frmOpenDlg();
-                oDlg.OpenFor = "oItem";
+                oDlg.OpenFor = "oItemM";
+                oDlg.Text = "Item Selector";
+                oDlg.oItemList = ItemList;
                 oDlg.CustomerCode = txtCustomerCode.Text;
                 oDlg.flgMultiSelect = true;
+                oDlg.SourceDocNum = txtSBRNum.Text;
+                //oDlg.oDataItem.Add(ItemList);
                 oDlg.ShowDialog();
                 if (oDlg.DialogResult == System.Windows.Forms.DialogResult.OK)
                 {
@@ -1292,15 +1321,16 @@ namespace mfmFFS.Screens
                             flgItemChange = true;
                         }
                     }
-                    //txtBalanceQuantity.Text = oDlg.Balance;
-                    txtSBRDate.Text = oDlg.DocDate;
+
+                    /*txtSBRDate.Text = oDlg.DocDate;*/
                     //txtOrderQuantity.Text = oDlg.Quantity;
-                    txtSBRNum.Text = oDlg.DocNum;
+                    /*txtSBRNum.Text = oDlg.DocNum;*/
                     //txtDriverCNIC.Text = oDlg.DriverCnic;
                     //txtDriverName.Text = oDlg.U_Driver;
                     txtItemCod.Text = oDlg.ItemCode;
                     txtItemNam.Text = oDlg.Dscription;
                     txtItemGroupName.Text = oDlg.ItmsGrpNam;
+                    txtBalanceQuantity.Text = oDlg.Balance;
                     ItemGroupCode = oDlg.ItmsGrpCod;
                     //ItemGroupCode = oDlg.ItmsGrpCod;
                     //txtVehicleNum.Text = oDlg.U_VehcleNo;
@@ -1319,16 +1349,20 @@ namespace mfmFFS.Screens
             try
             {
                 frmOpenDlg oDlg = new frmOpenDlg();
-                oDlg.OpenFor = "oSaleOrderM";
+
+                //oDlg.OpenFor = "oSaleOrderM";
+                oDlg.OpenFor = "oSaleOrderMD";
                 oDlg.Text = "Order Selector";
                 oDlg.CustomerCode = txtCustomerCode.Text;
-                oDlg.ItemCode = txtItemCod.Text;
+                //oDlg.ItemCode = txtItemCod.Text;
                 oDlg.flgMultiSelect = flgMultiSales;
                 oDlg.ShowDialog();
                 if (oDlg.DialogResult == System.Windows.Forms.DialogResult.OK)
                 {
                     /*SaleOrderList.Clear();*/
                     txtSBRDate.Text = oDlg.DocDate;
+                    txtSBRNum.Text = oDlg.DocNum;
+                    Program.DocNum = txtSBRNum.Text;
                     //SaleOrderList = oDlg.oItems;
                     //LoadedQty = oDlg.oQuantity;
                     //BalanceQty = oDlg.oBalance;
@@ -1524,7 +1558,7 @@ namespace mfmFFS.Screens
                 dtM.Clear();
                 CreateMultipleDispatchDt();
                 IEnumerable<TrnsDispatchMultiDetail> getData = from a in oDB.TrnsDispatchMultiDetail where a.DocNum == DocNum select a;
-
+                double LoadingQty = 0;
                 foreach (TrnsDispatchMultiDetail item in getData)
                 {
                     DataRow dtrow = dtM.NewRow();
@@ -1538,8 +1572,10 @@ namespace mfmFFS.Screens
                     dtrow["Item Name"] = item.ItemName;
                     dtrow["Loading Qty"] = item.OrderQuantity;
                     dtrow["Balance Qty"] = item.BalanceQuantity;
+                    LoadingQty += Convert.ToDouble(item.OrderQuantity);
                     dtM.Rows.Add(dtrow);
                 }
+                txtTotalLoadingQty.Text = LoadingQty.ToString();
                 grdWmntDetails.DataSource = dtM;
                 grdWmntDetails.EnableFiltering = true;
             }
@@ -1577,6 +1613,57 @@ namespace mfmFFS.Screens
 
         public bool ChkTolerence()
         {
+            decimal exceed = 0, Tolerence = 0;
+            if (chkAllowTolerance.Checked)
+            {
+                if (flgChkStatus == true)
+                {
+                    Tolerence = Convert.ToDecimal(txtToleranceLimit.Text);
+                }
+                else if (flgChkStatus == false)
+                {
+                    Program.WarningMsg("You cannot authorized user to allow extra tolerance.");
+                    return false;
+                }
+            }
+            else
+            {
+                Tolerence = Convert.ToDecimal(oDB.MstTolerance.Where(x => x.TName == "Company").FirstOrDefault().TRate);
+                //Tolerence = Convert.ToDecimal(oDB.MstTolerance.FirstOrDefault().TRate);
+            }
+            if (Tolerence > 0)
+            {
+                val1 = (Convert.ToDecimal(txtTotalLoadingQty.Text) * (Tolerence / 100)) + Convert.ToDecimal(txtTotalLoadingQty.Text);
+                val2 = Convert.ToDecimal(txtTotalLoadingQty.Text) - (Convert.ToDecimal(txtTotalLoadingQty.Text) * (Tolerence / 100));
+
+                if (val1 > Convert.ToDecimal(txtNetWeightTon.Text))
+                {
+                    if (Convert.ToDecimal(txtNetWeightTon.Text) > val2)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        exceed = val2 - Convert.ToDecimal(txtNetWeightTon.Text);
+                        Program.WarningMsg("tolerence decreases" + exceed + " Ton");
+                        return false;
+                    }
+                }
+                else
+                {
+                    exceed = Convert.ToDecimal(txtNetWeightTon.Text) - val1;
+                    Program.WarningMsg("tolerence increases" + exceed + " Ton");
+                    return false;
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        /*public bool ChkTolerenceOld()
+        {
             decimal exceed = 0, Tolerence;
             string itemGrp = txtItemGroupName.Text;
             if (chkAllowTolerance.Checked)
@@ -1586,12 +1673,13 @@ namespace mfmFFS.Screens
             }
             else
             {
-                Tolerence = Convert.ToDecimal(oDB.MstTolerance.Where(x => x.TName == itemGrp).FirstOrDefault().TRate);
+                //Tolerence = Convert.ToDecimal(oDB.MstTolerance.Where(x => x.TName == itemGrp).FirstOrDefault().TRate);
+                Tolerence = Convert.ToDecimal(oDB.MstTolerance.FirstOrDefault().TRate);
             }
             if (Tolerence > 0)
             {
-                val1 = (Convert.ToDecimal(txtOrderQuantity.Text) * (Tolerence / 100)) + (Convert.ToDecimal(txtOrderQuantity.Text));
-                val2 = ((Convert.ToDecimal(txtOrderQuantity.Text) - Convert.ToDecimal(txtOrderQuantity.Text) * (Tolerence / 100)));
+                val1 = (Convert.ToDecimal(txtTotalLoadingQty.Text) * (Tolerence / 100)) + (Convert.ToDecimal(txtTotalLoadingQty.Text));
+                val2 = ((Convert.ToDecimal(txtTotalLoadingQty.Text) - Convert.ToDecimal(txtTotalLoadingQty.Text) * (Tolerence / 100)));
 
                 if (val1 > Convert.ToDecimal(txtNetWeightTon.Text))
                 {
@@ -1633,118 +1721,127 @@ namespace mfmFFS.Screens
                 return true;
             }
             //return false;
-        }
+        }*/
 
         public bool AddRecordNew()
         {
             try
             {
-                TrnsDispatchMultiHeader oDoc = new TrnsDispatchMultiHeader();
-                //oDoc.DocNum = Convert.ToInt32(txtDocNo.Text);
-                oDoc.DocNum = ReturnDocNum();
-                oDoc.Flg1Rpt = false;
-                oDoc.FlgMulti = flgMultiSales;
-                oDoc.FDocDate = DateTime.Now;
-                oDoc.FTime = DateTime.Now.ToShortTimeString();
-                oDoc.FShift = Convert.ToInt32(shiftid);
-                /*oDoc.SBRNum = txtSBRNum.Text;
-                oDoc.SBRDate = Convert.ToDateTime(txtSBRDate.Text);
-                oDoc.CustomerCode = txtCustomerCode.Text;
-                oDoc.CustomerName = txtCustomerName.Text;
-                oDoc.ItemCode = txtItemCod.Text;
-                oDoc.ItemName = txtItemNam.Text;
-                oDoc.ItemGroupCode = ItemGroupCode;
-                oDoc.ItemGroupName = txtItemGroupName.Text;*/
-                oDoc.DaySeries = Convert.ToInt32(txtDaySeries.Text);
-                /*oDoc.OrderQuantity = Convert.ToDecimal(txtOrderQuantity.Text);
-                oDoc.BalanceQuantity = Convert.ToDecimal(txtBalanceQuantity.Text);*/
-                if (!string.IsNullOrEmpty(cmbPacker.Text))
+                using (dbFFS oDBAdd = new dbFFS(Program.ConStrApp))
                 {
-                    oDoc.PackerId = Convert.ToInt32(cmbPacker.SelectedValue);
-                }
-                oDoc.VehicleNum = txtVehicleNum.Text;
-                oDoc.DriverCNIC = txtDriverCNIC.Text;
-                oDoc.DriverName = txtDriverName.Text;
-                oDoc.DriverDocument = txtCNICPath.Text;
-                oDoc.FWeighmentKG = Convert.ToDecimal(txt1WeightKG.Text);
-                oDoc.FWeighmentTon = Convert.ToDecimal(txt1WeightTon.Text);
-                oDoc.FWeighmentDate = DateTime.Now;
-                oDoc.FWeighmentTime = DateTime.Now.ToShortTimeString();
-                if (!string.IsNullOrEmpty(cmbTransportType.Text))
-                {
-                    oDoc.TransportID = Convert.ToInt32(cmbTransportType.SelectedValue);
-                }
-                if (!string.IsNullOrEmpty(cmbTransportCode.Text))
-                {
-                    oDoc.TransportCode = Convert.ToString(cmbTransportCode.SelectedValue);
-                }
-                else
-                {
-                    oDoc.TransportCode = "";
-                }
-                oDoc.TransportName = TxtTransportName.Text;
-                oDoc.FlgSecondWeight = false;
-
-                /*if (flgMultiSales)
-                {
-                    decimal CurOrderQty = oDoc.OrderQuantity.GetValueOrDefault();
-                    List<string> ValidSaleOrder = new List<string>();
-                    foreach (var One in SaleOrderList)
+                    TrnsDispatchMultiHeader oDoc = new TrnsDispatchMultiHeader();
+                    //oDoc.DocNum = Convert.ToInt32(txtDocNo.Text);
+                    int LatestDocNum = ReturnDocNum();
+                    oDoc.DocNum = LatestDocNum;
+                    oDoc.Flg1Rpt = false;
+                    oDoc.FlgMulti = flgMultiSales;
+                    oDoc.FDocDate = DateTime.Now;
+                    oDoc.FTime = DateTime.Now.ToShortTimeString();
+                    oDoc.FShift = Convert.ToInt32(shiftid);
+                    /*oDoc.SBRNum = txtSBRNum.Text;
+                    oDoc.SBRDate = Convert.ToDateTime(txtSBRDate.Text);
+                    oDoc.CustomerCode = txtCustomerCode.Text;
+                    oDoc.CustomerName = txtCustomerName.Text;
+                    oDoc.ItemCode = txtItemCod.Text;
+                    oDoc.ItemName = txtItemNam.Text;
+                    oDoc.ItemGroupCode = ItemGroupCode;
+                    oDoc.ItemGroupName = txtItemGroupName.Text;*/
+                    oDoc.DaySeries = Convert.ToInt32(txtDaySeries.Text);
+                    /*oDoc.OrderQuantity = Convert.ToDecimal(txtOrderQuantity.Text);
+                    oDoc.BalanceQuantity = Convert.ToDecimal(txtBalanceQuantity.Text);*/
+                    if (!string.IsNullOrEmpty(cmbPacker.Text))
                     {
-                        if (CurOrderQty == 0) break;
-                        TrnsDispatchMulti oDetail = new TrnsDispatchMulti();
-                        oDetail.SBRNum = One.SBRNum;
-                        ValidSaleOrder.Add(One.SBRNum);
-                        oDetail.CardCode = oDoc.CustomerCode;
-                        oDetail.ItemCode = oDoc.ItemCode;
-                        oDetail.DocNum = Convert.ToInt32(txtDocNo.Text);
-                        oDetail.BalanceQty = One.Balance;
-                        if (CurOrderQty >= One.Balance)
-                        {
-                            oDetail.OrderQty = One.Balance;
-                            CurOrderQty -= One.Balance;
-                        }
-                        else if (CurOrderQty < One.Balance)
-                        {
-                            oDetail.OrderQty = CurOrderQty;
-                            CurOrderQty = 0;
-                        }
-                        oDB.TrnsDispatchMulti.InsertOnSubmit(oDetail);
+                        oDoc.PackerId = Convert.ToInt32(cmbPacker.SelectedValue);
                     }
-                    oDoc.SBRNum = string.Join(",", ValidSaleOrder);
-                    Program.oErrMgn.LogEntry(Program.ANV, "docnum: " + oDoc.DocNum.ToString() + " sbrlist: " + string.Join(",", ValidSaleOrder));
-                    Program.oErrMgn.LogEntry(Program.ANV, "docnum: " + oDoc.DocNum.ToString() + " soorderlist: " + SaleOrderList.Count.ToString());
-                }*/
+                    oDoc.VehicleNum = txtVehicleNum.Text;
+                    oDoc.DriverCNIC = txtDriverCNIC.Text;
+                    oDoc.DriverName = txtDriverName.Text;
+                    oDoc.DriverDocument = txtCNICPath.Text;
+                    oDoc.FWeighmentKG = Convert.ToDecimal(txt1WeightKG.Text);
+                    oDoc.FWeighmentTon = Convert.ToDecimal(txt1WeightTon.Text);
+                    oDoc.FWeighmentDate = DateTime.Now;
+                    oDoc.FWeighmentTime = DateTime.Now.ToShortTimeString();
+                    if (!string.IsNullOrEmpty(cmbTransportType.Text))
+                    {
+                        oDoc.TransportID = Convert.ToInt32(cmbTransportType.SelectedValue);
+                    }
+                    if (!string.IsNullOrEmpty(cmbTransportCode.Text))
+                    {
+                        oDoc.TransportCode = Convert.ToString(cmbTransportCode.SelectedValue);
+                    }
+                    else
+                    {
+                        oDoc.TransportCode = "";
+                    }
+                    oDoc.TransportName = TxtTransportName.Text;
+                    oDoc.FlgSecondWeight = false;
 
-                /**********************************/
-                for (int i = 0; i < grdWmntDetails.Rows.Count; i++)
-                {
-                    TrnsDispatchMultiDetail oDetail = new TrnsDispatchMultiDetail();
-                    oDetail.DocNum = Convert.ToInt32(txtDocNo.Text);
-                    oDetail.SBRNum = grdWmntDetails.Rows[i].Cells["SBR#"].Value.ToString();
-                    oDetail.SBRDate = Convert.ToDateTime(grdWmntDetails.Rows[i].Cells["SBR Date"].Value.ToString());
-                    oDetail.CustomerCode = grdWmntDetails.Rows[i].Cells["Customer Code"].Value.ToString();
-                    oDetail.CustomerName = grdWmntDetails.Rows[i].Cells["Customer"].Value.ToString();
-                    oDetail.ItemCode = grdWmntDetails.Rows[i].Cells["Item Code"].Value.ToString();
-                    oDetail.ItemName = grdWmntDetails.Rows[i].Cells["Item Name"].Value.ToString();
-                    oDetail.ItemGroupCode = grdWmntDetails.Rows[i].Cells["Item Group Code"].Value.ToString();
-                    oDetail.ItemGroupName = grdWmntDetails.Rows[i].Cells["Item Group Name"].Value.ToString();
-                    oDetail.OrderQuantity = Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Loading Qty"].Value.ToString());
-                    oDetail.BalanceQuantity = Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Balance Qty"].Value.ToString());
-                    oDB.TrnsDispatchMultiDetail.InsertOnSubmit(oDetail);
+                    /*if (flgMultiSales)
+                    {
+                        decimal CurOrderQty = oDoc.OrderQuantity.GetValueOrDefault();
+                        List<string> ValidSaleOrder = new List<string>();
+                        foreach (var One in SaleOrderList)
+                        {
+                            if (CurOrderQty == 0) break;
+                            TrnsDispatchMulti oDetail = new TrnsDispatchMulti();
+                            oDetail.SBRNum = One.SBRNum;
+                            ValidSaleOrder.Add(One.SBRNum);
+                            oDetail.CardCode = oDoc.CustomerCode;
+                            oDetail.ItemCode = oDoc.ItemCode;
+                            oDetail.DocNum = Convert.ToInt32(txtDocNo.Text);
+                            oDetail.BalanceQty = One.Balance;
+                            if (CurOrderQty >= One.Balance)
+                            {
+                                oDetail.OrderQty = One.Balance;
+                                CurOrderQty -= One.Balance;
+                            }
+                            else if (CurOrderQty < One.Balance)
+                            {
+                                oDetail.OrderQty = CurOrderQty;
+                                CurOrderQty = 0;
+                            }
+                            oDB.TrnsDispatchMulti.InsertOnSubmit(oDetail);
+                        }
+                        oDoc.SBRNum = string.Join(",", ValidSaleOrder);
+                        Program.oErrMgn.LogEntry(Program.ANV, "docnum: " + oDoc.DocNum.ToString() + " sbrlist: " + string.Join(",", ValidSaleOrder));
+                        Program.oErrMgn.LogEntry(Program.ANV, "docnum: " + oDoc.DocNum.ToString() + " soorderlist: " + SaleOrderList.Count.ToString());
+                    }*/
 
+                    /**********************************/
+                   
+                    for (int i = 0; i < grdWmntDetails.Rows.Count; i++)
+                    {
+                        TrnsDispatchMultiDetail oDetail = new TrnsDispatchMultiDetail();
+                        //oDetail.DocNum = Convert.ToInt32(txtDocNo.Text);
+                        oDetail.DocNum = LatestDocNum;
+                        oDetail.SBRNum = grdWmntDetails.Rows[i].Cells["SBR#"].Value.ToString();
+                        oDetail.SBRDate = Convert.ToDateTime(grdWmntDetails.Rows[i].Cells["SBR Date"].Value.ToString());
+                        oDetail.CustomerCode = grdWmntDetails.Rows[i].Cells["Customer Code"].Value.ToString();
+                        oDetail.CustomerName = grdWmntDetails.Rows[i].Cells["Customer"].Value.ToString();
+                        oDetail.ItemCode = grdWmntDetails.Rows[i].Cells["Item Code"].Value.ToString();
+                        oDetail.ItemName = grdWmntDetails.Rows[i].Cells["Item Name"].Value.ToString();
+                        oDetail.ItemGroupCode = grdWmntDetails.Rows[i].Cells["Item Group Code"].Value.ToString();
+                        oDetail.ItemGroupName = grdWmntDetails.Rows[i].Cells["Item Group Name"].Value.ToString();
+                        oDetail.OrderQuantity = Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Loading Qty"].Value.ToString());
+                        oDetail.BalanceQuantity = Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Balance Qty"].Value.ToString());
+                        oDBAdd.TrnsDispatchMultiDetail.InsertOnSubmit(oDetail);
+                    }
+                    /**************************************************/
+
+                    oDoc.FCreateBy = Program.oCurrentUser.UserCode + " @ " + Program.ANV;
+                    oDoc.FCreateDate = DateTime.Now;
+                    oDoc.FUpdateBy = Program.oCurrentUser.UserCode + " @ " + Program.ANV;
+                    oDoc.FUpdateDate = DateTime.Now;
+                    oDBAdd.TrnsDispatchMultiHeader.InsertOnSubmit(oDoc);
+                    //if(!flgcehckexcep)
+                    //{
+                    //    flgcehckexcep = true;
+                    //    throw new Exception("kaam k bech mai exception.");
+                    //}
+                    oDBAdd.SubmitChanges();
+                    Program.SuccesesMsg("Record Successfully Added.");
+                    return true;
                 }
-                /**************************************************/
-
-                oDoc.FCreateBy = Program.oCurrentUser.UserCode + " @ " + Program.ANV;
-                oDoc.FCreateDate = DateTime.Now;
-                oDoc.FUpdateBy = Program.oCurrentUser.UserCode + " @ " + Program.ANV;
-                oDoc.FUpdateDate = DateTime.Now;
-                oDB.TrnsDispatchMultiHeader.InsertOnSubmit(oDoc);
-
-                oDB.SubmitChanges();
-                Program.SuccesesMsg("Record Successfully Added.");
-                return true;
             }
             catch (Exception ex)
             {
@@ -1924,23 +2021,38 @@ namespace mfmFFS.Screens
                     }
                 }*/
 
-                TrnsDispatchMultiDetail oDetail = (from a in oDB.TrnsDispatchMultiDetail
-                                                   where a.DocNum.ToString() == txtDocNo.Text
-                                                   select a).FirstOrDefault();
+                //TrnsDispatchMultiDetail oDetail = (from a in oDB.TrnsDispatchMultiDetail
+                //                                   where a.DocNum.ToString() == txtDocNo.Text
+                //                                   select a).FirstOrDefault();
+                //for (int i = 0; i < grdWmntDetails.Rows.Count; i++)
+                //{
+                //    oDetail.OrderQuantity = Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Loading Qty"].Value.ToString());
+                //}
+
+
                 for (int i = 0; i < grdWmntDetails.Rows.Count; i++)
                 {
+
+                    TrnsDispatchMultiDetail oDetail = new TrnsDispatchMultiDetail();
+
+                    oDetail = (from a in oDB.TrnsDispatchMultiDetail
+                               where a.DocNum.ToString() == txtDocNo.Text && a.CustomerCode == grdWmntDetails.Rows[i].Cells["Customer Code"].Value.ToString()
+                               && a.SBRNum == grdWmntDetails.Rows[i].Cells["SBR#"].Value.ToString() && a.ItemCode == grdWmntDetails.Rows[i].Cells["Item Code"].Value.ToString()
+                               select a).FirstOrDefault();
                     oDetail.OrderQuantity = Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Loading Qty"].Value.ToString());
                 }
+
 
                 oDoc.SCreateBy = Program.oCurrentUser.UserCode + " @ " + Program.ANV;
                 oDoc.SCreateDate = DateTime.Now;
                 oDoc.SUpdateBy = Program.oCurrentUser.UserCode + " @ " + Program.ANV;
                 oDoc.SUpdateDate = DateTime.Now;
-                /*if (chkAllowTolerance.Checked)
+                if (chkAllowTolerance.Checked)
                 {
                     oDoc.FlgTolerance = chkAllowTolerance.Checked;
                     oDoc.ToleranceLimit = Convert.ToDecimal(txtToleranceLimit.Text);
-                }*/
+                    oDoc.ToleranceLimitABy = ToleranceApprovedBy;
+                }
                 oDB.SubmitChanges();
                 Program.SuccesesMsg("Record Successfully Added.");
                 return true;
@@ -1957,250 +2069,42 @@ namespace mfmFFS.Screens
         {
             try
             {
-                bool flgDetailReset = false;
-                var oDoc = (from a in oDB.TrnsDispatchMultiHeader
+                var odetail = (from a in oDB.TrnsDispatchMultiDetail
                             where a.DocNum.ToString() == txtDocNo.Text
-                            select a).FirstOrDefault();
-                if (oDoc == null) return false;
-                if (oDoc.FlgPosted.GetValueOrDefault())
+                            select a).ToList();
+                if (odetail == null) return false;
+                foreach (var one in odetail)
                 {
-                    Program.WarningMsg("You can't update posted documents.");
-                    return false;
-                }
-                //Valid Condition for Reset
-                /*if (oDoc.OrderQuantity != Convert.ToDecimal(txtOrderQuantity.Text))
-                {
-                    flgDetailReset = true;
-                }
-                if (oDoc.CustomerCode != txtCustomerCode.Text)
-                {
-                    flgDetailReset = true;
-                }
-                if (oDoc.ItemCode != txtItemCod.Text)
-                {
-                    flgDetailReset = true;
-                }
-                if (oDoc.SBRNum != txtSBRNum.Text)
-                {
-                    flgDetailReset = true;
-                }
-                //
-                oDoc.SBRNum = txtSBRNum.Text;
-                oDoc.SBRDate = Convert.ToDateTime(txtSBRDate.Text);
-                oDoc.CustomerCode = txtCustomerCode.Text;
-                oDoc.CustomerName = txtCustomerName.Text;
-                oDoc.ItemCode = txtItemCod.Text;
-                oDoc.ItemName = txtItemNam.Text;
-                oDoc.ItemGroupCode = ItemGroupCode;
-                oDoc.ItemGroupName = txtItemGroupName.Text;*/
-                /*if (!string.IsNullOrEmpty(txtOrderQuantity.Text))
-                {
-                    if (oDoc.FWeighmentKG.GetValueOrDefault() > 0 && oDoc.SWeighmentKG.GetValueOrDefault() == 0)
+                    for (int i = 0; i < grdWmntDetails.Rows.Count; i++)
                     {
-                        decimal orderqty = Convert.ToDecimal(txtOrderQuantity.Text);
-                        decimal balanceqty = Convert.ToDecimal(txtBalanceQuantity.Text);
-                        if (orderqty <= balanceqty)
+                        string grdSBRNo = grdWmntDetails.Rows[i].Cells["SBR#"].Value.ToString();
+                        string grdCustomerCode = grdWmntDetails.Rows[i].Cells["Customer Code"].Value.ToString();
+                        string grdItemCode = grdWmntDetails.Rows[i].Cells["Item Code"].Value.ToString();
+                        decimal grdLoadingQty = Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Loading Qty"].Value.ToString());
+                        decimal grdBalanceQty = Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Balance Qty"].Value.ToString());
+                        if (one.SBRNum == grdSBRNo && one.CustomerCode == grdCustomerCode && one.ItemCode == grdItemCode && one.OrderQuantity != grdLoadingQty)
                         {
-                            oDoc.OrderQuantity = orderqty;
-                        }
-                    }
-                }
-                if (!string.IsNullOrEmpty(txtBalanceQuantity.Text))
-                {
-                    oDoc.BalanceQuantity = Convert.ToDecimal(txtBalanceQuantity.Text);
-                }*/
-                if (!string.IsNullOrEmpty(cmbPacker.Text))
-                {
-                    oDoc.PackerId = Convert.ToInt32(cmbPacker.SelectedValue);
-                }
-                oDoc.VehicleNum = txtVehicleNum.Text;
-                oDoc.DriverCNIC = txtDriverCNIC.Text;
-                oDoc.DriverName = txtDriverName.Text;
-                if (!string.IsNullOrEmpty(txtCNICPath.Text))
-                {
-                    oDoc.DriverDocument = txtCNICPath.Text;
-                }
-                if (!string.IsNullOrEmpty(cmbTransportType.Text))
-                {
-                    oDoc.TransportID = Convert.ToInt32(cmbTransportType.SelectedValue);
-                }
-                if (!string.IsNullOrEmpty(cmbTransportCode.Text))
-                {
-                    oDoc.TransportCode = Convert.ToString(cmbTransportCode.SelectedValue);
-                }
-                if (!string.IsNullOrEmpty(TxtTransportName.Text))
-                {
-                    oDoc.TransportName = TxtTransportName.Text;
-                }
-
-                if (Program.oCurrentUser.FlgSpecial.GetValueOrDefault())
-                {
-                    if (!string.IsNullOrEmpty(txt1WeightKG.Text))
-                    {
-                        if (oDoc.FWeighmentKG != Convert.ToDecimal(txt1WeightKG.Text))
-                        {
-                            flgDetailReset = true;
-                        }
-                        oDoc.FWeighmentKG = Convert.ToDecimal(txt1WeightKG.Text);
-                    }
-                    if (!string.IsNullOrEmpty(txt1WeightTon.Text))
-                    {
-                        oDoc.FWeighmentTon = Convert.ToDecimal(txt1WeightTon.Text);
-                    }
-                    if (!string.IsNullOrEmpty(txt2WeightKG.Text))
-                    {
-                        if (oDoc.SWeighmentKG != Convert.ToDecimal(txt2WeightKG.Text))
-                        {
-                            flgDetailReset = true;
-                        }
-                        oDoc.SWeighmentKG = Convert.ToDecimal(txt2WeightKG.Text);
-                    }
-                    if (!string.IsNullOrEmpty(txt2WeightTon.Text))
-                    {
-                        oDoc.SWeighmentTon = Convert.ToDecimal(txt2WeightTon.Text);
-                    }
-                    if (!string.IsNullOrEmpty(txtNetWeightKG.Text))
-                    {
-                        oDoc.NetWeightKG = Convert.ToDecimal(txtNetWeightKG.Text);
-                        if (oDoc.NetWeightKG != Convert.ToDecimal(txtNetWeightKG.Text))
-                        {
-                            flgDetailReset = true;
-                        }
-                    }
-                    if (!string.IsNullOrEmpty(txtNetWeightTon.Text))
-                    {
-                        oDoc.NetWeightTon = Convert.ToDecimal(txtNetWeightTon.Text);
-                    }
-                    /*if (txtItemNam.Text.ToLower().Contains("bulk") && !string.IsNullOrEmpty(txtNetWeightTon.Text))
-                    {
-                        oDoc.OrderQuantity = Convert.ToDecimal(txtNetWeightTon.Text);
-                    }
-                    if (!string.IsNullOrEmpty(txtNetWeightTon.Text) && !string.IsNullOrEmpty(txtBalanceQuantity.Text))
-                    {
-                        decimal netweight = Convert.ToDecimal(txtNetWeightTon.Text);
-                        decimal balanceqty = Convert.ToDecimal(txtBalanceQuantity.Text);
-                        if (netweight > balanceqty)
-                        {
-                            Program.WarningMsg("Net weight cannot be greater than Balance quantity.");
-                            return false;
-                        }
-                    }*/
-                }
-
-                /*if (flgMultiSales && flgDetailReset)
-                {
-                    decimal CurOrderQty = oDoc.OrderQuantity.GetValueOrDefault();
-                    decimal valCurOrderQty = CurOrderQty;
-                    if (!flgCustChange)
-                    {
-                        if (!flgItemChange)
-                        {
-                            if (!flgReselect)
+                            if (grdLoadingQty > grdBalanceQty)
                             {
-                                Program.oErrMgn.LogEntry(Program.ANV, "1st weigh queue count: " + FirstWeightSOList.Count.ToString());
-                                string solist = string.Empty;
-                                foreach (var Previous in FirstWeightSOList)
+                                if (grdItemCode == "FG001" || grdItemCode == "FG003" || grdItemCode == "FG005")
                                 {
-                                    var oCheck = (from a in SaleOrderList
-                                                  where a.SBRNum == Previous.SBRNum
-                                                  select a).Count();
-                                    if (oCheck == 0)
+                                    Double BalQty = ((Convert.ToDouble(grdBalanceQty) * 0.05) + Convert.ToDouble(grdBalanceQty));
+                                    if (Convert.ToDouble(grdLoadingQty) > BalQty)
                                     {
-                                        SaleOrderData onew = new SaleOrderData();
-                                        onew.SBRNum = Previous.SBRNum;
-                                        onew.Balance = Previous.Balance;
-                                        onew.Order = Previous.Order;
-                                        SaleOrderList.Add(onew);
-                                        solist += " " + Previous.SBRNum;
+                                        Program.WarningMsg("Loading Quantity cannot be greater than Balance quantity.");
+                                        return false;
                                     }
                                 }
-                                Program.oErrMgn.LogEntry(Program.ANV, "1st weigh sbr list: " + solist);
+                                else
+                                {
+                                    Program.WarningMsg("Loading quantity cannot b greater than balance quantity.");
+                                    return false;
+                                }
                             }
+                            one.OrderQuantity = grdLoadingQty;                           
                         }
                     }
-                    Program.oErrMgn.LogEntry(Program.ANV, "docnum: " + oDoc.DocNum.ToString() + " queue count: " + SaleOrderList.Count.ToString());
-                    Program.oErrMgn.LogEntry(Program.ANV, "order qty: " + CurOrderQty.ToString());
-                    List<string> ValidSaleOrder = new List<string>();
-                    foreach (var One in SaleOrderList)
-                    {
-                        if (CurOrderQty == 0)
-                        {
-                            One.Order = 0;
-                            continue;
-                        }
-                        TrnsDispatchMulti oDetail = new TrnsDispatchMulti();
-                        oDetail.SBRNum = One.SBRNum;
-                        ValidSaleOrder.Add(One.SBRNum);
-                        oDetail.CardCode = oDoc.CustomerCode;
-                        oDetail.ItemCode = oDoc.ItemCode;
-                        oDetail.DocNum = Convert.ToInt32(txtDocNo.Text);
-                        oDetail.BalanceQty = One.Balance;
-                        decimal? CurOpenQty = 0;
-                        oDB.GetSumOpenValueSOValidation(One.SBRNum, oDoc.CustomerCode, oDoc.ItemCode, oDoc.DocNum, ref CurOpenQty);
-                        decimal LiveBalanceQty = 0;
-                        LiveBalanceQty = CurOpenQty.GetValueOrDefault();
-                        Program.oErrMgn.LogEntry(Program.ANV, "SBRNum qty: " + One.SBRNum.ToString());
-                        Program.oErrMgn.LogEntry(Program.ANV, "Live qty: " + LiveBalanceQty.ToString());
-                        if (CurOrderQty >= LiveBalanceQty)
-                        {
-                            oDetail.OrderQty = LiveBalanceQty;
-                            CurOrderQty -= LiveBalanceQty;
-                            One.Order = Convert.ToDecimal(oDetail.OrderQty);
-                            Program.oErrMgn.LogEntry(Program.ANV, "so: " + One.SBRNum + " qty: " + oDetail.OrderQty.ToString());
-                        }
-                        else if (CurOrderQty < LiveBalanceQty)
-                        {
-                            oDetail.OrderQty = CurOrderQty;
-                            One.Order = Convert.ToDecimal(oDetail.OrderQty);
-                            Program.oErrMgn.LogEntry(Program.ANV, "so: " + One.SBRNum + " qty: " + oDetail.OrderQty.ToString());
-                            CurOrderQty = 0;
-                        }
-
-                        oDB.TrnsDispatchMulti.InsertOnSubmit(oDetail);
-                    }
-                    oDoc.SBRNum = string.Join(",", ValidSaleOrder);
-                    if (CurOrderQty > 0)
-                    {
-                        Program.WarningMsg("Order quantity exceeds available open quantity.");
-                        Program.oErrMgn.LogEntry(Program.ANV, "unsettle qty: " + CurOrderQty.ToString());
-                        return false;
-                    }
-                    foreach (var One in SaleOrderList)
-                    {
-                        if (One.Order == 0)
-                        {
-                            continue;
-                        }
-                        decimal? finaldoc1 = 0;
-                        decimal AvailableValue = 0;
-                        oDB.GetSumOpenValueSOValidation(One.SBRNum, oDoc.CustomerCode, oDoc.ItemCode, oDoc.DocNum, ref finaldoc1);
-                        AvailableValue = finaldoc1.GetValueOrDefault();
-                        if (One.Order > AvailableValue)
-                        {
-                            Program.WarningMsg("Order quantity exceeds available open quantity. ==> " + AvailableValue.ToString());
-                            Program.oErrMgn.LogEntry(Program.ANV, "order qty: " + One.Order.ToString());
-                            Program.oErrMgn.LogEntry(Program.ANV, "available qty: " + AvailableValue.ToString());
-                            return false;
-                        }
-                    }
-                    if (flgCustChange)
-                    {
-                        oDB.RemoveAllDetailsDispatch(oDoc.DocNum);
-                    }
-                    else if (flgItemChange)
-                    {
-                        oDB.RemoveAllDetailsDispatch(oDoc.DocNum);
-                    }
-                    else if (flgReselect)
-                    {
-                        oDB.RemoveAllDetailsDispatch(oDoc.DocNum);
-                    }
-                    else
-                    {
-                        oDB.RemoveAllDetailsDispatch(oDoc.DocNum);
-                    }
-                }*/
-
+                }
                 oDB.SubmitChanges();
                 Program.SuccesesMsg("Record Successfully Updated.");
                 return true;
@@ -2213,6 +2117,266 @@ namespace mfmFFS.Screens
             }
         }
 
+        //public bool UpdateRecordSpecial()
+        //{
+        //    try
+        //    {
+        //        bool flgDetailReset = false;
+        //        var oDoc = (from a in oDB.TrnsDispatchMultiHeader
+        //                    where a.DocNum.ToString() == txtDocNo.Text
+        //                    select a).FirstOrDefault();
+        //        if (oDoc == null) return false;
+        //        if (oDoc.FlgPosted.GetValueOrDefault())
+        //        {
+        //            Program.WarningMsg("You can't update posted documents.");
+        //            return false;
+        //        }
+        //        //Valid Condition for Reset
+        //        /*if (oDoc.OrderQuantity != Convert.ToDecimal(txtOrderQuantity.Text))
+        //        {
+        //            flgDetailReset = true;
+        //        }
+        //        if (oDoc.CustomerCode != txtCustomerCode.Text)
+        //        {
+        //            flgDetailReset = true;
+        //        }
+        //        if (oDoc.ItemCode != txtItemCod.Text)
+        //        {
+        //            flgDetailReset = true;
+        //        }
+        //        if (oDoc.SBRNum != txtSBRNum.Text)
+        //        {
+        //            flgDetailReset = true;
+        //        }
+        //        //
+        //        oDoc.SBRNum = txtSBRNum.Text;
+        //        oDoc.SBRDate = Convert.ToDateTime(txtSBRDate.Text);
+        //        oDoc.CustomerCode = txtCustomerCode.Text;
+        //        oDoc.CustomerName = txtCustomerName.Text;
+        //        oDoc.ItemCode = txtItemCod.Text;
+        //        oDoc.ItemName = txtItemNam.Text;
+        //        oDoc.ItemGroupCode = ItemGroupCode;
+        //        oDoc.ItemGroupName = txtItemGroupName.Text;*/
+        //        /*if (!string.IsNullOrEmpty(txtOrderQuantity.Text))
+        //        {
+        //            if (oDoc.FWeighmentKG.GetValueOrDefault() > 0 && oDoc.SWeighmentKG.GetValueOrDefault() == 0)
+        //            {
+        //                decimal orderqty = Convert.ToDecimal(txtOrderQuantity.Text);
+        //                decimal balanceqty = Convert.ToDecimal(txtBalanceQuantity.Text);
+        //                if (orderqty <= balanceqty)
+        //                {
+        //                    oDoc.OrderQuantity = orderqty;
+        //                }
+        //            }
+        //        }
+        //        if (!string.IsNullOrEmpty(txtBalanceQuantity.Text))
+        //        {
+        //            oDoc.BalanceQuantity = Convert.ToDecimal(txtBalanceQuantity.Text);
+        //        }*/
+        //        if (!string.IsNullOrEmpty(cmbPacker.Text))
+        //        {
+        //            oDoc.PackerId = Convert.ToInt32(cmbPacker.SelectedValue);
+        //        }
+        //        oDoc.VehicleNum = txtVehicleNum.Text;
+        //        oDoc.DriverCNIC = txtDriverCNIC.Text;
+        //        oDoc.DriverName = txtDriverName.Text;
+        //        if (!string.IsNullOrEmpty(txtCNICPath.Text))
+        //        {
+        //            oDoc.DriverDocument = txtCNICPath.Text;
+        //        }
+        //        if (!string.IsNullOrEmpty(cmbTransportType.Text))
+        //        {
+        //            oDoc.TransportID = Convert.ToInt32(cmbTransportType.SelectedValue);
+        //        }
+        //        if (!string.IsNullOrEmpty(cmbTransportCode.Text))
+        //        {
+        //            oDoc.TransportCode = Convert.ToString(cmbTransportCode.SelectedValue);
+        //        }
+        //        if (!string.IsNullOrEmpty(TxtTransportName.Text))
+        //        {
+        //            oDoc.TransportName = TxtTransportName.Text;
+        //        }
+
+        //        if (Program.oCurrentUser.FlgSpecial.GetValueOrDefault())
+        //        {
+        //            if (!string.IsNullOrEmpty(txt1WeightKG.Text))
+        //            {
+        //                if (oDoc.FWeighmentKG != Convert.ToDecimal(txt1WeightKG.Text))
+        //                {
+        //                    flgDetailReset = true;
+        //                }
+        //                oDoc.FWeighmentKG = Convert.ToDecimal(txt1WeightKG.Text);
+        //            }
+        //            if (!string.IsNullOrEmpty(txt1WeightTon.Text))
+        //            {
+        //                oDoc.FWeighmentTon = Convert.ToDecimal(txt1WeightTon.Text);
+        //            }
+        //            if (!string.IsNullOrEmpty(txt2WeightKG.Text))
+        //            {
+        //                if (oDoc.SWeighmentKG != Convert.ToDecimal(txt2WeightKG.Text))
+        //                {
+        //                    flgDetailReset = true;
+        //                }
+        //                oDoc.SWeighmentKG = Convert.ToDecimal(txt2WeightKG.Text);
+        //            }
+        //            if (!string.IsNullOrEmpty(txt2WeightTon.Text))
+        //            {
+        //                oDoc.SWeighmentTon = Convert.ToDecimal(txt2WeightTon.Text);
+        //            }
+        //            if (!string.IsNullOrEmpty(txtNetWeightKG.Text))
+        //            {
+        //                oDoc.NetWeightKG = Convert.ToDecimal(txtNetWeightKG.Text);
+        //                if (oDoc.NetWeightKG != Convert.ToDecimal(txtNetWeightKG.Text))
+        //                {
+        //                    flgDetailReset = true;
+        //                }
+        //            }
+        //            if (!string.IsNullOrEmpty(txtNetWeightTon.Text))
+        //            {
+        //                oDoc.NetWeightTon = Convert.ToDecimal(txtNetWeightTon.Text);
+        //            }
+        //            /*if (txtItemNam.Text.ToLower().Contains("bulk") && !string.IsNullOrEmpty(txtNetWeightTon.Text))
+        //            {
+        //                oDoc.OrderQuantity = Convert.ToDecimal(txtNetWeightTon.Text);
+        //            }
+        //            if (!string.IsNullOrEmpty(txtNetWeightTon.Text) && !string.IsNullOrEmpty(txtBalanceQuantity.Text))
+        //            {
+        //                decimal netweight = Convert.ToDecimal(txtNetWeightTon.Text);
+        //                decimal balanceqty = Convert.ToDecimal(txtBalanceQuantity.Text);
+        //                if (netweight > balanceqty)
+        //                {
+        //                    Program.WarningMsg("Net weight cannot be greater than Balance quantity.");
+        //                    return false;
+        //                }
+        //            }*/
+        //        }
+
+        //        /*if (flgMultiSales && flgDetailReset)
+        //        {
+        //            decimal CurOrderQty = oDoc.OrderQuantity.GetValueOrDefault();
+        //            decimal valCurOrderQty = CurOrderQty;
+        //            if (!flgCustChange)
+        //            {
+        //                if (!flgItemChange)
+        //                {
+        //                    if (!flgReselect)
+        //                    {
+        //                        Program.oErrMgn.LogEntry(Program.ANV, "1st weigh queue count: " + FirstWeightSOList.Count.ToString());
+        //                        string solist = string.Empty;
+        //                        foreach (var Previous in FirstWeightSOList)
+        //                        {
+        //                            var oCheck = (from a in SaleOrderList
+        //                                          where a.SBRNum == Previous.SBRNum
+        //                                          select a).Count();
+        //                            if (oCheck == 0)
+        //                            {
+        //                                SaleOrderData onew = new SaleOrderData();
+        //                                onew.SBRNum = Previous.SBRNum;
+        //                                onew.Balance = Previous.Balance;
+        //                                onew.Order = Previous.Order;
+        //                                SaleOrderList.Add(onew);
+        //                                solist += " " + Previous.SBRNum;
+        //                            }
+        //                        }
+        //                        Program.oErrMgn.LogEntry(Program.ANV, "1st weigh sbr list: " + solist);
+        //                    }
+        //                }
+        //            }
+        //            Program.oErrMgn.LogEntry(Program.ANV, "docnum: " + oDoc.DocNum.ToString() + " queue count: " + SaleOrderList.Count.ToString());
+        //            Program.oErrMgn.LogEntry(Program.ANV, "order qty: " + CurOrderQty.ToString());
+        //            List<string> ValidSaleOrder = new List<string>();
+        //            foreach (var One in SaleOrderList)
+        //            {
+        //                if (CurOrderQty == 0)
+        //                {
+        //                    One.Order = 0;
+        //                    continue;
+        //                }
+        //                TrnsDispatchMulti oDetail = new TrnsDispatchMulti();
+        //                oDetail.SBRNum = One.SBRNum;
+        //                ValidSaleOrder.Add(One.SBRNum);
+        //                oDetail.CardCode = oDoc.CustomerCode;
+        //                oDetail.ItemCode = oDoc.ItemCode;
+        //                oDetail.DocNum = Convert.ToInt32(txtDocNo.Text);
+        //                oDetail.BalanceQty = One.Balance;
+        //                decimal? CurOpenQty = 0;
+        //                oDB.GetSumOpenValueSOValidation(One.SBRNum, oDoc.CustomerCode, oDoc.ItemCode, oDoc.DocNum, ref CurOpenQty);
+        //                decimal LiveBalanceQty = 0;
+        //                LiveBalanceQty = CurOpenQty.GetValueOrDefault();
+        //                Program.oErrMgn.LogEntry(Program.ANV, "SBRNum qty: " + One.SBRNum.ToString());
+        //                Program.oErrMgn.LogEntry(Program.ANV, "Live qty: " + LiveBalanceQty.ToString());
+        //                if (CurOrderQty >= LiveBalanceQty)
+        //                {
+        //                    oDetail.OrderQty = LiveBalanceQty;
+        //                    CurOrderQty -= LiveBalanceQty;
+        //                    One.Order = Convert.ToDecimal(oDetail.OrderQty);
+        //                    Program.oErrMgn.LogEntry(Program.ANV, "so: " + One.SBRNum + " qty: " + oDetail.OrderQty.ToString());
+        //                }
+        //                else if (CurOrderQty < LiveBalanceQty)
+        //                {
+        //                    oDetail.OrderQty = CurOrderQty;
+        //                    One.Order = Convert.ToDecimal(oDetail.OrderQty);
+        //                    Program.oErrMgn.LogEntry(Program.ANV, "so: " + One.SBRNum + " qty: " + oDetail.OrderQty.ToString());
+        //                    CurOrderQty = 0;
+        //                }
+
+        //                oDB.TrnsDispatchMulti.InsertOnSubmit(oDetail);
+        //            }
+        //            oDoc.SBRNum = string.Join(",", ValidSaleOrder);
+        //            if (CurOrderQty > 0)
+        //            {
+        //                Program.WarningMsg("Order quantity exceeds available open quantity.");
+        //                Program.oErrMgn.LogEntry(Program.ANV, "unsettle qty: " + CurOrderQty.ToString());
+        //                return false;
+        //            }
+        //            foreach (var One in SaleOrderList)
+        //            {
+        //                if (One.Order == 0)
+        //                {
+        //                    continue;
+        //                }
+        //                decimal? finaldoc1 = 0;
+        //                decimal AvailableValue = 0;
+        //                oDB.GetSumOpenValueSOValidation(One.SBRNum, oDoc.CustomerCode, oDoc.ItemCode, oDoc.DocNum, ref finaldoc1);
+        //                AvailableValue = finaldoc1.GetValueOrDefault();
+        //                if (One.Order > AvailableValue)
+        //                {
+        //                    Program.WarningMsg("Order quantity exceeds available open quantity. ==> " + AvailableValue.ToString());
+        //                    Program.oErrMgn.LogEntry(Program.ANV, "order qty: " + One.Order.ToString());
+        //                    Program.oErrMgn.LogEntry(Program.ANV, "available qty: " + AvailableValue.ToString());
+        //                    return false;
+        //                }
+        //            }
+        //            if (flgCustChange)
+        //            {
+        //                oDB.RemoveAllDetailsDispatch(oDoc.DocNum);
+        //            }
+        //            else if (flgItemChange)
+        //            {
+        //                oDB.RemoveAllDetailsDispatch(oDoc.DocNum);
+        //            }
+        //            else if (flgReselect)
+        //            {
+        //                oDB.RemoveAllDetailsDispatch(oDoc.DocNum);
+        //            }
+        //            else
+        //            {
+        //                oDB.RemoveAllDetailsDispatch(oDoc.DocNum);
+        //            }
+        //        }*/
+
+        //        oDB.SubmitChanges();
+        //        Program.SuccesesMsg("Record Successfully Updated.");
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Program.oErrMgn.LogException(Program.ANV, ex);
+        //        Program.ExceptionMsg("Something went wrong, Contact Abacus Support.");
+        //        return false;
+        //    }
+        //}
+
         public bool AddValidate()
         {
             try
@@ -2224,12 +2388,24 @@ namespace mfmFFS.Screens
                 }
                 if (grdWmntDetails.Rows.Count > 0)
                 {
-                    for (int i= 0;i < grdWmntDetails.Rows.Count;i++)
+                    for (int i = 0; i < grdWmntDetails.Rows.Count; i++)
                     {
                         if (Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Loading Qty"].Value.ToString()) > Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Balance Qty"].Value.ToString()))
                         {
-                            Program.WarningMsg("Loading quantity cannot b greater than balance quantity.");
-                            return false;
+                            if (grdWmntDetails.Rows[i].Cells["Item Code"].Value.ToString() == "FG001" || grdWmntDetails.Rows[i].Cells["Item Code"].Value.ToString() == "FG003" || grdWmntDetails.Rows[i].Cells["Item Code"].Value.ToString() == "FG005")
+                            {
+                                Double BalQty = ((Convert.ToDouble(grdWmntDetails.Rows[i].Cells["Balance Qty"].Value.ToString()) * 0.05) + Convert.ToDouble(grdWmntDetails.Rows[i].Cells["Balance Qty"].Value.ToString()));
+                                if (Convert.ToDouble(grdWmntDetails.Rows[i].Cells["Loading Qty"].Value.ToString()) > BalQty)
+                                {
+                                    Program.WarningMsg("Loading Quantity cannot be greater than Balance quantity.");
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                Program.WarningMsg("Loading quantity cannot b greater than balance quantity.");
+                                return false;
+                            }
                         }
                     }
                 }
@@ -2434,7 +2610,32 @@ namespace mfmFFS.Screens
                     }
                 }
 
-                if (!string.IsNullOrEmpty(txtNetWeightTon.Text))
+                if (string.IsNullOrEmpty(txtTotalLoadingQty.Text))
+                {
+                    Program.WarningMsg("Total Loading Qty can't be empty.");
+                    return false;
+                }
+                else if (Convert.ToDecimal(txtTotalLoadingQty.Text) == 0)
+                {
+                    Program.WarningMsg("Total Loading Qty can't be zero.");
+                    return false;
+                }
+
+                if (chkAllowTolerance.Checked)
+                {
+                    if (string.IsNullOrEmpty(txtToleranceLimit.Text))
+                    {
+                        Program.WarningMsg("Tolerance limit can't be empty.");
+                        return false;
+                    }
+                }
+                if (!ChkTolerence())
+                {
+                    return false;
+                }
+
+
+                /*if (!string.IsNullOrEmpty(txtNetWeightTon.Text))
                 {
                     if (grdWmntDetails.Rows.Count > 0)
                     {
@@ -2448,8 +2649,13 @@ namespace mfmFFS.Screens
                             Program.WarningMsg("Loading quantity cannot b greater than Net weight.");
                             return false;
                         }
+                        else if (totalLoadingQty != Convert.ToDecimal(txtNetWeightTon.Text))
+                        {
+                            Program.WarningMsg("Loading quantity is not equal to Net weight.");
+                            return false;
+                        }
                     }
-                }
+                }*/
 
 
                 return true;
@@ -2465,7 +2671,7 @@ namespace mfmFFS.Screens
         {
             try
             {
-                if (Program.oCurrentUser.FlgSuper.GetValueOrDefault())
+                if (Program.oCurrentUser.FlgSpecial.GetValueOrDefault())
                 {
                     if (UpdateRecordSpecial())
                     {
@@ -2587,6 +2793,7 @@ namespace mfmFFS.Screens
                     txt2WeightTon.Enabled = false;
                     txtNetWeightTon.Enabled = false;
                     txtDifferenceWeight.Enabled = false;
+                    txtTotalLoadingQty.Enabled = false;
 
                 }
                 else if (Program.oCurrentUser.FlgSuper.GetValueOrDefault() && !Program.oCurrentUser.FlgSpecial.GetValueOrDefault())
@@ -2623,6 +2830,7 @@ namespace mfmFFS.Screens
                     txt2WeightTon.Enabled = false;
                     txtNetWeightTon.Enabled = false;
                     txtDifferenceWeight.Enabled = false;
+                    txtTotalLoadingQty.Enabled = false;
                 }
                 else if (Program.oCurrentUser.FlgSuper.GetValueOrDefault() && Program.oCurrentUser.FlgSpecial.GetValueOrDefault())
                 {
@@ -2658,6 +2866,7 @@ namespace mfmFFS.Screens
                     txt2WeightTon.Enabled = false;
                     txtNetWeightTon.Enabled = false;
                     txtDifferenceWeight.Enabled = false;
+                    txtTotalLoadingQty.Enabled = false;
                 }
                 else
                 {
@@ -2693,6 +2902,7 @@ namespace mfmFFS.Screens
                     txt2WeightTon.Enabled = false;
                     txtNetWeightTon.Enabled = false;
                     txtDifferenceWeight.Enabled = false;
+                    txtTotalLoadingQty.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -2719,19 +2929,6 @@ namespace mfmFFS.Screens
                 DocNum = 1;
             }
             return DocNum;
-        }
-
-        [STAThread]
-        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            if (IndicatorType.ToString() == "RM-OUT" || IndicatorType.ToString() == "DSP-IN" || IndicatorType.ToString() == "DSP-OUT" || IndicatorType.ToString() == "SILO-1")
-            {
-                Indicator01();
-            }
-            else if (IndicatorType.ToString() == "RM-IN")
-            {
-                Indicator02();
-            }
         }
 
         private void Indicator01()
@@ -2828,6 +3025,14 @@ namespace mfmFFS.Screens
 
         }
 
+        private void HandleDialogControlCancelAuthorizedUser()
+        {
+            lblToleranceLimit.Visible = false;
+            txtToleranceLimit.Visible = false;
+            txtToleranceLimit.Text = string.Empty;
+            flgChkStatus = false;
+            chkAllowTolerance.Checked = false;
+        }
         #endregion
 
         #region Events
@@ -2845,9 +3050,22 @@ namespace mfmFFS.Screens
         {
             try
             {
-                Program.oErrMgn.LogEntry(Program.ANV, "Getweight " + txtCWeight.Text);
-                string Cval = txtCWeight.Text;
-                // txtFullText.Text = Cval;
+                //Program.oErrMgn.LogEntry(Program.ANV, "Getweight " + txtCWeight.Text);
+                //string Cval = txtCWeight.Text;
+                //// txtFullText.Text = Cval;
+                //Program.oErrMgn.LogEntry(Program.ANV, "Gotweight " + Cval);
+                //lblWeight.Text = Cval;// txtFullText.Text;
+                string Cval = "";
+                if (rbBridge01.IsChecked)
+                {
+                    Program.oErrMgn.LogEntry(Program.ANV, "Getweight1 " + Program.Bridge01Value);
+                    Cval = Program.Bridge01Value;
+                }
+                else
+                {
+                    Program.oErrMgn.LogEntry(Program.ANV, "Getweight2 " + Program.Bridge02Value);
+                    Cval = Program.Bridge02Value;
+                }
                 Program.oErrMgn.LogEntry(Program.ANV, "Gotweight " + Cval);
                 lblWeight.Text = Cval;// txtFullText.Text;
                 if (flgSetValues)
@@ -2858,7 +3076,6 @@ namespace mfmFFS.Screens
                 {
                     txt1WeightKG.Text = lblWeight.Text;
                 }
-
             }
             catch (Exception Ex)
             {
@@ -2871,7 +3088,7 @@ namespace mfmFFS.Screens
             try
             {
                 string critaria = txtDocNo.Text;
-                string PldFor = Program.Screen;
+                string PldFor = Program.Screen.Trim();
                 string Fwmnt = txt1WeightKG.Text;
                 if (!string.IsNullOrEmpty(Fwmnt))
                 {
@@ -2910,6 +3127,10 @@ namespace mfmFFS.Screens
                 if (btnSubmit.Text == "&Update")
                 {
                     btnAdd.Enabled = false;
+                    //if (Program.oCurrentUser.FlgSpecial.GetValueOrDefault())
+                    //{
+                    //    grdWmntDetails.Columns["Loading Qty"].ReadOnly = true;
+                    //}
                 }
 
             }
@@ -2943,6 +3164,7 @@ namespace mfmFFS.Screens
                     txt1WeightKG.Enabled = true;
                     txt2WeightKG.Enabled = true;
                 }
+                //grdWmntDetails.Columns["Loading Qty"].ReadOnly = false;
                 // txtOrderQuantity.Enabled = true;
                 flgSetValues = false;
                 //bool super = Convert.ToBoolean(oDB.MstUsers.Where(x => x.UserCode == Program.oCurrentUser.UserCode).FirstOrDefault().FlgSuper);
@@ -3313,7 +3535,7 @@ namespace mfmFFS.Screens
                         {
                             totalLoadingQty += Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Loading Qty"].Value.ToString());
                         }
-                        txtDifferenceWeight.Text = Convert.ToString(Convert.ToDecimal(txtNetWeightTon.Text) - totalLoadingQty);
+                        txtDifferenceWeight.Text = Convert.ToString(totalLoadingQty - Convert.ToDecimal(txtNetWeightTon.Text));
                     }
                     //}
                     //else
@@ -3341,7 +3563,7 @@ namespace mfmFFS.Screens
                     string[] CardName = cmbTransportCode.Text.Split(':');
                     string CArdName1 = CardName[1];
                     DataTable val = new DataTable();
-                    string strQuery = @"select CardName from ocrd Where GroupCode = 117 and CardCode ='" + CArdName1 + "'";
+                    string strQuery = @"select CardName from ocrd Where GroupCode = 108 and CardCode ='" + CArdName1 + "'";
                     //  WHERE dbo.ORDR.DocNum = '" + SourceDocNum + "'";
                     val = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);
                     TxtTransportName.Text = val.Rows[0][0].ToString();
@@ -3433,24 +3655,41 @@ namespace mfmFFS.Screens
         {
             try
             {
-                if (Convert.ToDecimal(grdWmntDetails.Rows[e.RowIndex].Cells["Loading Qty"].Value.ToString()) > Convert.ToDecimal(grdWmntDetails.Rows[e.RowIndex].Cells["Balance Qty"].Value.ToString()))
+                if (e.Column.Name == "Loading Qty")
                 {
-                    Program.WarningMsg("Loading quantity cannot b greater than Balance quantity.");
-                }
-                if (!string.IsNullOrEmpty(txtNetWeightTon.Text))
-                {
-                    if (grdWmntDetails.Rows.Count > 0)
+                    if (Convert.ToDecimal(grdWmntDetails.Rows[e.RowIndex].Cells["Loading Qty"].Value.ToString()) > Convert.ToDecimal(grdWmntDetails.Rows[e.RowIndex].Cells["Balance Qty"].Value.ToString()))
                     {
-                        totalLoadingQty = 0;
-                        for (int i = 0; i < grdWmntDetails.Rows.Count; i++)
+                        if (grdWmntDetails.Rows[e.RowIndex].Cells["Item Code"].Value.ToString() == "FG001" || grdWmntDetails.Rows[e.RowIndex].Cells["Item Code"].Value.ToString() == "FG003" || grdWmntDetails.Rows[e.RowIndex].Cells["Item Code"].Value.ToString() == "FG005")
                         {
-                            totalLoadingQty += Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Loading Qty"].Value.ToString());
+                            Double BalQty = ((Convert.ToDouble(grdWmntDetails.Rows[e.RowIndex].Cells["Balance Qty"].Value.ToString()) * 0.05) + Convert.ToDouble(grdWmntDetails.Rows[e.RowIndex].Cells["Balance Qty"].Value.ToString()));
+                            if (Convert.ToDouble(grdWmntDetails.Rows[e.RowIndex].Cells["Loading Qty"].Value.ToString()) > BalQty)
+                            {
+                                Program.WarningMsg("Loading Quantity cannot be greater than Balance quantity.");
+                            }
                         }
-                        if (totalLoadingQty > Convert.ToDecimal(txtNetWeightTon.Text))
+                        else
                         {
-                            Program.WarningMsg("Loading quantity cannot b greater than Net weight.");
+                            Program.WarningMsg("Loading Quantity cannot be greater than Balance quantity.");
                         }
                     }
+                    /*if (!string.IsNullOrEmpty(txtNetWeightTon.Text))
+                    {
+                        if (grdWmntDetails.Rows.Count > 0)
+                        {
+                            totalLoadingQty = 0;
+                            for (int i = 0; i < grdWmntDetails.Rows.Count; i++)
+                            {
+                                totalLoadingQty += Convert.ToDecimal(grdWmntDetails.Rows[i].Cells["Loading Qty"].Value.ToString());
+                            }
+                            if (totalLoadingQty > Convert.ToDecimal(txtNetWeightTon.Text))
+                            {
+                                Program.WarningMsg("Loading quantity cannot b greater than Net weight.");
+                            }
+                        }
+
+                    }*/
+                    txtTotalLoadingQty.Text = TotalLoadingQty().ToString();
+                    txt2WeightKG.Text = "";
                 }
             }
             catch (Exception Ex)
@@ -3484,6 +3723,8 @@ namespace mfmFFS.Screens
             }
         }
 
+
+
         private void BtnItemSelect_Click(object sender, EventArgs e)
         {
             try
@@ -3495,6 +3736,7 @@ namespace mfmFFS.Screens
                 }
                 else
                 {
+
                     HandleDialogControlSaleOrderItemNewLogic();
                     txtDaySeries.Text = Convert.ToString(daySeries());
                 }
@@ -3523,14 +3765,32 @@ namespace mfmFFS.Screens
             {
                 if (chkAllowTolerance.Checked)
                 {
-                    lblToleranceLimit.Visible = true;
-                    txtToleranceLimit.Visible = true;
+                    DialogResult oResult = RadMessageBox.Show("You will need to require administrator permission to allow extra tolerance.", "Confirmation.", MessageBoxButtons.OKCancel);
+                    if (oResult == System.Windows.Forms.DialogResult.OK)
+                    {
+                        //pnlLogin.Visible = true;
+                        frmLoginDlg oDlg = new frmLoginDlg();
+                        oDlg.ShowDialog();
+                        if (oDlg.DialogResult == System.Windows.Forms.DialogResult.OK)
+                        {
+                            ToleranceApprovedBy = oDlg.ToleranceApprovedBy;
+                            lblToleranceLimit.Visible = oDlg.lblToleranceLimit;
+                            txtToleranceLimit.Visible = oDlg.txtToleranceLimitVisible;
+                            flgChkStatus = oDlg.flgChkStatus;
+                        }
+                        else if (oDlg.DialogResult == System.Windows.Forms.DialogResult.Cancel)
+                        {
+                            HandleDialogControlCancelAuthorizedUser();
+                        }
+                    }
+                    else if (oResult == System.Windows.Forms.DialogResult.Cancel)
+                    {
+                        HandleDialogControlCancelAuthorizedUser();
+                    }
                 }
                 else
                 {
-                    lblToleranceLimit.Visible = false;
-                    txtToleranceLimit.Visible = false;
-                    txtToleranceLimit.Text = string.Empty;
+                    HandleDialogControlCancelAuthorizedUser();
                 }
             }
             catch (Exception Ex)
@@ -3609,22 +3869,41 @@ namespace mfmFFS.Screens
                 }
                 else if (string.IsNullOrEmpty(txtOrderQuantity.Text))
                 {
-                    Program.WarningMsg("Order Quantity can't be empty.");
+                    Program.WarningMsg("Loading Quantity can't be empty.");
                     return;
                 }
-                if (Convert.ToDecimal(txtOrderQuantity.Text) <= 0)
+                else if (Convert.ToDecimal(txtOrderQuantity.Text) <= 0)
                 {
                     Program.WarningMsg("Order quantity can't be zero.");
                     return;
                 }
                 else if (Convert.ToDecimal(txtOrderQuantity.Text) > Convert.ToDecimal(txtBalanceQuantity.Text))
                 {
-                    Program.WarningMsg("Order Quantity cannot be greater than Balance quantity.");
-                    return;
+                    if (txtItemCod.Text == "FG001" || txtItemCod.Text == "FG003" || txtItemCod.Text == "FG005")
+                    {
+                        Double BalQty = ((Convert.ToDouble(txtBalanceQuantity.Text) * 0.05) + Convert.ToDouble(txtBalanceQuantity.Text));
+                        if (Convert.ToDouble(txtOrderQuantity.Text) > BalQty)
+                        {
+                            Program.WarningMsg("Order Quantity cannot be greater than Balance quantity.");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        Program.WarningMsg("Order Quantity cannot be greater than Balance quantity.");
+                        return;
+                    }
                 }
-                else
-                {
+                //else
+                //{
                     grdWmntDetails.Rows.Add(txtCustomerCode.Text, txtCustomerName.Text, txtSBRNum.Text, txtSBRDate.Text, ItemGroupCode, txtItemGroupName.Text, txtItemCod.Text, txtItemNam.Text, txtOrderQuantity.Text, txtBalanceQuantity.Text);
+
+                    ItemCheckList odata = new ItemCheckList();
+                    odata.SBRNum = Convert.ToInt32(txtSBRNum.Text);
+                    odata.ItemCode = txtItemCod.Text;
+                    ItemList.Add(odata);
+
+                    txtTotalLoadingQty.Text = TotalLoadingQty().ToString();
                     txtSBRNum.Text = string.Empty;
                     txtSBRDate.Text = string.Empty;
                     txtItemCod.Text = string.Empty;
@@ -3632,7 +3911,7 @@ namespace mfmFFS.Screens
                     txtOrderQuantity.Text = string.Empty;
                     txtBalanceQuantity.Text = string.Empty;
                     txtItemGroupName.Text = string.Empty;
-                }
+                //}
             }
             catch (Exception Ex)
             {
@@ -3640,9 +3919,68 @@ namespace mfmFFS.Screens
             }
         }
 
-        #endregion
+        [STAThread]
+        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            if (IndicatorType.ToString() == "RM-OUT" || IndicatorType.ToString() == "DSP-IN" || IndicatorType.ToString() == "DSP-OUT" || IndicatorType.ToString() == "SILO-1")
+            {
+                Indicator01();
+            }
+            else if (IndicatorType.ToString() == "RM-IN")
+            {
+                Indicator02();
+            }
+        }
 
+
+        private void grdWmntDetails_UserDeletingRow(object sender, GridViewRowCancelEventArgs e)
+        {
+            try
+            {
+                int value = e.Rows.FirstOrDefault().Index;
+                string SONo = grdWmntDetails.Rows[value].Cells["SBR#"].Value.ToString();
+                string itemCode = grdWmntDetails.Rows[value].Cells["Item Code"].Value.ToString();
+                int count = 0, itemAt = 0;
+                foreach (var t in ItemList)
+                {
+                    if (Convert.ToInt32(SONo) == t.SBRNum && itemCode == t.ItemCode)
+                    {
+                        itemAt = count;
+                    }
+                    count++;
+                }
+                ItemList.RemoveAt(itemAt);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void grdWmntDetails_UserDeletedRow(object sender, GridViewRowEventArgs e)
+        {
+            try
+            {
+                txtTotalLoadingQty.Text = TotalLoadingQty().ToString();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        #endregion
     }
 
-    
+
 }
+
+public class ItemCheckList
+{
+    public int SBRNum { get; set; }
+    public string ItemCode { get; set; }
+
+}
+
+

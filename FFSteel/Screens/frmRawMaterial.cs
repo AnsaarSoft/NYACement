@@ -68,7 +68,7 @@ namespace mfmFFS.Screens
                 Program.flgIndicator = true;
                 dt.Clear();
                 oDB = new dbFFS(Program.ConStrApp);
-                GetMachineSetting();
+                /*GetMachineSetting();*/
                 CreateDt();
                 FillYard();
                 FillTransporttype();
@@ -87,7 +87,7 @@ namespace mfmFFS.Screens
                 txtDifferenceWeightTon.Text = "";
 
                 txtFullText.Visible = false;
-                tmrAlreadyReading.Interval = 1000;
+                /*tmrAlreadyReading.Interval = 1000;*/
 
                 ApplyAuthorization();
 
@@ -173,6 +173,7 @@ namespace mfmFFS.Screens
                 txtToleranceLimit.Text = "";
                 txtToleranceLimit.Visible = false;
                 chkAllowTolerance.Checked = false;
+                txtIGPNo.Text = "";
             }
             catch (Exception Ex)
             {
@@ -509,7 +510,7 @@ namespace mfmFFS.Screens
                 oDoc.FDocDate = DateTime.Now;
                 oDoc.FShift = Convert.ToInt32(shiftid);
                 oDoc.FTime = DateTime.Now.ToShortTimeString();
-                oDoc.FlgAPRI = tgsDocType.Value;
+                oDoc.FlgAPRI = !tgsDocType.Value;
                 oDoc.PONum = txtPONo.Text;
                 oDoc.PODate = Convert.ToDateTime(txtPODate.Text);
                 oDoc.VendorCode = txtVendorCode.Text;
@@ -550,6 +551,7 @@ namespace mfmFFS.Screens
                 oDoc.FCreateDate = DateTime.Now;
                 oDoc.FUpdateBy = Program.oCurrentUser.UserCode;
                 oDoc.FUpdateDate = DateTime.Now;
+                oDoc.IGPNo = txtIGPNo.Text;
                 oDB.TrnsRawMaterial.InsertOnSubmit(oDoc);
                 oDB.SubmitChanges();
                 Program.SuccesesMsg("Record Successfully Added.");
@@ -609,6 +611,7 @@ namespace mfmFFS.Screens
                 oDoc.SCreateDate = DateTime.Now;
                 oDoc.SUpdateBy = Program.oCurrentUser.UserCode;
                 oDoc.SUpdateDate = DateTime.Now;
+                oDoc.IGPNo = txtIGPNo.Text;
                 if (chkAllowTolerance.Checked)
                 {
                     oDoc.FlgTolerance = chkAllowTolerance.Checked;
@@ -865,7 +868,7 @@ namespace mfmFFS.Screens
             {
                 DataTable dt = new DataTable();
 
-                string strQuery = @"select CardCode,CardName +':'+ CardCode as CardCodeName from ocrd Where GroupCode = 116 and validFor = 'Y'";
+                string strQuery = @"select CardCode,CardName +':'+ CardCode as CardCodeName from ocrd Where GroupCode = 108 and validFor = 'Y'";
 
                 //  WHERE dbo.ORDR.DocNum = '" + SourceDocNum + "'";
                 dt = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);
@@ -924,9 +927,9 @@ namespace mfmFFS.Screens
                 //Rawcomport.Close();
                 InitializeComponent();
                 Program.oErrMgn.LogEntry(Program.ANV, "Raw material Screen Start");
-                Rawcomport.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+                /*Rawcomport.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
                 txtCWeight.Visible = true;
-                txtCWeight.Enabled = false;
+                txtCWeight.Enabled = false;*/
                 // comport.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
             }
             catch (Exception)
@@ -995,7 +998,7 @@ namespace mfmFFS.Screens
                 //cmbTransportCode.Text = tCode;
                 if (!string.IsNullOrEmpty(trm.TransportCode))
                 {
-                    string tCodeName = @"select  CardName +':'+ CardCode as CardCode from ocrd Where GroupCode = 116 and CardCode ='" + trm.TransportCode + "'";
+                    string tCodeName = @"select  CardName +':'+ CardCode as CardCode from ocrd Where GroupCode = 108 and CardCode ='" + trm.TransportCode + "'";
                     string tCode = mFm.ExecuteQueryScaler(tCodeName, Program.ConStrSAP);
                     //string tcode = trm.TransportCode.ToString();
                     //int value = (cmbTransportCode.Items.IndexOf(tcode));
@@ -1043,6 +1046,8 @@ namespace mfmFFS.Screens
                 txt2WeightTon.Text = Convert.ToString(trm.SWeighmentTon);
 
                 txtNetWeightTon.Text = Convert.ToString(trm.NetWeightTon);
+
+                txtIGPNo.Text = trm.IGPNo;
                 //* Update By: BILAL
                 //Date : 3-27-2019
                 if (string.IsNullOrEmpty(txtNetWeightTon.Text))
@@ -1540,6 +1545,19 @@ namespace mfmFFS.Screens
                         oDoc.ReveivedQuantity = Convert.ToDecimal(txtNetWeightTon.Text);
                     }
                 }
+                if (chkAllowTolerance.Checked)
+                {
+                    if (string.IsNullOrEmpty(txtToleranceLimit.Text))
+                    {
+                        Program.WarningMsg("Tolerance limit can't be empty.");
+                        return false;
+                    }
+                    else
+                    {
+                        oDoc.FlgTolerance = chkAllowTolerance.Checked;
+                        oDoc.ToleranceLimit = Convert.ToDecimal(txtToleranceLimit.Text);
+                    }
+                }
                 oDB.SubmitChanges();
                 Program.SuccesesMsg("Record Successfully Updated.");
                 return true;
@@ -1729,6 +1747,100 @@ namespace mfmFFS.Screens
             return DocNum;
         }
 
+        private void Indicator01()
+        {
+
+            if (!alreadyReading)
+            {
+                try
+                {
+                    alreadyReading = true;
+                    Thread.Sleep(500);
+                    string data = Rawcomport.ReadExisting();
+                    //Program.oErrMgn.LogEntry(Program.ANV, " readed data :" + data);
+                    //Program.oErrMgn.LogEntry(Program.ANV, " readed data ki lenght :" + data.Length.ToString());
+                    if (data.Length < 9)
+                    {
+                        Program.oErrMgn.LogEntry(Program.ANV, "data lenght ki value 9 se kam hai");
+                        alreadyReading = false;
+                        return;
+                    }
+                    //Program.oErrMgn.LogEntry(Program.ANV, " config data ki lenght :" + DataLenght);
+                    if (data.Length < Convert.ToInt32(DataLenght) + 2)
+                    {
+                        //Program.oErrMgn.LogEntry(Program.ANV, "crap data lenght ki value kam hai");
+                        alreadyReading = false;
+                        return;
+                    }
+                    txtFullText.Invoke(new EventHandler(delegate
+                    {
+                        int charindex = data.IndexOf(StartChar);
+                        //Program.oErrMgn.LogEntry(Program.ANV, "charindex ki value " + Convert.ToString(charindex));
+                        long currentWeight = 0;
+                        if (charindex >= 0)
+                        {
+                            //Program.oErrMgn.LogEntry(Program.ANV, "char index ki bari value " + Convert.ToString(charindex + Convert.ToInt32(DataLenght)));
+                            if (data.Length > charindex + Convert.ToInt32(DataLenght))
+                            {
+                                //string tempconvalue = data.Substring(charindex + 1, Convert.ToInt16(DataLenght));
+                                string tempconvalue = data.Substring(charindex + 2, Convert.ToInt16(DataLenght));
+                                //Program.oErrMgn.LogEntry(Program.ANV, "temp extracted value : " + tempconvalue);
+                                string val = tempconvalue.TrimStart();
+                                currentWeight = Convert.ToInt64(val);
+                                currentwt = currentWeight;
+                                //txtCWeight.Text = currentwt.ToString();
+                                CallSafeCWeight(currentwt.ToString());
+                                //Program.oErrMgn.LogEntry(Program.ANV, " Currentwt :" + currentwt.ToString());
+                            }
+                        }
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    Program.oErrMgn.LogException(Program.ANV, ex);
+                    alreadyReading = false;
+                }
+                alreadyReading = false;
+            }
+
+        }
+
+        private void Indicator02()
+        {
+            if (!alreadyReading)
+            {
+                alreadyReading = true;
+                try
+                {
+                    //Thread.Sleep(100);
+                    //Program.oErrMgn.LogEntry(Program.ANV, "indicator 02");
+                    string data = Rawcomport.ReadLine();
+
+                    //Program.oErrMgn.LogEntry(Program.ANV, " readed data :" + data);
+                    //Program.oErrMgn.LogEntry(Program.ANV, " readed data ki lenght :" + data.Length.ToString());
+                    //if (data.Length < 10)
+                    //{
+                    //    Program.oErrMgn.LogEntry(Program.ANV, "data lenght ki value 10 se kam hai");
+                    //    alreadyReading = false;
+                    //    return;
+                    //}
+                    txtFullText.Invoke(new EventHandler(delegate
+                    {
+                        long currentWeight = 0;
+                        long.TryParse(data, out currentWeight);
+                        CallSafeCWeight(currentWeight.ToString());
+                        //Program.oErrMgn.LogEntry(Program.ANV, " Currentwt :" + currentWeight.ToString());
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    alreadyReading = false;
+                }
+                alreadyReading = false;
+            }
+
+        }
+
         #endregion
 
         #region Events
@@ -1788,7 +1900,7 @@ namespace mfmFFS.Screens
                 {
                     string CArdName1 = CardName[1];
                     DataTable val = new DataTable();
-                    string strQuery = @"select CardName from ocrd Where GroupCode = 116 and validFor = 'Y' and CardCode ='" + CArdName1 + "'";
+                    string strQuery = @"select CardName from ocrd Where GroupCode = 108 and validFor = 'Y' and CardCode ='" + CArdName1 + "'";
                     //  WHERE dbo.ORDR.DocNum = '" + SourceDocNum + "'";
                     val = mFm.ExecuteQueryDt(strQuery, Program.ConStrSAP);
 
@@ -2651,7 +2763,6 @@ namespace mfmFFS.Screens
             //btnSubmit.Text = "&Update";
         }
 
-
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             try
@@ -2686,14 +2797,25 @@ namespace mfmFFS.Screens
                 Program.oErrMgn.LogException(Program.ANV, Ex);
             }
         }
-
+        
         private void btnGetWeight_Click(object sender, EventArgs e)
         {
             try
             {
-                Program.oErrMgn.LogEntry(Program.ANV, "Getweight " + txtCWeight.Text);
-                string Cval = txtCWeight.Text;
-                // txtFullText.Text = Cval;
+                //Program.oErrMgn.LogEntry(Program.ANV, "Getweight " + txtCWeight.Text);
+                //string Cval = txtCWeight.Text;
+                //// txtFullText.Text = Cval;
+                string Cval = "";
+                if (rbBridge01.IsChecked)
+                {
+                    Program.oErrMgn.LogEntry(Program.ANV, "Getweight1 " + Program.Bridge01Value);
+                    Cval = Program.Bridge01Value;
+                }
+                else
+                {
+                    Program.oErrMgn.LogEntry(Program.ANV, "Getweight2 " + Program.Bridge02Value);
+                    Cval = Program.Bridge02Value;
+                }
                 Program.oErrMgn.LogEntry(Program.ANV, "Gotweight " + Cval);
                 lblWeight.Text = Cval;// txtFullText.Text;
                 if (flgSetValues)
@@ -2704,7 +2826,6 @@ namespace mfmFFS.Screens
                 {
                     txt1WeightKG.Text = lblWeight.Text;
                 }
-
             }
             catch (Exception Ex)
             {
@@ -2797,6 +2918,7 @@ namespace mfmFFS.Screens
             {
             }
         }
+
         [STAThread]
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -2808,100 +2930,6 @@ namespace mfmFFS.Screens
             {
                 Indicator02();
             }
-        }
-
-        private void Indicator01()
-        {
-
-            if (!alreadyReading)
-            {
-                try
-                {
-                    alreadyReading = true;
-                    Thread.Sleep(500);
-                    string data = Rawcomport.ReadExisting();
-                    //Program.oErrMgn.LogEntry(Program.ANV, " readed data :" + data);
-                    //Program.oErrMgn.LogEntry(Program.ANV, " readed data ki lenght :" + data.Length.ToString());
-                    if (data.Length < 9)
-                    {
-                        Program.oErrMgn.LogEntry(Program.ANV, "data lenght ki value 9 se kam hai");
-                        alreadyReading = false;
-                        return;
-                    }
-                    //Program.oErrMgn.LogEntry(Program.ANV, " config data ki lenght :" + DataLenght);
-                    if (data.Length < Convert.ToInt32(DataLenght) + 2)
-                    {
-                        //Program.oErrMgn.LogEntry(Program.ANV, "crap data lenght ki value kam hai");
-                        alreadyReading = false;
-                        return;
-                    }
-                    txtFullText.Invoke(new EventHandler(delegate
-                    {
-                        int charindex = data.IndexOf(StartChar);
-                        //Program.oErrMgn.LogEntry(Program.ANV, "charindex ki value " + Convert.ToString(charindex));
-                        long currentWeight = 0;
-                        if (charindex >= 0)
-                        {
-                            //Program.oErrMgn.LogEntry(Program.ANV, "char index ki bari value " + Convert.ToString(charindex + Convert.ToInt32(DataLenght)));
-                            if (data.Length > charindex + Convert.ToInt32(DataLenght))
-                            {
-                                //string tempconvalue = data.Substring(charindex + 1, Convert.ToInt16(DataLenght));
-                                string tempconvalue = data.Substring(charindex + 2, Convert.ToInt16(DataLenght));
-                                //Program.oErrMgn.LogEntry(Program.ANV, "temp extracted value : " + tempconvalue);
-                                string val = tempconvalue.TrimStart();
-                                currentWeight = Convert.ToInt64(val);
-                                currentwt = currentWeight;
-                                //txtCWeight.Text = currentwt.ToString();
-                                CallSafeCWeight(currentwt.ToString());
-                                //Program.oErrMgn.LogEntry(Program.ANV, " Currentwt :" + currentwt.ToString());
-                            }
-                        }
-                    }));
-                }
-                catch (Exception ex)
-                {
-                    Program.oErrMgn.LogException(Program.ANV, ex);
-                    alreadyReading = false;
-                }
-                alreadyReading = false;
-            }
-
-        }
-
-        private void Indicator02()
-        {
-            if (!alreadyReading)
-            {
-                alreadyReading = true;
-                try
-                {
-                    //Thread.Sleep(100);
-                    //Program.oErrMgn.LogEntry(Program.ANV, "indicator 02");
-                    string data = Rawcomport.ReadLine();
-
-                    //Program.oErrMgn.LogEntry(Program.ANV, " readed data :" + data);
-                    //Program.oErrMgn.LogEntry(Program.ANV, " readed data ki lenght :" + data.Length.ToString());
-                    //if (data.Length < 10)
-                    //{
-                    //    Program.oErrMgn.LogEntry(Program.ANV, "data lenght ki value 10 se kam hai");
-                    //    alreadyReading = false;
-                    //    return;
-                    //}
-                    txtFullText.Invoke(new EventHandler(delegate
-                    {
-                        long currentWeight = 0;
-                        long.TryParse(data, out currentWeight);
-                        CallSafeCWeight(currentWeight.ToString());
-                        //Program.oErrMgn.LogEntry(Program.ANV, " Currentwt :" + currentWeight.ToString());
-                    }));
-                }
-                catch (Exception ex)
-                {
-                    alreadyReading = false;
-                }
-                alreadyReading = false;
-            }
-
         }
 
         #endregion

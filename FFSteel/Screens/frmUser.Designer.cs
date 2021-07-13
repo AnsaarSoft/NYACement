@@ -60,6 +60,7 @@
             this.radLabel1 = new Telerik.WinControls.UI.RadLabel();
             this.erp = new System.Windows.Forms.ErrorProvider(this.components);
             this.chkSpecial = new Telerik.WinControls.UI.RadCheckBox();
+            this.chkToleranceRights = new Telerik.WinControls.UI.RadCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtEmail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radLabel7)).BeginInit();
@@ -89,6 +90,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.erp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkSpecial)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkToleranceRights)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -345,11 +347,20 @@
             this.chkSpecial.Text = "Special Weight Alter";
             this.chkSpecial.ToggleStateChanged += new Telerik.WinControls.UI.StateChangedEventHandler(this.chkSpecial_ToggleStateChanged);
             // 
+            // chkToleranceRights
+            // 
+            this.chkToleranceRights.Location = new System.Drawing.Point(180, 286);
+            this.chkToleranceRights.Name = "chkToleranceRights";
+            this.chkToleranceRights.Size = new System.Drawing.Size(131, 18);
+            this.chkToleranceRights.TabIndex = 58;
+            this.chkToleranceRights.Text = "Tolerance Limit Rights";
+            // 
             // frmUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(900, 546);
+            this.Controls.Add(this.chkToleranceRights);
             this.Controls.Add(this.chkSpecial);
             this.Controls.Add(this.txtID);
             this.Controls.Add(this.txtEmail);
@@ -407,6 +418,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.radLabel1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.erp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chkSpecial)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkToleranceRights)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -443,5 +455,6 @@
         private Telerik.WinControls.UI.RadLabel radLabel7;
         private Telerik.WinControls.UI.RadTextBox txtID;
         private Telerik.WinControls.UI.RadCheckBox chkSpecial;
+        private Telerik.WinControls.UI.RadCheckBox chkToleranceRights;
     }
 }

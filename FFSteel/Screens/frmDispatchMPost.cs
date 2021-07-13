@@ -25,11 +25,12 @@ namespace mfmFFS.Screens
     {
 
         #region Variable
+
         DataTable dt = new DataTable();
         dbFFS oDB = new dbFFS(Program.ConStrApp);
         bool flgSboLogin = false;
-
         List<ConsolidateDataM> oList = new List<ConsolidateDataM>();
+        List<ChkDocHeaderStatus> oListHeader = new List<ChkDocHeaderStatus>();
 
         #endregion
 
@@ -50,9 +51,6 @@ namespace mfmFFS.Screens
                 dt.Columns.Add("ID");
                 dt.Columns.Add("SWeightDate");
                 dt.Columns.Add("DocNum");
-                /*dt.Columns.Add("SBRNum");
-                dt.Columns.Add("CustomerName");
-                dt.Columns.Add("ItemName");*/
                 dt.Columns.Add("FirstWeight KG");
                 dt.Columns.Add("SecondWeight KG");
                 dt.Columns.Add("NetWeight KG");
@@ -68,6 +66,7 @@ namespace mfmFFS.Screens
                 Program.oErrMgn.LogException(Program.ANV, Ex);
             }
         }
+
         private void LoadGrid()
         {
             try
@@ -84,9 +83,6 @@ namespace mfmFFS.Screens
                     string SeconDate = SDate[0];
                     dtrow["SWeightDate"] = SeconDate;
                     dtrow["DocNum"] = item.DocNum;
-                    /*dtrow["SBRNum"] = item.SBRNum;
-                    dtrow["CustomerName"] = item.CustomerName;
-                    dtrow["ItemName"] = item.ItemName;*/
                     dtrow["FirstWeight KG"] = item.FWeighmentKG;
                     dtrow["SecondWeight KG"] = item.SWeighmentKG;
                     dtrow["NetWeight KG"] = item.NetWeightKG;
@@ -104,13 +100,11 @@ namespace mfmFFS.Screens
                         Post = "NotPosted";
                     }
                     dtrow["Status"] = Post;
-                    //string[] date = Convert.ToString(item.FDocDate).Split(' ');
-                    //dtrow["DocDate"] = date[0];
                     dt.Rows.Add(dtrow);
-
                 }
                 radGridView1.DataSource = dt;
                 radGridView1.EnableFiltering = true;
+                oList.Clear();
             }
             catch (Exception ex)
             {
@@ -122,11 +116,9 @@ namespace mfmFFS.Screens
         {
             try
             {
-
                 if (flgSboLogin == false)
                 {
-                    frmMain.LoginSBO();
-                    flgSboLogin = true;
+                   flgSboLogin = frmMain.LoginSBO();
                 }
                 if (flgSboLogin)
                 {
@@ -137,107 +129,140 @@ namespace mfmFFS.Screens
                         bool Val = Convert.ToBoolean(cellCheck.Value);
                         if (Val == true)
                         {
-                            //GridViewCellInfo cellID = CurrentRow.Cells["ID"];
                             GridViewCellInfo cellDocNum = CurrentRow.Cells["DocNum"];
-                            //TrnsDispatchMultiDetail Res = oDB.TrnsDispatchMultiDetail.Where(x => x.ID == Convert.ToInt32(cellID.Value)).FirstOrDefault();
-                            //TrnsDispatchMultiDetail Res = oDB.TrnsDispatchMultiDetail.Where(x => x.DocNum == Convert.ToInt32(cellID.Value)).FirstOrDefault();
                             var odetail = (from a in oDB.TrnsDispatchMultiDetail
-                                           where a.DocNum == Convert.ToInt32(cellDocNum.Value)
+                                           where a.DocNum == Convert.ToInt32(cellDocNum.Value) && (a.FlgPosted == null ? false : a.FlgPosted) == false
                                            select a).ToList();
-                            /*if (Res.FlgMulti.GetValueOrDefault())
-                            {
-                                AddtoSBOMulti(Res);
-                            }
-                            else
-                            {
-                                AddtoSBO(Res);
-                            }*/
                             foreach (var one in odetail)
                             {
                                 ConsolidateDataM oItem = new ConsolidateDataM();
                                 oItem.Customer = one.CustomerCode;
                                 oItem.SBRNo = one.SBRNum;
+                                oItem.DocNum = one.DocNum.ToString();
+                                oItem.ItemCode = one.ItemCode;
                                 oList.Add(oItem);
                             }
-                            //ConsolidateDataM oItem = new ConsolidateDataM();
-                            //oItem.Customer = Res.CustomerCode;
-                            //oItem.SBRNo = Res.SBRNum;
-                            //oList.Add(oItem);
                         }
                     }
                     if (oList.Count > 0)
                     {
+                        
                         var GroupByCustomer = (from a in oList
-                                           group a by a.Customer into b
-                                           select b).ToList();
+                                               group a by a.Customer into b
+                                               select b).ToList();
                         foreach (var CustomerWise in GroupByCustomer)
                         {
                             var GroupBySBRNo = CustomerWise.GroupBy(a => a.SBRNo).ToList();
                             foreach (var SBRNoWise in GroupBySBRNo)
                             {
-                                GroupMDLine TheLine = new GroupMDLine();
+                                
                                 foreach (var SBR in SBRNoWise)
                                 {
+                                    GroupMD myDoc = new GroupMD();
+                                    GroupMDLine TheLine = new GroupMDLine();
                                     var DMD = (from a in oDB.TrnsDispatchMultiDetail
-                                               where a.SBRNum == SBR.SBRNo
-                                                select a).FirstOrDefault();
+                                               where a.SBRNum == SBR.SBRNo && a.DocNum == Convert.ToInt32(SBR.DocNum)
+                                               && a.ItemCode == SBR.ItemCode
+                                               select a).FirstOrDefault();
                                     if (DMD == null) continue;
                                     TheLine.DocNum = (int)DMD.DocNum;
-                                    TheLine.SBRNumber = DMD.SBRNum;
-                                    //myDoc.SBRDate
-                                    TheLine.CardCode = DMD.CustomerCode;
-                                    TheLine.CardName = DMD.CustomerName;
+                                    myDoc.SBRNumber = DMD.SBRNum;
+                                    myDoc.CardCode = DMD.CustomerCode;
+                                    myDoc.CardName = DMD.CustomerName;
+                                    myDoc.DocNum = (int)DMD.DocNum;
+                                    myDoc.LineId = DMD.ID;
                                     TheLine.ItemCode = DMD.ItemCode;
                                     TheLine.ItemName = DMD.ItemName;
                                     TheLine.ItemGroupCode = DMD.ItemGroupCode;
-                                    TheLine.ItemGroupName = DMD.ItemGroupName;
                                     TheLine.OrderQty = (decimal)DMD.OrderQuantity;
-                                    TheLine.BalQty = (decimal)DMD.BalanceQuantity;
 
                                     var DMH = (from a in oDB.TrnsDispatchMultiHeader
                                                where a.DocNum == TheLine.DocNum
                                                select a).FirstOrDefault();
                                     if (DMH == null) continue;
 
-                                    GroupMD myDoc = new GroupMD();
-                                    //myDoc.DocNum = 
-                                    myDoc.PackerId = (int)DMH.PackerId;
+                                    myDoc.Status = false;
+                                    myDoc.PackerId = DMH.PackerId != null ? (int)DMH.PackerId : 0;
                                     myDoc.VehicleNo = DMH.VehicleNum;
                                     myDoc.DCNIC = DMH.DriverCNIC;
                                     myDoc.Driver = DMH.DriverName;
                                     myDoc.FirstWeightKG = (double)DMH.FWeighmentKG;
                                     myDoc.FirstWeightTon = (double)DMH.FWeighmentTon;
-                                    myDoc.TransportId = (int)DMH.TransportID;
-                                    myDoc.TransporterCode = DMH.TransportCode;
+                                    myDoc.TransportId = DMH.TransportID != null ? (int)DMH.TransportID : 0;
+                                    myDoc.TransporterCode = DMH.TransportCode != null ? DMH.TransportCode : "0";
                                     myDoc.SecondWeighKG = (double)DMH.SWeighmentKG;
                                     myDoc.SecondWeighTon = (double)DMH.SWeighmentTon;
                                     myDoc.NetWeightKG = (double)DMH.NetWeightKG;
                                     myDoc.NetWeightTon = (double)DMH.NetWeightTon;
                                     myDoc.sdocdate = Convert.ToDateTime(DMH.SDocDate);
                                     myDoc.oLines.Add(TheLine);
+                                    AddtoSBOGroup(myDoc);
+                                    if (myDoc.Status)
+                                    {
+                                        var oSD = (from a in oDB.TrnsDispatchMultiDetail
+                                                   where a.DocNum == myDoc.DocNum && a.SBRNum == myDoc.SBRNumber && a.ItemCode == TheLine.ItemCode
+                                                   select a).FirstOrDefault();
+                                        if (oSD == null) continue;
+                                        oSD.FlgPosted = true;
+                                        oDB.SubmitChanges();
+                                    }
+                                    ChkDocHeaderStatus oItem1 = new ChkDocHeaderStatus();
+                                    oItem1.DocNum = myDoc.DocNum;
+                                    oItem1.LineId = myDoc.LineId;
+                                    oItem1.flgStatus = myDoc.Status;
+                                    oListHeader.Add(oItem1);
                                 }
-                                //AddtoSBOGroup(myDoc);
-                                //if (myDoc.Status)
+                                //if(Program.SapCompany.Connected)
                                 //{
-                                //    foreach (var One in myDoc.oLines)
-                                //    {
-                                //        var oGRN = (from a in oDB.TrnsRawMaterial
-                                //                    where a.ID == One.TransactionId
-                                //                    select a).FirstOrDefault();
-                                //        if (oGRN == null) continue;
-                                //        oGRN.FlgPosted = true;
-                                //        oDB.SubmitChanges();
-                                //    }
+                                //    MessageBox.Show("connected.");
                                 //}
                                 //else
                                 //{
-
+                                //    MessageBox.Show("disconn");
                                 //}
                             }
                         }
-                    }
+                        oListHeader = oListHeader.OrderBy(m => m.DocNum).ToList();
+                        int docNumCompTrue = 0;
+                        if (oListHeader.Count > 0)
+                        {
+                            foreach (var Single in oListHeader)
+                            {
+                                if (docNumCompTrue != Single.DocNum)
+                                {
+                                    docNumCompTrue = 0;
 
-                    /*LoadGrid();*/
+                                    int docLines = (from a in oDB.TrnsDispatchMultiDetail
+                                                    where a.DocNum == Single.DocNum
+                                                    select a).Count();
+
+                                    int docTLines = (from a in oDB.TrnsDispatchMultiDetail
+                                                     where a.DocNum == Single.DocNum && (a.FlgPosted == null ? false : a.FlgPosted) == true
+                                                     select a).Count();
+                                    if (docLines == docTLines)
+                                    {
+                                        if (docNumCompTrue == 0)
+                                        {
+                                            var oSO = (from a in oDB.TrnsDispatchMultiHeader
+                                            where a.DocNum == Single.DocNum
+                                            select a).FirstOrDefault();
+                                            if (oSO == null) continue;
+                                            oSO.FlgPosted = true;
+                                            oDB.SubmitChanges();
+                                            docNumCompTrue = Single.DocNum;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    oListHeader.Clear();
+                    if (flgSboLogin)
+                    {
+                        flgSboLogin = false;
+                        Program.isSapConnected = false;
+                    }
+                    LoadGrid();
                 }
                 else
                 {
@@ -251,265 +276,7 @@ namespace mfmFFS.Screens
             }
         }
 
-        private void AddtoSBOGroup(GroupMD Doc,GroupMDLine oDetail)
-        {
-            string retValue = string.Empty, ObjectKey = string.Empty;
-            string transportname = "";
-            try
-            {
-                DataTable qdt = new DataTable();
-                SAPbobsCOM.Documents oDeliveryH = Program.SapCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseDeliveryNotes);
-
-                oDeliveryH.CardCode = oDetail.CardCode;
-                oDeliveryH.CardName = oDetail.CardName;
-
-
-                oDeliveryH.DocDate = Doc.sdocdate;
-                oDeliveryH.DocDueDate = Doc.sdocdate;
-                oDeliveryH.TaxDate = Doc.sdocdate;
-
-
-
-
-                //string Query, Query1, Query2;
-                //int BaseLine = 0, BaseEntry = 0, BaseType = 0;
-                //if (Doc.flgAPRI)
-                //{
-                //    Query = "Select x1.LineNum From OPOR x Inner Join POR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = " + Doc.PONumber + " and x1.ItemCode = '" + Doc.ItemCode + "'";
-                //    BaseLine = Convert.ToInt32(mFm.ExecuteQueryScaler(Query, Program.ConStrSAP));
-                //    Query1 = "Select x1.DocEntry From OPOR x Inner Join POR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = " + Doc.PONumber + " and x1.ItemCode = '" + Doc.ItemCode + "'";
-                //    BaseEntry = Convert.ToInt32(mFm.ExecuteQueryScaler(Query1, Program.ConStrSAP));
-                //    Query2 = "Select x.Objtype From OPOR x Inner Join POR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = " + Doc.PONumber + " and x1.ItemCode = '" + Doc.ItemCode + "'";
-                //    BaseType = Convert.ToInt32(mFm.ExecuteQueryScaler(Query2, Program.ConStrSAP));
-                //}
-                //else
-                //{
-                //    Query = "Select x1.LineNum From OPOR x Inner Join POR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = " + Doc.PONumber + " and x1.ItemCode = '" + Doc.ItemCode + "'";
-                //    BaseLine = Convert.ToInt32(mFm.ExecuteQueryScaler(Query, Program.ConStrSAP));
-                //    Query1 = "Select x1.DocEntry From OPOR x Inner Join POR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = " + Doc.PONumber + " and x1.ItemCode = '" + Doc.ItemCode + "'";
-                //    BaseEntry = Convert.ToInt32(mFm.ExecuteQueryScaler(Query1, Program.ConStrSAP));
-                //    Query2 = "Select x.Objtype From OPOR x Inner Join POR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = " + Doc.PONumber + " and x1.ItemCode = '" + Doc.ItemCode + "'";
-                //    BaseType = Convert.ToInt32(mFm.ExecuteQueryScaler(Query2, Program.ConStrSAP));
-                //}
-
-                //oPurchase.Lines.BaseLine = BaseLine;
-                //oPurchase.Lines.BaseEntry = BaseEntry;
-                //oPurchase.Lines.BaseType = BaseType;
-                //oPurchase.Lines.ItemCode = Doc.ItemCode;
-
-                ////oPurchase.Lines.UserFields.Fields.Item("U_Yard").Value = Line.Yard;
-                ////oPurchase.Lines.UserFields.Fields.Item("U_VehcleNo").Value = Line.VehicleNo;
-                ////oPurchase.Lines.UserFields.Fields.Item("U_Dcnic").Value = Line.DCNIC;
-                ////oPurchase.Lines.UserFields.Fields.Item("U_Driver").Value = Line.Driver;
-                ////oPurchase.Lines.UserFields.Fields.Item("U_WeghRef").Value = Doc.BaseDocCollection;
-                //double QuanityValue = 0;
-                //if (Doc.ItemGroup.ToUpper().Contains("OIL"))
-                //{
-                //    QuanityValue = Doc.oLines.Sum(a => a.NetWeightKG);
-                //    oPurchase.Lines.Quantity = Doc.oLines.Sum(a => a.NetWeightKG);
-                //    //oPurchase.Lines.UserFields.Fields.Item("U_FrstWght").Value = Line.FirstWeight;
-                //    //oPurchase.Lines.UserFields.Fields.Item("U_ScndWght").Value = Line.SecondWeigh;
-                //}
-                //else
-                //{
-                //    QuanityValue = Doc.oLines.Sum(a => a.NetWeightTon);
-                //    //oPurchase.Lines.UserFields.Fields.Item("U_FrstWght").Value = Line.FirstWeight;
-                //    //oPurchase.Lines.UserFields.Fields.Item("U_ScndWght").Value = Line.SecondWeigh;
-                //}
-                //oPurchase.Lines.Quantity = QuanityValue;
-                ////if (Line.TransportId != 0)
-                ////{
-                ////    var record = oDB.MstTransportType.Where(x => x.ID == Line.TransportId);
-                ////    if (record.Count() > 0)
-                ////    {
-                ////        transportname = record.FirstOrDefault().Name;
-                ////    }
-                ////}
-                ////oPurchase.Lines.UserFields.Fields.Item("U_Trnstyp").Value = transportname;
-                ////oPurchase.Lines.UserFields.Fields.Item("U_Trnsprtr").Value = Line.TransporterCode;
-
-                //oPurchase.Lines.Add();
-                //if (oPurchase.Add() != 0)
-                ////if (true)
-                //{
-                //    int ErrorCode = 0; string ErrorDesc = string.Empty;
-                //    Program.SapCompany.GetLastError(out ErrorCode, out ErrorDesc);
-                //    retValue = "Sap B1 Error : " + ErrorCode + " : " + ErrorDesc;
-                //    Program.ExceptionMsg(retValue);
-                //    Doc.Status = false;
-                //    Doc.SapDoc = "";
-                //    Doc.Error = retValue;
-                //}
-                //else
-                //{
-                //    retValue = Convert.ToString(Program.SapCompany.GetNewObjectKey());
-                //    //TrnsRawMaterial RawMaterial = oDB.TrnsRawMaterial.Where(x => x.ID == oVal.ID).FirstOrDefault();
-                //    //RawMaterial.FlgPosted = true;
-                //    //oDB.SubmitChanges();
-                //    Doc.Status = true;
-                //    Doc.SapDoc = retValue;
-                //    Doc.Error = "";
-                //    Program.SuccesesMsg("Posted to SBO");
-                //}
-            }
-            catch (Exception Ex)
-            {
-                Program.ExceptionMsg(Ex.ToString());
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void AddtoSBO(TrnsDispatch oVal)
-        {
-
-            string transportname = "";
-            string retValue = string.Empty, ObjectKey = string.Empty;
-            DataTable qdt = new DataTable();
-            try
-            {
-
-                SAPbobsCOM.Documents oDeliveryH = Program.SapCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oDeliveryNotes);
-
-                oDeliveryH.CardCode = oVal.CustomerCode;
-                oDeliveryH.CardName = oVal.CustomerName;
-
-                oDeliveryH.DocDate = Convert.ToDateTime(oVal.SDocDate);
-                oDeliveryH.DocDueDate = Convert.ToDateTime(oVal.SDocDate);
-                oDeliveryH.TaxDate = Convert.ToDateTime(oVal.SDocDate);
-                string Querydt = "Select A.ExpnsCode, (A.LineTotal/(Select Y.DocRate from ORDR Y Where y.DocNum =" + oVal.SBRNum + "))  * (" + oVal.OrderQuantity + " / (Select SUM(y.Quantity) From RDR1 y Where y.DocEntry = A.DocEntry)) as LineGross from RDR3 A Where A.DocEntry = (Select x.DocEntry from ORDR x Where x.DocNum = " + oVal.SBRNum + ")";
-                qdt = mFm.ExecuteQueryDt(Querydt, Program.ConStrSAP);
-                for (int i = 0; i < qdt.Rows.Count; i++)
-                {
-                    oDeliveryH.Expenses.ExpenseCode = Convert.ToInt32(qdt.Rows[i][0]);
-                    oDeliveryH.Expenses.LineTotal = Convert.ToDouble(qdt.Rows[i][1]);
-                    oDeliveryH.Expenses.Add();
-                }
-                oDeliveryH.Lines.UserFields.Fields.Item("U_WeghRef").Value = oVal.DocNum.ToString();
-
-                string Query = "Select x1.LineNum From ORDR x Inner Join RDR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = '" + oVal.SBRNum + "' and x1.ItemCode = '" + oVal.ItemCode + "'";
-                int BaseLine = Convert.ToInt32(mFm.ExecuteQueryScaler(Query, Program.ConStrSAP));
-                string Query1 = "Select x1.DocEntry From ORDR x Inner Join RDR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = '" + oVal.SBRNum + "' and x1.ItemCode = '" + oVal.ItemCode + "'";
-                int BaseEntry = Convert.ToInt32(mFm.ExecuteQueryScaler(Query1, Program.ConStrSAP));
-                string Query2 = "Select x.Objtype From ORDR x Inner Join RDR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = '" + oVal.SBRNum + "' and x1.ItemCode = '" + oVal.ItemCode + "'";
-                int BaseType = Convert.ToInt32(mFm.ExecuteQueryScaler(Query2, Program.ConStrSAP));
-                oDeliveryH.Lines.BaseLine = BaseLine;
-                oDeliveryH.Lines.BaseEntry = BaseEntry;
-                oDeliveryH.Lines.BaseType = BaseType;
-                oDeliveryH.Lines.ItemCode = oVal.ItemCode;
-                if (oVal.ItemGroupName.ToUpper().Contains("BAG"))
-                {
-                    oDeliveryH.Lines.Quantity = Convert.ToDouble(oVal.OrderQuantity);
-                }
-                else
-                {
-                    oDeliveryH.Lines.Quantity = Convert.ToDouble(oVal.NetWeightTon);
-                }
-                oDeliveryH.Lines.UserFields.Fields.Item("U_Packer").Value = oVal.PackerId.ToString();
-                oDeliveryH.Lines.UserFields.Fields.Item("U_VehcleNo").Value = oVal.VehicleNum.ToString();
-                oDeliveryH.Lines.UserFields.Fields.Item("U_Dcnic").Value = oVal.DriverCNIC.ToString();
-                oDeliveryH.Lines.UserFields.Fields.Item("U_Driver").Value = oVal.DriverName.ToString();
-                oDeliveryH.Lines.UserFields.Fields.Item("U_FrstWght").Value = Convert.ToDouble((oVal.FWeighmentTon));
-                if (oVal.TransportID != 0)
-                {
-                    var record = oDB.MstTransportType.Where(x => x.ID == oVal.TransportID);
-                    if (record.Count() > 0)
-                    {
-                        transportname = record.FirstOrDefault().Name;
-                    }
-                }
-                oDeliveryH.Lines.UserFields.Fields.Item("U_Trnstyp").Value = transportname;
-                oDeliveryH.Lines.UserFields.Fields.Item("U_Trnsprtr").Value = oVal.TransportCode.ToString();
-                oDeliveryH.Lines.UserFields.Fields.Item("U_ScndWght").Value = Convert.ToDouble((oVal.SWeighmentTon));
-                oDeliveryH.Lines.Add();
-                if (oDeliveryH.Add() != 0)
-                //if (true)
-                {
-                    int ErrorCode = 0; string ErrorDesc = string.Empty;
-                    Program.SapCompany.GetLastError(out ErrorCode, out ErrorDesc);
-                    retValue = "Sap B1 Error : " + ErrorCode + " : " + ErrorDesc;
-                    Program.ExceptionMsg(retValue.ToString());
-                }
-                else
-                {
-                    retValue = Convert.ToString(Program.SapCompany.GetNewObjectKey());
-                    TrnsDispatch Dispatch = oDB.TrnsDispatch.Where(x => x.ID == oVal.ID).FirstOrDefault();
-                    Dispatch.FlgPosted = true;
-                    oDB.SubmitChanges();
-                    //LoadGrid();
-                    Program.SuccesesMsg("Posted to SBO");
-                }
-
-
-                //string strQuerySAP = "INSERT INTO DLN1 ( U_Weghref,"+
-                //                                                  @"BaseRef,
-                //                                                  BaseLine,
-                //                                                  BaseType,
-                //                                                  ItemCode,
-                //                                                  Dscription,
-                //                                                  U_packer,
-                //                                                  U_Vehcle, 
-                //                                                  U_DCNIC,
-                //                                                  U_Driver,
-                //                                                  U_frstwght, 
-                //                                                  U_trnstyp,
-                //                                                  U_trnsprtr,
-                //                                                  U_ScndWght,
-                //                                                  Quantity"+
-
-
-
-                //                                 @"VALUES  ( N'" + Convert.ToString(oVal.DocNum) + @"' , -- Code - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.SBRNum) + @"' , -- Name - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.SBRNum) + @"' , -- U_VoucherNo - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.SBRNum) + @"' , -- U_GatePass - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.ItemCode) + @"' , -- U_SourceType - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.ItemName) + @"' , -- U_UDODocNo - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.PackerId) + @"' , -- U_BPCode - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.VehicleNum) + @"' , -- U_BPName - nvarchar(100)
-                //                                          N'" + Convert.ToString(oVal.DriverCNIC) + @"' , -- U_ItemCode - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.DriverName) + @"' , -- U_ItemName - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.FWeighmentTon) + @"' , -- U_Driver - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.TransportID) + @"' , -- U_VehicleReg - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.TransportCode) + @"' , -- U_EngineStatus - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.SWeighmentTon) + @"' , -- U_DriverStatus - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.NetWeightTon) + @"' , -- U_FirstWeight - nvarchar(30)
-
-                //                                        )
-                //                                ";
-                //string strQuery = "INSERT INTO ODLN (             CardCode," +
-                //                                                  @"CardName,
-                //                                                  DocDate,
-                //                                                  DocDueDate,
-                //                                                  TaxDate" +
-
-
-
-                //                                 @"VALUES  ( N'" + Convert.ToString(oVal.CustomerCode) + @"' , -- Code - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.CustomerName) + @"' , -- Name - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.SDocDate) + @"' , -- U_VoucherNo - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.SDocDate) + @"' , -- U_GatePass - nvarchar(30)
-                //                                          N'" + Convert.ToString(oVal.SDocDate) + @"' , -- U_SourceType - nvarchar(30)
-
-
-                //                                        )
-                //                                ";
-                //Program.oErrMgn.LogEntry(Program.ANV, strQuerySAP);
-                //Program.oErrMgn.LogEntry(Program.ANV, strQuery);
-                //Program.oErrMgn.LogEntry(Program.ANV, Program.ConStrSAP);
-                // mFm.ExecuteQuery(strQuerySAP, Program.ConStrSAP);
-                //mFm.ExecuteQuery(strQuery, Program.ConStrSAP);
-
-
-            }
-            catch (Exception Ex)
-            {
-                //Program.WarningMsg(Ex);
-                Program.ExceptionMsg(Ex.ToString());
-                Program.oErrMgn.LogException(Program.ANV, Ex);
-            }
-        }
-
-        private void AddtoSBOMulti(TrnsDispatch oVal)
+        private void AddtoSBOGroup(GroupMD myDoc)
         {
             string transportname = "";
             string retValue = string.Empty, ObjectKey = string.Empty;
@@ -519,78 +286,159 @@ namespace mfmFFS.Screens
 
                 SAPbobsCOM.Documents oDeliveryH = Program.SapCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oDeliveryNotes);
 
-                oDeliveryH.CardCode = oVal.CustomerCode;
-                oDeliveryH.CardName = oVal.CustomerName;
 
-                oDeliveryH.DocDate = Convert.ToDateTime(oVal.SDocDate);
-                oDeliveryH.DocDueDate = Convert.ToDateTime(oVal.SDocDate);
-                oDeliveryH.TaxDate = Convert.ToDateTime(oVal.SDocDate);
-                var odetail = (from a in oDB.TrnsDispatchMulti
-                               where a.DocNum == oVal.DocNum
+                oDeliveryH.CardCode = myDoc.CardCode;
+                oDeliveryH.CardName = myDoc.CardName;
+
+                oDeliveryH.DocDate = Convert.ToDateTime(myDoc.sdocdate);
+                oDeliveryH.DocDueDate = Convert.ToDateTime(myDoc.sdocdate);
+                oDeliveryH.TaxDate = Convert.ToDateTime(myDoc.sdocdate);
+                //oDeliveryH.UserFields.Fields.Item("U_ToWeight").Value = Convert.ToDouble((myDoc.NetWeightTon));
+
+                oDeliveryH.UserFields.Fields.Item("U_ToWeight").Value = Convert.ToDouble((myDoc.FirstWeightTon));
+                oDeliveryH.UserFields.Fields.Item("U_ToWeight2").Value = Convert.ToDouble((myDoc.SecondWeighTon));
+
+                var odetail = (from a in oDB.TrnsDispatchMultiDetail
+                               where a.DocNum == myDoc.DocNum
                                select a).ToList();
-                foreach (var One in odetail)
+                foreach (var One in myDoc.oLines)
                 {
-                    string Querydt = "Select A.ExpnsCode, (A.LineTotal/(Select Y.DocRate from ORDR Y Where y.DocNum =" + One.SBRNum + "))  * (" + One.OrderQty + " / (Select SUM(y.Quantity) From RDR1 y Where y.DocEntry = A.DocEntry)) as LineGross from RDR3 A Where A.DocEntry = (Select x.DocEntry from ORDR x Where x.DocNum = " + One.SBRNum + ")";
-                    qdt = mFm.ExecuteQueryDt(Querydt, Program.ConStrSAP);
-                    for (int i = 0; i < qdt.Rows.Count; i++)
-                    {
-                        oDeliveryH.Expenses.ExpenseCode = Convert.ToInt32(qdt.Rows[i][0]);
-                        oDeliveryH.Expenses.LineTotal = Convert.ToDouble(qdt.Rows[i][1]);
-                        oDeliveryH.Expenses.Add();
-                    }
-                    oDeliveryH.Lines.UserFields.Fields.Item("U_WeghRef").Value = oVal.DocNum.ToString();
+                    //string Querydt = "Select A.ExpnsCode, (A.LineTotal/(Select Y.DocRate from ORDR Y Where y.DocNum =" + myDoc.SBRNumber + "))  * (" + One.OrderQty + " / (Select SUM(y.Quantity) From RDR1 y Where y.DocEntry = A.DocEntry)) as LineGross from RDR3 A Where A.DocEntry = (Select x.DocEntry from ORDR x Where x.DocNum = " + myDoc.SBRNumber + ")";
+                    //qdt = mFm.ExecuteQueryDt(Querydt, Program.ConStrSAP);
+                    //for (int i = 0; i < qdt.Rows.Count; i++)
+                    //{
+                    //    oDeliveryH.Expenses.ExpenseCode = Convert.ToInt32(qdt.Rows[i][0]);
+                    //    oDeliveryH.Expenses.LineTotal = Convert.ToDouble(qdt.Rows[i][1]);
+                    //    oDeliveryH.Expenses.Add();
+                    //}
+                    oDeliveryH.Lines.UserFields.Fields.Item("U_WeghRef").Value = myDoc.DocNum.ToString();
 
-                    string Query = "Select x1.LineNum From ORDR x Inner Join RDR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = '" + One.SBRNum + "' and x1.ItemCode = '" + One.ItemCode + "'";
+                    string Query = "Select x1.LineNum From ORDR x Inner Join RDR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = '" + myDoc.SBRNumber + "' and x1.ItemCode = '" + One.ItemCode + "'";
                     int BaseLine = Convert.ToInt32(mFm.ExecuteQueryScaler(Query, Program.ConStrSAP));
-                    string Query1 = "Select x1.DocEntry From ORDR x Inner Join RDR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = '" + One.SBRNum + "' and x1.ItemCode = '" + One.ItemCode + "'";
+                    string Query1 = "Select x1.DocEntry From ORDR x Inner Join RDR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = '" + myDoc.SBRNumber + "' and x1.ItemCode = '" + One.ItemCode + "'";
                     int BaseEntry = Convert.ToInt32(mFm.ExecuteQueryScaler(Query1, Program.ConStrSAP));
-                    string Query2 = "Select x.Objtype From ORDR x Inner Join RDR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = '" + One.SBRNum + "' and x1.ItemCode = '" + One.ItemCode + "'";
+                    string Query2 = "Select x.Objtype From ORDR x Inner Join RDR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = '" + myDoc.SBRNumber + "' and x1.ItemCode = '" + One.ItemCode + "'";
                     int BaseType = Convert.ToInt32(mFm.ExecuteQueryScaler(Query2, Program.ConStrSAP));
                     oDeliveryH.Lines.BaseLine = BaseLine;
                     oDeliveryH.Lines.BaseEntry = BaseEntry;
                     oDeliveryH.Lines.BaseType = BaseType;
                     //oDeliveryH.Lines.BaseLine = 0;
-                    oDeliveryH.Lines.ItemCode = oVal.ItemCode;
-                    if (oVal.ItemGroupName.ToUpper().Contains("BAG"))
+                    oDeliveryH.Lines.ItemCode = One.ItemCode;
+                    //if (oVal.ItemGroupName.ToUpper().Contains("BAG"))
+                    //{
+                    oDeliveryH.Lines.Quantity = Convert.ToDouble(One.OrderQty);
+                    //}
+                    //else
+                    //{
+                    //    oDeliveryH.Lines.Quantity = Convert.ToDouble(One.OrderQty);
+                    //}
+                    
+                    #region Freight 1
+
+                    string Query3 = "Select isnull(x1.U_FreightTon,0) As U_FreightTon From ORDR x Inner Join RDR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = '" + myDoc.SBRNumber + "' and x1.ItemCode = '" + One.ItemCode + "'";
+                    double U_FreightTon = Convert.ToDouble(mFm.ExecuteQueryScaler(Query3, Program.ConStrSAP));
+                    if (U_FreightTon > 0)
                     {
-                        oDeliveryH.Lines.Quantity = Convert.ToDouble(One.OrderQty);
+                        double Freight1LC = Math.Round(Convert.ToDouble(One.OrderQty) * U_FreightTon,2);
+                        oDeliveryH.Lines.Expenses.ExpenseCode = 4;
+                        oDeliveryH.Lines.Expenses.LineTotal = Freight1LC;
+                        oDeliveryH.Lines.Expenses.GroupCode = 0;
+                        oDeliveryH.Lines.Expenses.BaseGroup = 0;
+                        //oDeliveryH.Lines.Expenses.SetCurrentLine = 
+                        oDeliveryH.Lines.Expenses.Add();
+                    }
+                    #endregion
+
+                    #region Freight 2 FPI
+                    double Freight2LC = 0;
+                    if (One.ItemCode == "FG001" || One.ItemCode == "FG002")
+                    {
+                        Freight2LC = Math.Round(Convert.ToDouble(One.OrderQty) * 1.89,2);
+                    }
+                    else if (One.ItemCode == "FG003" || One.ItemCode == "FG004")
+                    {
+                        Freight2LC = Math.Round(Convert.ToDouble(One.OrderQty) * 2.05,2);
+                    }
+                    else if (One.ItemCode == "FG005" || One.ItemCode == "FG006")
+                    {
+                        Freight2LC = Math.Round(Convert.ToDouble(One.OrderQty) * 3.57,2);
                     }
                     else
                     {
-                        oDeliveryH.Lines.Quantity = Convert.ToDouble(One.OrderQty);
+
                     }
-                    oDeliveryH.Lines.UserFields.Fields.Item("U_Packer").Value = oVal.PackerId.ToString();
-                    oDeliveryH.Lines.UserFields.Fields.Item("U_VehcleNo").Value = oVal.VehicleNum.ToString();
-                    oDeliveryH.Lines.UserFields.Fields.Item("U_Dcnic").Value = oVal.DriverCNIC.ToString();
-                    oDeliveryH.Lines.UserFields.Fields.Item("U_Driver").Value = oVal.DriverName.ToString();
-                    oDeliveryH.Lines.UserFields.Fields.Item("U_FrstWght").Value = Convert.ToDouble((oVal.FWeighmentTon));
-                    if (oVal.TransportID != 0)
+                    if (Freight2LC > 0)
                     {
-                        var record = oDB.MstTransportType.Where(x => x.ID == oVal.TransportID);
+                        oDeliveryH.Lines.Expenses.ExpenseCode = 2;
+                        oDeliveryH.Lines.Expenses.LineTotal = Freight2LC;
+                        oDeliveryH.Lines.Expenses.GroupCode = 1;
+                        oDeliveryH.Lines.Expenses.BaseGroup = 1;
+                        oDeliveryH.Lines.Expenses.Add();
+                    }
+                    #endregion
+
+                    #region Freight 3 OCC047
+
+                    string Query4 = "Select x1.Price From ORDR x Inner Join RDR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = '" + myDoc.SBRNumber + "' and x1.ItemCode = '" + One.ItemCode + "'";
+                    double Price = Convert.ToDouble(mFm.ExecuteQueryScaler(Query4, Program.ConStrSAP));
+                    if (Price > 0)
+                    {
+                        double Freight3LC = Math.Round(Price * Convert.ToDouble(One.OrderQty) * 0.0047,2);
+                        oDeliveryH.Lines.Expenses.ExpenseCode = 1;
+                        oDeliveryH.Lines.Expenses.LineTotal = Freight3LC;
+                        oDeliveryH.Lines.Expenses.GroupCode = 2;
+                        oDeliveryH.Lines.Expenses.BaseGroup = 2;
+                        oDeliveryH.Lines.Expenses.Add();
+                    }
+                    #endregion
+
+                    #region Destination
+
+                    string Query5 = "Select x1.U_Bin As U_FreightTon From ORDR x Inner Join RDR1 x1 on x.DocEntry = x1.DocEntry Where x.DocNum = '" + myDoc.SBRNumber + "' and x1.ItemCode = '" + One.ItemCode + "'";
+                    string destination = mFm.ExecuteQueryScaler(Query5, Program.ConStrSAP);
+                    if (destination != null)
+                    {
+                        oDeliveryH.Lines.UserFields.Fields.Item("U_Bin").Value = destination;
+                    }
+
+                    #endregion
+
+                    oDeliveryH.Lines.UserFields.Fields.Item("U_Packer").Value = myDoc.PackerId.ToString();
+                    oDeliveryH.Lines.UserFields.Fields.Item("U_VehcleNo").Value = myDoc.VehicleNo.ToString();
+                    oDeliveryH.Lines.UserFields.Fields.Item("U_Dcnic").Value = myDoc.DCNIC.ToString();
+                    oDeliveryH.Lines.UserFields.Fields.Item("U_Driver").Value = myDoc.Driver.ToString();
+                    oDeliveryH.Lines.UserFields.Fields.Item("U_FrstWght").Value = Convert.ToDouble((myDoc.FirstWeightTon));
+                    //oDeliveryH.Lines.UserFields.Fields.Item("U_ToWeight").Value = Convert.ToDouble((myDoc.NetWeightTon));
+
+                    if (myDoc.TransportId != 0)
+                    {
+                        var record = oDB.MstTransportType.Where(x => x.ID == myDoc.TransportId);
                         if (record.Count() > 0)
                         {
                             transportname = record.FirstOrDefault().Name;
                         }
                     }
                     oDeliveryH.Lines.UserFields.Fields.Item("U_Trnstyp").Value = transportname;
-                    oDeliveryH.Lines.UserFields.Fields.Item("U_Trnsprtr").Value = oVal.TransportCode.ToString();
-                    oDeliveryH.Lines.UserFields.Fields.Item("U_ScndWght").Value = Convert.ToDouble((oVal.SWeighmentTon));
+                    oDeliveryH.Lines.UserFields.Fields.Item("U_Trnsprtr").Value = myDoc.TransporterCode.ToString();
+                    oDeliveryH.Lines.UserFields.Fields.Item("U_ScndWght").Value = Convert.ToDouble((myDoc.SecondWeighTon));
                     oDeliveryH.Lines.Add();
                 }
                 if (oDeliveryH.Add() != 0)
                 {
                     int ErrorCode = 0; string ErrorDesc = string.Empty;
                     Program.SapCompany.GetLastError(out ErrorCode, out ErrorDesc);
-                    retValue = "DocNum : " + oVal.DocNum.ToString() + " Sap B1 Error and desc : " + ErrorCode + " : " + ErrorDesc;
+                    retValue = "DocNum : " + myDoc.DocNum.ToString() + " Sap B1 Error and desc : " + ErrorCode + " : " + ErrorDesc;
                     Program.ExceptionMsg(retValue.ToString());
                     Program.oErrMgn.LogEntry(Program.ANV, retValue);
+                    myDoc.Status = false;
                 }
                 else
                 {
                     retValue = Convert.ToString(Program.SapCompany.GetNewObjectKey());
-                    TrnsDispatch Dispatch = oDB.TrnsDispatch.Where(x => x.ID == oVal.ID).FirstOrDefault();
-                    Dispatch.FlgPosted = true;
-                    oDB.SubmitChanges();
+                    //TrnsDispatchMultiHeader Dispatch = oDB.TrnsDispatchMultiHeader.Where(x => x.DocNum == myDoc.DocNum).FirstOrDefault();
+                    //Dispatch.FlgPosted = true;
+                    //oDB.SubmitChanges();
+                    myDoc.Status = true;
                     Program.SuccesesMsg("Posted to SBO");
                 }
             }
@@ -685,12 +533,16 @@ namespace mfmFFS.Screens
         {
             public string Customer { get; set; }
             public string SBRNo { get; set; }
+            public string DocNum { get; set; }
+            public string ItemCode { get; set; }
         }
-
-     
 
         public class GroupMD
         {
+            public bool Status { get; set; }
+            public string CardCode { get; set; }
+            public string CardName { get; set; }
+            public string SBRNumber { get; set; }
             public int DocNum { get; set; }
             public int PackerId { get; set; }
             public string VehicleNo { get; set; }
@@ -706,22 +558,25 @@ namespace mfmFFS.Screens
             public double NetWeightTon { get; set; }
             public DateTime sdocdate { get; set; }
 
+            public int LineId { get; set; }
+
             public List<GroupMDLine> oLines = new List<GroupMDLine>();
         }
 
         public class GroupMDLine
         {
             public int DocNum { get; set; }
-            public string SBRNumber { get; set; }
-            public string SBRDate { get; set; }
-            public string CardCode { get; set; }
-            public string CardName { get; set; }
             public string ItemCode { get; set; }
             public string ItemName { get; set; }
             public string ItemGroupCode { get; set; }
-            public string ItemGroupName { get; set; }
             public decimal OrderQty { get; set; }
-            public decimal BalQty { get; set; }
+        }
+
+        public class ChkDocHeaderStatus
+        {
+            public int DocNum { get; set; }
+            public int LineId { get; set; }
+            public bool flgStatus { get; set; }
         }
     }
 }

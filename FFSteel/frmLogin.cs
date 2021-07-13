@@ -250,8 +250,8 @@ namespace mfmFFS
                 pnlDetail.Visible = false;
                 pnlSummery.Visible = true;
             }
-            //if (Environment.MachineName.ToUpper() == "DESKTOP-ACKBHIM")
-            if (Environment.MachineName.ToUpper() == "FAIZANANWAR-PC")
+            if (Environment.MachineName.ToUpper() == "DESKTOP-ACKBHIM")
+            //if (Environment.MachineName.ToUpper() == "FAIZANANWAR-PC")
             {
                 txtUserID2.Text = "manager";
                 txtPassword2.Text = "super";

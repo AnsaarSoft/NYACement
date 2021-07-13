@@ -16,6 +16,12 @@ using UFFU;
 using SAPbobsCOM;
 using mfmWeighment;
 
+/**add*/
+using System.IO.Ports;
+using System.IO;
+using System.Net;
+/***/
+
 
 namespace mfmFFS
 {
@@ -58,11 +64,11 @@ namespace mfmFFS
                     if (Program.SapCompany.Connected)
                     {
                         Program.SapCompany.Disconnect();
-                        //return false;
+                        return false;
                     }
                     else
                     {
-                        Program.SapCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2014;
+                        Program.SapCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2016;
                         Program.SapCompany.Server = APPSetting.Default.cfgSQLServer;
                         Program.SapCompany.CompanyDB = APPSetting.Default.cfgSBODB;
                         Program.SapCompany.UserName = APPSetting.Default.cfgSapID;
@@ -81,6 +87,9 @@ namespace mfmFFS
                             retvalue = "Connected to SAP B1";
                             Program.oErrMgn.LogEntry(Program.ANV, "sap connected.");
                             return true;
+                       
+
+
                         }
                         else
                         {
@@ -90,7 +99,7 @@ namespace mfmFFS
                             Program.SapCompany.GetLastError(out erroCode, out errDescr);
                             retvalue = "Error Code : " + erroCode + " Description : " + errDescr;
                             RadMessageBox.Show("SBO Exception : " + "Error Code : " + erroCode + " Description : " + errDescr);
-                            Program.oErrMgn.LogEntry(Program.ANV, "sap error.");
+                            Program.oErrMgn.LogEntry(Program.ANV, retvalue);
                             return false;
                         }
                     }
@@ -117,6 +126,23 @@ namespace mfmFFS
                 lblAppStatus.Text = value;
             }
         }
+
+        /**add*/
+        dbFFS oDB = null;
+        string ComPort, BaudRate, Parity, StopBit, StartChar, DataBits, DataLenght, IndicatorType;
+        string ComPort2, BaudRate2, Parity2, StopBit2, StartChar2, DataBits2, DataLenght2, IndicatorType2;
+        private SerialPort Rawcomport = new SerialPort();
+        private SerialPort Rawcomport2 = new SerialPort();
+        Boolean alreadyReading = false;
+        Boolean alreadyReading2 = false;
+        long currentwt = 0;
+        long currentwt2 = 0;
+        delegate void delCWeight(string value);
+        delCWeight DelCall;
+        delegate void delCWeight2(string value2);
+        delCWeight2 DelCall2;
+        /***/
+
         #endregion
 
         #region Functions
@@ -153,13 +179,25 @@ namespace mfmFFS
                 Program.oErrMgn = new mFm(Application.StartupPath, true, false);//,true,false
                 this.Text = Program.ANV;
                 //}
-
                 //else
                 //{
                 //RadMessageBox.Show(" SBO not Connected ");
                 //}
                 Program.oErrMgn = new mFm(Application.StartupPath, true, false);//,true,false);//,true,false
                 this.Text = Program.ANV;
+
+                /**add**/
+                oDB = new dbFFS(Program.ConStrApp);
+                txtFullText.Visible = false;
+                tmrAlreadyReading.Interval = 1000;
+                DelCall = new delCWeight(CallSafeCWeight);
+                GetMachineSetting();
+
+                txtFullText2.Visible = false;
+                tmrAlreadyReading2.Interval = 1000;
+                DelCall2 = new delCWeight2(CallSafeCWeight2);
+                GetMachineSetting2();
+                /****/
             }
             catch (Exception Ex)
             {
@@ -383,6 +421,405 @@ namespace mfmFFS
                 Program.ExceptionMsg(Ex.Message);
             }
         }
+
+        /**add*/
+        /*private void Indicator01()
+        {
+
+            if (!alreadyReading)
+            {
+                try
+                {
+                    alreadyReading = true;
+                    Thread.Sleep(500);
+                    string data = Rawcomport.ReadExisting();
+                    //Program.oErrMgn.LogEntry(Program.ANV, " readed data :" + data);
+                    //Program.oErrMgn.LogEntry(Program.ANV, " readed data ki lenght :" + data.Length.ToString());
+                    if (data.Length < 9)
+                    {
+                        Program.oErrMgn.LogEntry(Program.ANV, "data lenght ki value 9 se kam hai");
+                        alreadyReading = false;
+                        return;
+                    }
+                    //Program.oErrMgn.LogEntry(Program.ANV, " config data ki lenght :" + DataLenght);
+                    if (data.Length < Convert.ToInt32(DataLenght) + 2)
+                    {
+                        //Program.oErrMgn.LogEntry(Program.ANV, "crap data lenght ki value kam hai");
+                        alreadyReading = false;
+                        return;
+                    }
+                    txtFullText.Invoke(new EventHandler(delegate
+                    {
+                        int charindex = data.IndexOf(StartChar);
+                        //Program.oErrMgn.LogEntry(Program.ANV, "charindex ki value " + Convert.ToString(charindex));
+                        long currentWeight = 0;
+                        if (charindex >= 0)
+                        {
+                            //Program.oErrMgn.LogEntry(Program.ANV, "char index ki bari value " + Convert.ToString(charindex + Convert.ToInt32(DataLenght)));
+                            if (data.Length > charindex + Convert.ToInt32(DataLenght))
+                            {
+                                //string tempconvalue = data.Substring(charindex + 1, Convert.ToInt16(DataLenght));
+                                string tempconvalue = data.Substring(charindex + 2, Convert.ToInt16(DataLenght));
+                                //Program.oErrMgn.LogEntry(Program.ANV, "temp extracted value : " + tempconvalue);
+                                string val = tempconvalue.TrimStart();
+                                currentWeight = Convert.ToInt64(val);
+                                currentwt = currentWeight;
+                                //txtCWeight.Text = currentwt.ToString();
+                                CallSafeCWeight(currentwt.ToString());
+                                //Program.oErrMgn.LogEntry(Program.ANV, " Currentwt :" + currentwt.ToString());
+                            }
+                        }
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    Program.oErrMgn.LogException(Program.ANV, ex);
+                    alreadyReading = false;
+                }
+                alreadyReading = false;
+            }
+
+        }*/
+
+        /*private void OldIndicator()
+        {
+            if (!alreadyReading)
+            {
+                try
+                {
+                    //DataLenght = "6";
+                    //StartChar = "+";
+                    alreadyReading = true;
+                    Thread.Sleep(500);
+                    //string data = "P+    50";
+                    string data = Rawcomport.ReadExisting();
+                    if (data.Length < 9)
+                    {
+                        Program.oErrMgn.LogEntry(Program.ANV, "data lenght ki value 9 se kam hai");
+                        alreadyReading = false;
+                        return;
+                    }
+                    if (data.Length < Convert.ToInt32(DataLenght) + 2)
+                    {
+                        alreadyReading = false;
+                        return;
+                    }
+                    txtFullText.Invoke(new EventHandler(delegate
+                    {
+                        int charindex = data.IndexOf(StartChar);
+                        string currentwt = "";
+                        if (charindex >= 0)
+                        {
+                            if (data.Length > charindex + Convert.ToInt32(DataLenght))
+                            {
+                                string val = data.TrimStart();
+                                for (int i = 0; i < val.Length; i++)
+                                {
+                                    if (char.IsNumber(val[i]))
+                                    {
+                                        currentwt += val[i].ToString();
+                                    }
+                                }
+                                CallSafeCWeight(currentwt.ToString());
+                            }
+                        }
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    Program.oErrMgn.LogException(Program.ANV, ex);
+                    alreadyReading = false;
+                }
+                alreadyReading = false;
+            }
+        }*/
+
+        private void Indicator01()
+        {
+            if (!alreadyReading)
+            {
+                try
+                {
+                    //DataLenght = "6";
+                    //StartChar = "+";
+                    alreadyReading = true;
+                    Thread.Sleep(500);
+                    //string data = "P+  2150";
+                    string data = Rawcomport.ReadExisting();
+                    if (data.Length < 8)
+                    {
+                        Program.oErrMgn.LogEntry(Program.ANV, "data lenght ki value 8 se kam hai");
+                        alreadyReading = false;
+                        return;
+                    }
+                    if (data.Length < Convert.ToInt32(DataLenght) + 2)
+                    {
+                        Program.oErrMgn.LogEntry(Program.ANV, "data lenght ki value kam hai");
+                        alreadyReading = false;
+                        return;
+                    }
+                    txtFullText.Invoke(new EventHandler(delegate
+                    {
+                        int charindex = data.IndexOf(StartChar);
+                        string currentwt = "";
+                        if (charindex >= 0)
+                        {
+                            if (data.Length > charindex + Convert.ToInt32(DataLenght))
+                            {
+                                string tempconvalue = data.Substring(charindex + 1, Convert.ToInt16(DataLenght));
+                                string val = tempconvalue.TrimStart();
+                                for (int i = 0; i < val.Length; i++)
+                                {
+                                    if (char.IsNumber(val[i]))
+                                    {
+                                        currentwt += val[i].ToString();
+                                    }
+                                }
+                                CallSafeCWeight(currentwt.ToString());
+                            }
+                        }
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    Program.oErrMgn.LogException(Program.ANV, ex);
+                    alreadyReading = false;
+                }
+                alreadyReading = false;
+            }
+        }
+
+        private void CallSafeCWeight(string pValue)
+        {
+            try
+            {
+                if (txtCWeight.InvokeRequired)
+                {
+                    DelCall = new delCWeight(CallSafeCWeight);
+                    this.txtCWeight.Invoke(DelCall, new object[] { pValue });
+                }
+                else
+                {
+                    this.txtCWeight.Text = pValue;
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.oErrMgn.LogEntry(Program.ANV, "Delegate Err");
+                Program.oErrMgn.LogEntry(Program.ANV, ex.Message);
+            }
+
+        }
+
+        private void GetMachineSetting()
+        {
+            try
+            {
+                MstWeighBridge oDoc = (from a in oDB.MstWeighBridge where a.WBCode == "WB1" select a).FirstOrDefault();
+                if (oDoc != null)
+                {
+                    IndicatorType = oDoc.WBCode;
+                    ComPort = oDoc.ComPort;
+                    BaudRate = oDoc.BaudRate;
+                    Parity = oDoc.Parity;
+                    StopBit = oDoc.StopBits;
+                    StartChar = oDoc.StartChar;
+                    DataBits = oDoc.DataBits;
+                    DataLenght = oDoc.Lenght;
+                    //20/3/2019
+                    if (Rawcomport.IsOpen)
+                    {
+                        Rawcomport.Close();
+                    }
+                    //20/3/2019
+                    ConnectPort();
+                }
+                else
+                {
+                    Program.WarningMsg("Machine Settings not found Weighment brigde is not configure for this machine.");
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void ConnectPort()
+        {
+            Program.oErrMgn.LogEntry(Program.ANV, "Connecting Port");
+            try
+            {
+                if (Rawcomport.IsOpen) Rawcomport.Close();
+                bool tmrc = tmrCamFront.Enabled;
+
+                // Set the port's settings
+                // tmrCamFront.Enabled = false;
+                Rawcomport.BaudRate = Convert.ToInt32(BaudRate);
+                Rawcomport.DataBits = Convert.ToInt32(DataBits);
+                Rawcomport.StopBits = (StopBits)Enum.Parse(typeof(StopBits), StopBit);
+                Rawcomport.Parity = (Parity)Enum.Parse(typeof(Parity), Parity);
+                Rawcomport.PortName = ComPort;
+                Rawcomport.ReadTimeout = 5000;
+
+                Program.WarningMsg("Trying to connect.");
+                Rawcomport.Open();
+                Program.SuccesesMsg("Connected.");
+                Program.oErrMgn.LogEntry(Program.ANV, "Connected");
+            }
+            catch (Exception Ex)
+            {
+                // MessageBox.Show(ex.Message);
+                Program.ExceptionMsg("Error in connecting : " + Ex.Message);
+                alreadyReading = false;
+                // tmrCamFront.Enabled = tmrc;
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void Indicator02()
+        {
+            if (!alreadyReading2)
+            {
+                try
+                {
+                    //DataLenght = "6";
+                    //StartChar = "+";
+                    alreadyReading2 = true;
+                    Thread.Sleep(500);
+                    //string data = "P+  2150";
+                    string data2 = Rawcomport2.ReadExisting();
+                    if (data2.Length < 8)
+                    {
+                        Program.oErrMgn.LogEntry(Program.ANV, "data lenght ki value 8 se kam hai");
+                        alreadyReading2 = false;
+                        return;
+                    }
+                    if (data2.Length < Convert.ToInt32(DataLenght2) + 2)
+                    {
+                        Program.oErrMgn.LogEntry(Program.ANV, "data lenght ki value kam hai");
+                        alreadyReading2 = false;
+                        return;
+                    }
+                    txtFullText2.Invoke(new EventHandler(delegate
+                    {
+                        int charindex2 = data2.IndexOf(StartChar2);
+                        string currentwt2 = "";
+                        if (charindex2 >= 0)
+                        {
+                            if (data2.Length > charindex2 + Convert.ToInt32(DataLenght2))
+                            {
+                                string tempconvalue2 = data2.Substring(charindex2 + 1, Convert.ToInt16(DataLenght2));
+                                string val2 = tempconvalue2.TrimStart();
+                                for (int j = 0; j < val2.Length; j++)
+                                {
+                                    if (char.IsNumber(val2[j]))
+                                    {
+                                        currentwt2 += val2[j].ToString();
+                                    }
+                                }
+                                CallSafeCWeight2(currentwt2.ToString());
+                            }
+                        }
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    Program.oErrMgn.LogException(Program.ANV, ex);
+                    alreadyReading2 = false;
+                }
+                alreadyReading2 = false;
+            }
+        }
+
+        private void CallSafeCWeight2(string pValue2)
+        {
+            try
+            {
+                if (txtCWeight2.InvokeRequired)
+                {
+                    DelCall2 = new delCWeight2(CallSafeCWeight2);
+                    this.txtCWeight2.Invoke(DelCall2, new object[] { pValue2 });
+                }
+                else
+                {
+                    this.txtCWeight2.Text = pValue2;
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.oErrMgn.LogEntry(Program.ANV, "Delegate Err");
+                Program.oErrMgn.LogEntry(Program.ANV, ex.Message);
+            }
+
+        }
+
+        private void GetMachineSetting2()
+        {
+            try
+            {
+                MstWeighBridge oDoc = (from a in oDB.MstWeighBridge where a.WBCode == "WB2" select a).FirstOrDefault();
+                if (oDoc != null)
+                {
+                    IndicatorType2 = oDoc.WBCode;
+                    ComPort2 = oDoc.ComPort;
+                    BaudRate2 = oDoc.BaudRate;
+                    Parity2 = oDoc.Parity;
+                    StopBit2 = oDoc.StopBits;
+                    StartChar2 = oDoc.StartChar;
+                    DataBits2 = oDoc.DataBits;
+                    DataLenght2 = oDoc.Lenght;
+                    //20/3/2019
+                    if (Rawcomport2.IsOpen)
+                    {
+                        Rawcomport2.Close();
+                    }
+                    //20/3/2019
+                    ConnectPort2();
+                }
+                else
+                {
+                    Program.WarningMsg("Machine Settings not found Weighment brigde is not configure for this machine.");
+                }
+            }
+            catch (Exception Ex)
+            {
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+
+        private void ConnectPort2()
+        {
+            Program.oErrMgn.LogEntry(Program.ANV, "Connecting Port");
+            try
+            {
+                if (Rawcomport2.IsOpen) Rawcomport2.Close();
+                bool tmrc = tmrCamFront2.Enabled;
+
+                // Set the port's settings
+                // tmrCamFront.Enabled = false;
+                Rawcomport2.BaudRate = Convert.ToInt32(BaudRate2);
+                Rawcomport2.DataBits = Convert.ToInt32(DataBits2);
+                Rawcomport2.StopBits = (StopBits)Enum.Parse(typeof(StopBits), StopBit2);
+                Rawcomport2.Parity = (Parity)Enum.Parse(typeof(Parity), Parity2);
+                Rawcomport2.PortName = ComPort2;
+                Rawcomport2.ReadTimeout = 5000;
+
+                Program.WarningMsg("Trying to connect.");
+                Rawcomport2.Open();
+                Program.SuccesesMsg("Connected.");
+                Program.oErrMgn.LogEntry(Program.ANV, "Connected");
+            }
+            catch (Exception Ex)
+            {
+                // MessageBox.Show(ex.Message);
+                Program.ExceptionMsg("Error in connecting : " + Ex.Message);
+                alreadyReading2 = false;
+                // tmrCamFront.Enabled = tmrc;
+                Program.oErrMgn.LogException(Program.ANV, Ex);
+            }
+        }
+        /***/
         #endregion
 
         #region Form Events
@@ -392,12 +829,38 @@ namespace mfmFFS
 
             InitializeComponent();
             btnLogout.Visible = false;
+            
+            /**add*/
+            Rawcomport.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+            txtCWeight.Visible = true;
+            txtCWeight.Enabled = false;
+
+            Rawcomport2.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived2);
+            txtCWeight2.Visible = true;
+            txtCWeight2.Enabled = false;
+            /***/
         }
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             try
             {
+                /***add***/
+                if (Rawcomport.IsOpen)
+                {
+                    Rawcomport.DiscardInBuffer();
+                    Rawcomport.DiscardOutBuffer();
+                    Rawcomport.Close();
+                    // Program.oErrMgn.LogEntry(Program.ANV, "Port Ex 103");
+                }
+                if (Rawcomport2.IsOpen)
+                {
+                    Rawcomport2.DiscardInBuffer();
+                    Rawcomport2.DiscardOutBuffer();
+                    Rawcomport2.Close();
+                    // Program.oErrMgn.LogEntry(Program.ANV, "Port Ex 103");
+                }
+                /****/
                 Application.Exit();
             }
             catch (Exception)
@@ -407,7 +870,6 @@ namespace mfmFFS
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-
             try
             {
                 frmLogin oLogin = new frmLogin();
@@ -471,7 +933,7 @@ namespace mfmFFS
                 }
                 if (dlgSimple.DialogResult == System.Windows.Forms.DialogResult.Yes)
                 {
-                    if (tb.SelectedTab.Text.Trim() == "Dispatch" || tb.SelectedTab.Text.Trim() == "DispatchReturn" || tb.SelectedTab.Text.Trim() == "RawMaterial" || tb.SelectedTab.Text.Trim() == "RawMaterialReturn")
+                    if (tb.SelectedTab.Text.Trim() == "Dispatch" || tb.SelectedTab.Text.Trim() == "DispatchReturn" || tb.SelectedTab.Text.Trim() == "RawMaterial" || tb.SelectedTab.Text.Trim() == "RawMaterialReturn" || tb.SelectedTab.Text.Trim() == "MultipleDispatch")
                     {
                         //Program.comport.Close();
                     }
@@ -549,7 +1011,30 @@ namespace mfmFFS
                 Program.WarningMsg(ex.Message);
             }
         }
-        #endregion
 
+        /**add*/
+        [STAThread]
+        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            Indicator01();
+        }
+
+        [STAThread]
+        private void port_DataReceived2(object sender, SerialDataReceivedEventArgs e)
+        {
+            Indicator02();
+        }
+
+        private void txtCWeight_TextChanged(object sender, EventArgs e)
+        {
+            Program.Bridge01Value = txtCWeight.Text;
+        }
+
+        private void txtCWeight2_TextChanged(object sender, EventArgs e)
+        {
+            Program.Bridge02Value = txtCWeight2.Text;
+        }
+        /***/
+        #endregion
     }
 }

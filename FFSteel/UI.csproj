@@ -87,7 +87,8 @@
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="DevComponents.DotNetBar2">
+    <Reference Include="DevComponents.DotNetBar2, Version=8.0.0.0, Culture=neutral, PublicKeyToken=5fd520d36328f741, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Faizan Anwar\Downloads\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -124,9 +125,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>obj\x64\Debug\TelerikData.dll</HintPath>
     </Reference>
-    <Reference Include="UFFU, Version=1.0.5.4, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>obj\x86\Debug\UFFU.dll</HintPath>
+    <Reference Include="UFFU">
+      <HintPath>obj\UFFU.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +145,12 @@
     </Compile>
     <Compile Include="Dialog\frmOpenDlg.designer.cs">
       <DependentUpon>frmOpenDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\frmLoginDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\frmLoginDlg.designer.cs">
+      <DependentUpon>frmLoginDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialog\frmSimpleDlg.cs">
       <SubType>Form</SubType>
@@ -302,6 +308,9 @@
       <DependentUpon>frmOpenDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\frmLoginDlg.resx">
+      <DependentUpon>frmLoginDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialog\frmSimpleDlg.resx">
       <DependentUpon>frmSimpleDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -448,8 +457,8 @@
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="SAPbobsCOM">
-      <Guid>{FC8030BE-F5D2-4B8E-8F92-44228FE30090}</Guid>
-      <VersionMajor>9</VersionMajor>
+      <Guid>{FC8030BE-F5D2-4B8E-8F92-44228FE30100}</Guid>
+      <VersionMajor>10</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>

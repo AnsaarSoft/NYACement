@@ -86,8 +86,6 @@ namespace mfmFFS.Screens
             }
         }
 
-
-
         //public string Conversion24Hours(string time)
         //{
         //    try

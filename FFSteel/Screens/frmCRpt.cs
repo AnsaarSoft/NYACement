@@ -458,8 +458,8 @@ namespace mfmFFS.Screens
                 }
                 if (dtpFrom.Text != " " && dtpTo.Text != " ")
                 {
-                    DtFrom = dtpFrom.Text;
-                    DtTo = dtpTo.Text;
+                    DtFrom = dtpFrom.Value.ToString("yyyy/MM/dd");
+                    DtTo = dtpTo.Value.ToString("yyyy/MM/dd");
                 }
                 if (dtpFrom.Text == " " && dtpTo.Text != " " || dtpFrom.Text != " " && dtpTo.Text == " ")
                 {
